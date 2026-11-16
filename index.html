@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ข้อมูล Castlevania Belmont's Curse</title>
+<title>Decodes Retro Gamer</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
@@ -16,34 +16,40 @@
     min-height: 100vh;
     font-family: "Segoe UI", Tahoma, sans-serif;
     padding: 24px;
+    color: #dfe6ff;
   }
-  a.logo-link {
+  h1 {
+    font-size: clamp(26px, 5vw, 42px);
+    letter-spacing: .12em;
+    font-weight: 600;
+    color: #eef1ff;
+    text-shadow: 0 0 22px rgba(120, 140, 255, .45);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .sub { color: #8b96c9; font-size: 15px; letter-spacing: .05em; margin-bottom: 44px; text-align: center; }
+  a.game-link {
     display: block;
-    max-width: 640px;
-    width: 90%;
+    max-width: 520px;
+    width: 88%;
     transition: transform .35s ease, filter .35s ease;
-    filter: drop-shadow(0 0 18px rgba(120, 140, 255, .25));
+    filter: drop-shadow(0 0 16px rgba(120, 140, 255, .22));
   }
-  a.logo-link:hover, a.logo-link:focus {
+  a.game-link:hover, a.game-link:focus {
     transform: scale(1.03);
-    filter: drop-shadow(0 0 34px rgba(200, 40, 50, .55));
+    filter: drop-shadow(0 0 32px rgba(200, 40, 50, .55));
     outline: none;
   }
-  a.logo-link img { width: 100%; height: auto; display: block; }
-  .hint {
-    margin-top: 28px;
-    color: #8b96c9;
-    font-size: 15px;
-    letter-spacing: .06em;
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+  a.game-link img { width: 100%; height: auto; display: block; }
+  .game-name { margin-top: 16px; text-align: center; color: #aeb9e8; font-size: 16px; letter-spacing: .04em; }
 </style>
 </head>
 <body>
-  <a class="logo-link" href="belmont.html" title="เข้าสู่ข้อมูล Castlevania Belmont's Curse">
-    <img src="logo.png" alt="Castlevania Belmont's Curse">
+  <h1>DECODES RETRO GAMER</h1>
+  <div class="sub">คลังข้อมูลเกมเรโทร — เลือกเกมที่ต้องการดูข้อมูล</div>
+  <a class="game-link" href="castlevania-belmonts-curse/" title="ข้อมูล Castlevania Belmont's Curse">
+    <img src="castlevania-belmonts-curse/logo.png" alt="Castlevania Belmont's Curse">
   </a>
-  <div class="hint">คลิกโลโก้เพื่อเข้าสู่ข้อมูลเกม</div>
+  <div class="game-name">Castlevania: Belmont's Curse</div>
 </body>
 </html>
