@@ -705,7 +705,7 @@
         }
       }
 
-      /* Mobile: sidebar collapses behind a toggle button */
+      /* Mobile: category menu collapses into a fixed top-left button; the tree opens as a floating panel */
       .tree-toggle {
         width: 100%; margin-top: 14px; min-height: 46px;
         align-items: center; justify-content: center; gap: 8px;
@@ -714,10 +714,27 @@
         box-shadow: var(--frame-shadow);
         font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
       }
+      .tree-home { display: grid; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--gold); }
+      .tree-home-btn {
+        display: block; text-align: center; padding: 10px; border-radius: 2px;
+        border: 1.5px solid var(--line-dim); text-decoration: none;
+        background: linear-gradient(180deg, #08084e 0%, #0d0d6e 100%);
+        color: var(--ink); font-weight: 700; font-size: 15px; line-height: 1.35;
+      }
+      .tree-home-btn:hover { border-color: var(--line-bright); color: #fff; }
       @media (max-width: 880px) {
         .layout { flex-direction: column; }
-        .tree-toggle { display: flex; }
-        .sidebar { display: none; position: static; flex: none; width: 100%; max-height: none; overflow: visible; }
+        .tree-toggle {
+          display: flex; position: fixed; top: 10px; left: 10px; z-index: 1200;
+          width: auto; margin: 0; padding: 0 16px; min-height: 44px;
+        }
+        .sidebar {
+          display: none; position: fixed; top: 62px; left: 10px; z-index: 1100;
+          width: min(320px, calc(100vw - 20px)); max-height: calc(100dvh - 78px);
+          overflow-y: auto; flex: none;
+          background: var(--surface); border: 2px solid var(--line-bright); border-radius: 2px;
+          box-shadow: var(--frame-shadow);
+        }
         .sidebar.open { display: block; }
         .content { width: 100%; }
       }
@@ -794,6 +811,10 @@
               </div>
             </li>
           </ul>
+          <div class="tree-home">
+            <a class="tree-home-btn" href="../">⌂ กลับ Home menu</a>
+            <a class="tree-home-btn" href="index.html">Belmont's Curse Home</a>
+          </div>
         </nav>
       </aside>
       <div class="content">
