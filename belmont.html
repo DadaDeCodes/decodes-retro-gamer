@@ -1,0 +1,2504 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>ข้อมูล Castlevania Belmont's Curse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: dark;
+        /* ——— Symphony of the Night menu palette ———
+           Deep blue fade (#02022a → #0a0a5c → #1b1b8f), silver-white
+           double frames, blood-red selection bar, pale gold figures. */
+        --bg: #04043a;
+        --surface: linear-gradient(180deg, #060642 0%, #0b0b63 55%, #13138a 100%);
+        --surface-solid: #0a0a55;
+        --surface-2: linear-gradient(180deg, #0d0d6e 0%, #17179e 100%);
+        --ink: #f0f2ff;
+        --muted: #bcc5ea;
+        --accent: #f0d48a;
+        --accent-soft: linear-gradient(180deg, #650d14 0%, #8a151d 100%);
+        --red: #8f151d;
+        --red-grad: linear-gradient(180deg, #7d1016 0%, #a51d26 100%);
+        --gold: #f0d48a;
+        --gold-bright: #ffe9a8;
+        --line: #aeb8ec;
+        --line-bright: #dfe4ff;
+        --line-dim: #8b96d6;
+        --chip-bg: #0a0a55;
+        --chip-ink: #e8ecff;
+        --frame-shadow: inset 0 0 0 3px #030336, inset 0 0 0 5px #8b96d6, 0 4px 14px rgba(0, 0, 24, .55);
+        --shadow: inset 0 0 0 3px #030336, inset 0 0 0 5px #8b96d6, 0 4px 14px rgba(0, 0, 24, .55);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          /* Same SotN menu palette in dark mode — the theme is the menu itself. */
+          --bg: #04043a;
+          --surface: linear-gradient(180deg, #060642 0%, #0b0b63 55%, #13138a 100%);
+          --surface-solid: #0a0a55;
+          --surface-2: linear-gradient(180deg, #0d0d6e 0%, #17179e 100%);
+          --ink: #f0f2ff;
+          --muted: #bcc5ea;
+          --accent: #f0d48a;
+          --accent-soft: linear-gradient(180deg, #650d14 0%, #8a151d 100%);
+          --line: #aeb8ec;
+          --chip-bg: #0a0a55;
+          --chip-ink: #e8ecff;
+          --shadow: inset 0 0 0 3px #030336, inset 0 0 0 5px #8b96d6, 0 4px 14px rgba(0, 0, 24, .55);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #02022a 0%, #05053f 22%, #0a0a5c 58%, #1b1b8f 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+        color: var(--ink);
+        font-family: "Sarabun", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px 64px; }
+
+      header.masthead { padding: 34px 0 8px; text-align: center; }
+      .masthead .game {
+        font-family: "Cinzel", serif;
+        font-size: 13px; letter-spacing: .32em; text-transform: uppercase;
+        color: var(--accent); margin: 0 0 6px; font-weight: 700;
+      }
+      .masthead h1 {
+        font-family: "Cinzel", serif;
+        font-size: clamp(30px, 6vw, 44px);
+        margin: 0 0 8px; font-weight: 700; line-height: 1.15;
+      }
+      .masthead p.lede { color: var(--muted); margin: 0 auto; max-width: 700px; font-size: 16px; text-align: left; }
+      .cat-head { margin-top: 26px; }
+      .cat-head h2 {
+        font-family: "Cinzel", serif; font-size: clamp(24px, 5vw, 32px);
+        margin: 0 0 6px; font-weight: 700; line-height: 1.2;
+      }
+      .cat-head p { color: var(--muted); margin: 0; max-width: 760px; font-size: 15.5px; }
+      .masthead .rule {
+        display: flex; align-items: center; gap: 12px; margin: 22px auto 0; max-width: 520px;
+        color: var(--accent);
+      }
+      .masthead .rule::before, .masthead .rule::after {
+        content: ""; flex: 1; height: 1px; background: var(--line);
+      }
+      .masthead .rule span { font-size: 13px; letter-spacing: .2em; }
+
+      .cat-tabs { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+      .cat-tab {
+        min-height: 44px; padding: 10px 22px; border-radius: 999px;
+        border: 1.5px solid var(--accent); background: transparent; color: var(--accent);
+        font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+      }
+      .cat-tab .n { opacity: .7; font-weight: 500; margin-left: 5px; font-size: 14px; }
+      .cat-tab[aria-pressed="true"] { background: var(--accent); color: #fff; }
+      .cat-tab[aria-pressed="true"] .n { opacity: .9; }
+      .zone-desc { color: var(--muted); font-size: 14.5px; margin: 2px 0 8px; }
+      td.attack { width: 10%; }
+      td.require { width: 23%; font-size: 15px; }
+      td.require .req-text { display: block; }
+      .src-tag {
+        display: inline-block; margin-top: 7px;
+        font-family: "Sarabun", system-ui, sans-serif; font-size: 12.5px; font-weight: 700; line-height: 1.45;
+        background: var(--accent-soft); color: var(--accent);
+        border: 1px solid var(--accent); border-radius: 999px; padding: 2px 9px;
+      }
+      .spoiler-tag {
+        display: inline-block; margin-top: 6px; margin-left: 4px;
+        font-family: "Sarabun", system-ui, sans-serif; font-size: 12.5px; font-weight: 700; line-height: 1.45;
+        background: var(--ink); color: var(--bg);
+        border-radius: 999px; padding: 2px 9px;
+      }
+      .atk-unknown {
+        display: inline-block; font-weight: 600; font-size: 13.5px; line-height: 1.45;
+        background: var(--surface-2); color: var(--muted);
+        border: 1px solid var(--line); border-radius: 8px; padding: 3px 9px;
+      }
+      .atk-badge {
+        display: inline-block; font-weight: 700; font-size: 15px;
+        background: var(--accent-soft); color: var(--accent);
+        border-radius: 8px; padding: 3px 10px; white-space: nowrap;
+      }
+      td.loc .note { color: var(--muted); font-size: 14.5px; display: block; margin-top: 3px; }
+      ol.steps { margin: 4px 0 0; padding-left: 20px; color: var(--muted); font-size: 14.5px; }
+      ol.steps li { margin-bottom: 3px; }
+      .dir-label { color: var(--muted); font-size: 14.5px; display: block; }
+
+      /* Tips cards */
+      .tip-intro {
+        margin-top: 28px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px;
+        color: var(--muted); font-size: 15.5px;
+      }
+      .tip-intro strong { color: var(--ink); }
+      .tip-card {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px;
+      }
+      .tip-card-head { display: flex; gap: 14px; align-items: flex-start; }
+      .tip-num {
+        flex: none; width: 38px; height: 38px; border-radius: 50%;
+        background: var(--accent); color: #fff; font-family: "Cinzel", serif;
+        font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;
+      }
+      .tip-card h2 {
+        font-family: "Cinzel", serif; font-size: clamp(19px, 3.5vw, 23px);
+        margin: 2px 0 2px; line-height: 1.3;
+      }
+      .tip-card .tip-th { color: var(--accent); font-weight: 700; font-size: 15px; }
+      .tip-card p { margin: 12px 0 0; }
+      .tip-card p:first-of-type { margin-top: 14px; }
+
+      /* Boss cards */
+      .boss-card {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px;
+      }
+      .boss-head { display: flex; gap: 14px; align-items: flex-start; }
+      .boss-num {
+        flex: none; width: 38px; height: 38px; border-radius: 50%;
+        background: var(--accent); color: #fff; font-family: "Cinzel", serif;
+        font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;
+      }
+      .boss-card h2 {
+        font-family: "Cinzel", serif; font-size: clamp(20px, 4vw, 25px);
+        margin: 1px 0 2px; line-height: 1.25;
+      }
+      .boss-order { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .boss-meta { margin-top: 16px; display: grid; gap: 8px; }
+      .boss-meta .row { display: grid; grid-template-columns: 118px 1fr; gap: 6px 12px; }
+      .boss-meta .k { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .boss-meta .v { font-size: 15.5px; }
+      .boss-special {
+        margin-top: 14px; background: var(--accent-soft);
+        border: 1.5px solid var(--accent); border-radius: 10px; padding: 13px 16px;
+      }
+      .boss-special .k {
+        display: block; color: var(--accent); font-weight: 700; font-size: 13.5px;
+        letter-spacing: .04em; margin-bottom: 3px;
+      }
+      .boss-special .v { font-size: 15.5px; font-weight: 600; }
+      .boss-note { margin-top: 12px; color: var(--muted); font-size: 14.5px; }
+      .boss-sec { margin-top: 16px; }
+      .boss-sec h3 {
+        font-size: 15px; font-weight: 700; color: var(--accent);
+        margin: 0 0 6px; letter-spacing: .02em;
+      }
+      .boss-sec ul { margin: 0; padding-left: 20px; }
+      .boss-sec li { margin-bottom: 5px; font-size: 15.5px; }
+      .boss-sec li:last-child { margin-bottom: 0; }
+      .boss-reward {
+        margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px;
+        display: grid; grid-template-columns: 118px 1fr; gap: 6px 12px;
+      }
+      .boss-reward .k { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .boss-reward .v { font-size: 15.5px; }
+      @media (max-width: 560px) {
+        .boss-meta .row, .boss-reward { grid-template-columns: 1fr; gap: 0; }
+        .boss-card { padding: 18px 16px; }
+      }
+
+      /* Toolbar */
+      .toolbar {
+        position: sticky; top: 0; z-index: 20;
+        background: var(--bg);
+        padding: 14px 0 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      .search-row { display: flex; gap: 10px; align-items: stretch; }
+      .search-box { position: relative; flex: 1; }
+      .search-box svg {
+        position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        width: 18px; height: 18px; color: var(--muted); pointer-events: none;
+      }
+      #search {
+        width: 100%; min-height: 44px;
+        padding: 10px 14px 10px 38px;
+        border: 1px solid var(--line); border-radius: 10px;
+        background: var(--surface); color: var(--ink);
+        font: inherit; font-size: 16px;
+      }
+      #search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+      .count {
+        display: flex; align-items: center; white-space: nowrap;
+        font-size: 14px; color: var(--muted); font-weight: 600;
+      }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .chip {
+        min-height: 36px; padding: 7px 14px;
+        border: 1px solid var(--line); border-radius: 999px;
+        background: var(--chip-bg); color: var(--chip-ink);
+        font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+      }
+      .chip .n { opacity: .65; font-weight: 500; margin-left: 4px; }
+      .chip[aria-pressed="true"] {
+        background: var(--accent); border-color: var(--accent); color: #fff;
+      }
+      .chip[aria-pressed="true"] .n { opacity: .85; }
+
+      /* Zone sections */
+      section.zone { margin-top: 34px; }
+      .zone-head {
+        display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 8px; margin-bottom: 4px;
+      }
+      .zone-head h2 {
+        font-family: "Cinzel", serif; font-size: clamp(20px, 4vw, 26px);
+        margin: 0; font-weight: 700;
+      }
+      .zone-head .zone-th { color: var(--muted); font-size: 15px; }
+      .zone-head .zone-count {
+        margin-left: auto; font-size: 13px; font-weight: 700; color: var(--accent);
+        background: var(--accent-soft); border-radius: 999px; padding: 2px 10px;
+      }
+
+      table { width: 100%; border-collapse: collapse; }
+      thead th {
+        text-align: left; font-size: 13px; letter-spacing: .06em;
+        color: var(--muted); font-weight: 700;
+        padding: 10px 12px 6px; border-bottom: 1px solid var(--line);
+      }
+      tbody td {
+        padding: 14px 12px; vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      td.name {
+        font-family: "Cinzel", serif; font-weight: 700; font-size: 16.5px;
+        color: var(--accent); width: 19%;
+        line-height: 1.35; padding-top: 15px;
+      }
+      td.effect { width: 27%; }
+      td.loc .room { font-weight: 700; display: block; margin-bottom: 3px; }
+      td.loc .dir { color: var(--muted); font-size: 14.5px; display: block; }
+      td.zonec { width: 22%; font-weight: 600; }
+      td.loc .missing { color: var(--muted); font-style: italic; display: block; }
+
+      .empty {
+        display: none; text-align: center; color: var(--muted);
+        padding: 48px 16px; font-size: 16px;
+      }
+      .empty.show { display: block; }
+
+      footer.note {
+        margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--line);
+        color: var(--muted); font-size: 14px; text-align: center;
+      }
+
+      /* Phone: table becomes stacked cards */
+      @media (max-width: 720px) {
+        thead { display: none; }
+        table, tbody, tr, td { display: block; width: 100%; }
+        tbody tr {
+          background: var(--surface); border: 1px solid var(--line);
+          border-radius: 12px; box-shadow: var(--shadow);
+          padding: 14px 16px; margin: 12px 0;
+        }
+        tbody td { border: none; padding: 0; }
+        td.name { width: auto; font-size: 19px; padding: 0 0 6px; }
+        td.effect { width: auto; padding-bottom: 10px; }
+        td.loc .room::before {
+          content: "สถานที่ · "; color: var(--accent); font-weight: 700; font-size: 13px;
+        }
+        td.zonec::before {
+          content: "โซน · "; color: var(--accent); font-weight: 700; font-size: 13px;
+        }
+        td.zonec { padding-bottom: 4px; }
+        td.require { width: auto; padding-top: 8px; }
+        td.require::before {
+          content: "Require · "; color: var(--accent); font-weight: 700; font-size: 13px;
+        }
+        section.zone { margin-top: 28px; }
+        .zone-head { border-bottom-width: 1px; }
+      }
+
+      /* Guide & secrets cards (category 6) */
+      .part-head { margin-top: 34px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+      .part-head h2 {
+        font-family: "Cinzel", serif; font-size: clamp(21px, 4.5vw, 27px);
+        margin: 0 0 4px; font-weight: 700; line-height: 1.25;
+      }
+      .part-head p { color: var(--muted); margin: 0; font-size: 15px; }
+      .guide-card {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px;
+      }
+      .guide-head { display: flex; gap: 14px; align-items: flex-start; }
+      .guide-badge {
+        flex: none; min-width: 42px; height: 38px; padding: 0 8px; border-radius: 9px;
+        background: var(--accent); color: #fff; font-family: "Cinzel", serif;
+        font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center;
+      }
+      .guide-card h2 {
+        font-family: "Cinzel", serif; font-size: clamp(19px, 3.8vw, 24px);
+        margin: 1px 0 2px; line-height: 1.3;
+      }
+      .guide-card .guide-th { color: var(--accent); font-weight: 700; font-size: 15px; }
+      .guide-card p { margin: 12px 0 0; font-size: 15.5px; }
+      .guide-sec { margin-top: 16px; }
+      .guide-sec h3 {
+        font-size: 15px; font-weight: 700; color: var(--accent);
+        margin: 0 0 6px; letter-spacing: .02em;
+      }
+      .guide-sec ul, .guide-sec ol { margin: 0; padding-left: 22px; }
+      .guide-sec li { margin-bottom: 5px; font-size: 15.5px; }
+      .guide-sec li:last-child { margin-bottom: 0; }
+      .guide-sec p { margin: 0; }
+      .guide-sec p + p { margin-top: 8px; }
+      .alert-note {
+        margin-top: 16px; background: var(--accent-soft);
+        border: 1.5px solid var(--accent); border-radius: 10px; padding: 13px 16px;
+      }
+      .alert-note .k {
+        display: block; color: var(--accent); font-weight: 700; font-size: 13.5px;
+        letter-spacing: .04em; margin-bottom: 3px;
+      }
+      .alert-note .v { font-size: 15.5px; font-weight: 600; }
+      .guide-result {
+        margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px;
+        display: grid; grid-template-columns: 118px 1fr; gap: 6px 12px;
+      }
+      .guide-result .k { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .guide-result .v { font-size: 15.5px; }
+      .code-seq { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+      .code-seq span {
+        min-width: 40px; min-height: 40px; padding: 4px 8px;
+        border: 1.5px solid var(--line); border-bottom-width: 3px; border-radius: 8px;
+        background: var(--surface-2); font-weight: 700; font-size: 17px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .plat-rows { margin-top: 6px; display: grid; gap: 8px; }
+      .plat-rows .row { display: grid; grid-template-columns: 132px 1fr; gap: 6px 12px; }
+      .plat-rows .k { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .plat-rows .v { font-size: 15.5px; }
+
+      /* Mirror sub-table */
+      .mirror-block { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+      .mirror-block h3 { font-size: 15.5px; font-weight: 700; color: var(--accent); margin: 0 0 10px; }
+      .mirror-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+      .mirror-tools input, .mirror-tools select {
+        min-height: 40px; border: 1px solid var(--line); border-radius: 9px;
+        background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; padding: 7px 10px;
+      }
+      .mirror-tools input { flex: 1 1 200px; }
+      .mirror-tools input:focus, .mirror-tools select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+      .mirror-count { font-size: 13.5px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+      .mirror-table td.mz { font-weight: 600; width: 38%; }
+      .mirror-table td { padding: 10px 12px; }
+      @media (max-width: 720px) {
+        .mirror-table { display: table; width: 100%; }
+        .mirror-table thead { display: table-header-group; }
+        .mirror-table tbody { display: table-row-group; }
+        .mirror-table tr {
+          display: table-row; background: none; border: none;
+          border-radius: 0; box-shadow: none; padding: 0; margin: 0;
+        }
+        .mirror-table td {
+          display: table-cell; width: auto; padding: 9px 10px;
+          border-bottom: 1px solid var(--line); vertical-align: top;
+        }
+        .mirror-table td.mz { width: 42%; }
+      }
+      @media (max-width: 560px) {
+        .guide-card { padding: 18px 16px; }
+        .guide-result, .plat-rows .row { grid-template-columns: 1fr; gap: 0; }
+      }
+
+      /* Walkthrough cards (category 7) */
+      .spoiler-note {
+        margin-top: 16px; background: var(--accent-soft);
+        border: 1.5px solid var(--accent); border-radius: 10px; padding: 13px 16px;
+      }
+      .spoiler-note .k {
+        display: block; color: var(--accent); font-weight: 700; font-size: 13.5px;
+        letter-spacing: .04em; margin-bottom: 3px;
+      }
+      .spoiler-note .v { font-size: 15.5px; font-weight: 600; }
+      .area-order {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 16px 18px;
+      }
+      .area-order .k {
+        display: block; color: var(--accent); font-weight: 700; font-size: 13.5px;
+        letter-spacing: .04em; margin-bottom: 10px;
+      }
+      .route-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; }
+      .rstep {
+        display: inline-block; background: var(--surface-2); border: 1px solid var(--line);
+        border-radius: 999px; padding: 3px 11px; font-size: 14px; font-weight: 600; line-height: 1.45;
+      }
+      .rarrow { color: var(--accent); font-weight: 700; font-size: 14px; padding: 0 1px; }
+      .area-order .rstep { background: var(--chip-bg); color: var(--chip-ink); }
+      .walk-card {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px;
+      }
+      .walk-head { display: flex; gap: 14px; align-items: flex-start; }
+      .walk-num {
+        flex: none; width: 38px; height: 38px; border-radius: 50%;
+        background: var(--accent); color: #fff; font-family: "Cinzel", serif;
+        font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;
+      }
+      .walk-card h2 {
+        font-family: "Cinzel", serif; font-size: clamp(20px, 4vw, 25px);
+        margin: 1px 0 2px; line-height: 1.25;
+      }
+      .walk-sub { color: var(--accent); font-weight: 700; font-size: 15px; }
+      .walk-goal {
+        margin-top: 14px; background: var(--surface-2); border-radius: 10px; padding: 12px 15px;
+      }
+      .walk-goal .k { display: block; color: var(--accent); font-weight: 700; font-size: 13.5px; letter-spacing: .04em; margin-bottom: 3px; }
+      .walk-goal .v { font-size: 15.5px; }
+      .walk-sec { margin-top: 16px; }
+      .walk-sec h3 {
+        font-size: 15px; font-weight: 700; color: var(--accent);
+        margin: 0 0 8px; letter-spacing: .02em;
+      }
+      .walk-sec h4 {
+        font-size: 14.5px; font-weight: 700; color: var(--ink);
+        margin: 12px 0 6px;
+      }
+      .walk-sec h4:first-of-type { margin-top: 0; }
+      .walk-sec ul { margin: 0; padding-left: 20px; }
+      .walk-sec li { margin-bottom: 5px; font-size: 15.5px; }
+      .walk-sec li:last-child { margin-bottom: 0; }
+      .walk-sec p { margin: 0; font-size: 15.5px; }
+      .route-box {
+        background: var(--surface-2); border: 1px solid var(--line);
+        border-radius: 10px; padding: 12px 13px;
+      }
+      .melody-rows { display: grid; gap: 8px; }
+      .melody-row { display: grid; grid-template-columns: 210px 1fr; gap: 6px 12px; align-items: start; }
+      .melody-row .k { font-weight: 700; font-size: 14.5px; }
+      .melody-seq { display: flex; flex-wrap: wrap; gap: 5px; }
+      .melody-seq span {
+        min-width: 34px; min-height: 34px; padding: 2px 6px;
+        border: 1.5px solid var(--line); border-bottom-width: 3px; border-radius: 7px;
+        background: var(--surface); font-weight: 700; font-size: 15.5px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .walk-boss {
+        margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px;
+        display: grid; gap: 10px;
+      }
+      .walk-boss .row { display: grid; grid-template-columns: 150px 1fr; gap: 6px 12px; }
+      .walk-boss .k { color: var(--accent); font-weight: 700; font-size: 14.5px; }
+      .walk-boss .v { font-size: 15.5px; }
+      .walk-endnote {
+        margin-top: 14px; background: var(--accent-soft);
+        border: 1.5px solid var(--accent); border-radius: 10px; padding: 13px 16px;
+      }
+      .walk-endnote .k {
+        display: block; color: var(--accent); font-weight: 700; font-size: 13.5px;
+        letter-spacing: .04em; margin-bottom: 3px;
+      }
+      .walk-endnote .v { font-size: 15.5px; font-weight: 600; }
+      @media (max-width: 560px) {
+        .walk-card { padding: 18px 16px; }
+        .walk-boss .row, .melody-row { grid-template-columns: 1fr; gap: 2px; }
+      }
+
+      /* Ending cards (category 8) */
+      .ending-card {
+        margin-top: 16px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px;
+      }
+      .ending-head { display: flex; gap: 14px; align-items: flex-start; }
+      .ending-badge {
+        flex: none; width: 38px; height: 38px; border-radius: 50%;
+        background: var(--accent); color: #fff; font-family: "Cinzel", serif;
+        font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center;
+      }
+      .ending-card h2 {
+        font-family: "Cinzel", serif; font-size: clamp(20px, 4vw, 25px);
+        margin: 1px 0 2px; line-height: 1.25;
+      }
+      .ending-th { color: var(--accent); font-weight: 700; font-size: 15px; }
+      .ending-ach {
+        margin-top: 14px; background: var(--accent-soft);
+        border: 1.5px solid var(--accent); border-radius: 10px; padding: 12px 15px;
+        display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+      }
+      .ending-ach .k { color: var(--accent); font-weight: 700; font-size: 13.5px; letter-spacing: .04em; }
+      .ending-ach .v { font-size: 16.5px; font-weight: 700; font-family: "Cinzel", serif; }
+      .ending-sec { margin-top: 16px; }
+      .ending-sec h3 {
+        font-size: 15px; font-weight: 700; color: var(--accent);
+        margin: 0 0 6px; letter-spacing: .02em;
+      }
+      .ending-sec p { margin: 0; font-size: 15.5px; }
+      .ending-sec p + p { margin-top: 8px; }
+      .ending-sec ul, .ending-sec ol { margin: 0; padding-left: 22px; }
+      .ending-sec li { margin-bottom: 5px; font-size: 15.5px; }
+      .ending-sec li:last-child { margin-bottom: 0; }
+      .virtue-rows { margin-top: 8px; display: grid; gap: 8px; }
+      .virtue-rows .row { display: grid; grid-template-columns: 168px 1fr; gap: 4px 12px; align-items: baseline; }
+      .virtue-rows .k { font-weight: 700; font-size: 15px; }
+      .virtue-rows .v { font-size: 15px; }
+      .ending-result {
+        margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px;
+      }
+      .ending-result .k { display: block; color: var(--accent); font-weight: 700; font-size: 14.5px; margin-bottom: 3px; }
+      .ending-result .v { font-size: 15.5px; }
+      .ending-result p { margin: 8px 0 0; font-size: 15.5px; }
+      .ending-note {
+        margin-top: 20px; background: var(--surface); border: 1px solid var(--line);
+        border-radius: 12px; box-shadow: var(--shadow); padding: 16px 20px;
+        color: var(--muted); font-size: 15.5px;
+      }
+      .ending-note strong { color: var(--ink); }
+      @media (max-width: 560px) {
+        .ending-card { padding: 18px 16px; }
+        .virtue-rows .row { grid-template-columns: 1fr; gap: 0; }
+      }
+
+      /* ============================================================
+         SotN MENU THEME — overrides: blue fade panels, double
+         silver frames, square PS1 corners, blood-red selection
+         bar, pale-gold figures. Layout/type scale unchanged.
+         ============================================================ */
+      .wrap { max-width: 1280px; }
+      ::selection { background: var(--red); color: #fff; }
+
+      .masthead h1 { color: var(--ink); text-shadow: 0 2px 0 #02022a, 0 0 22px rgba(27, 27, 143, .8); }
+      .masthead .rule::before, .masthead .rule::after { height: 2px; background: var(--line-dim); box-shadow: 0 3px 0 #030336, 0 4px 0 var(--line-dim); }
+
+      /* Framed panels — every card / box / zone table */
+      .tip-intro, .tip-card, .boss-card, .guide-card, .walk-card,
+      .ending-card, .ending-note, .area-order, section.zone, .tree {
+        background: var(--surface);
+        border: 2px solid var(--line-bright);
+        border-radius: 2px;
+        box-shadow: var(--frame-shadow);
+      }
+      section.zone { padding: 14px 18px 10px; }
+      .zone-head { border-bottom: 2px solid var(--gold); }
+      .part-head { border-bottom: 2px solid var(--gold); }
+
+      /* Inner boxes — single inner frame line */
+      .walk-goal, .route-box {
+        border: 1.5px solid var(--line-dim); border-radius: 2px;
+        box-shadow: inset 0 0 0 2px #030336, inset 0 0 0 4px rgba(139, 150, 214, .5);
+      }
+
+      /* Red selection-bar boxes (special mechanics, alerts, rewards) */
+      .boss-special, .alert-note, .spoiler-note, .walk-endnote, .ending-ach {
+        background: var(--red-grad); color: var(--ink);
+        border: 2px solid var(--line-bright); border-radius: 2px;
+        box-shadow: inset 0 0 0 3px #4a050a, inset 0 0 0 5px rgba(255, 205, 205, .35);
+      }
+      .boss-special .k, .alert-note .k, .spoiler-note .k,
+      .walk-endnote .k, .ending-ach .k { color: var(--gold-bright); }
+
+      /* Number badges — square, red bar style */
+      .tip-num, .boss-num, .walk-num, .ending-badge, .guide-badge {
+        border-radius: 2px; background: var(--red-grad);
+        border: 1.5px solid var(--line-bright); color: #fff;
+      }
+      .src-tag { background: #08084e; color: var(--gold); border: 1px solid var(--gold); border-radius: 2px; }
+      .spoiler-tag { background: var(--red-grad); color: #fff; border: 1px solid var(--line-bright); border-radius: 2px; }
+      .atk-badge { background: #0d0d6e; color: var(--gold-bright); border: 1px solid var(--line-dim); border-radius: 2px; }
+      .atk-unknown { background: #08084e; color: var(--muted); border-color: var(--line-dim); border-radius: 2px; }
+      .zone-head .zone-count { background: #08084e; color: var(--gold-bright); border: 1px solid var(--line-dim); border-radius: 2px; }
+      .code-seq span, .melody-seq span { background: #0a0a55; border-color: var(--line-dim); border-radius: 2px; color: var(--gold-bright); }
+      .rstep, .area-order .rstep { border-radius: 2px; background: #0a0a55; border-color: var(--line-dim); color: var(--chip-ink); }
+
+      /* Toolbar / search / filter chips */
+      .toolbar {
+        background: linear-gradient(180deg, #030336 0%, #08084e 100%);
+        border-bottom: 2px solid var(--line-dim);
+        box-shadow: 0 3px 0 #030336, 0 5px 0 rgba(139, 150, 214, .6);
+      }
+      #search, .mirror-tools input, .mirror-tools select {
+        background: #050544; border: 1.5px solid var(--line-dim);
+        border-radius: 2px; color: var(--ink);
+      }
+      #search::placeholder, .mirror-tools input::placeholder { color: #8f9ad2; }
+      .chip {
+        border-radius: 2px; background: #08084e;
+        border: 1.5px solid var(--line-dim); color: var(--chip-ink);
+      }
+      .chip[aria-pressed="true"] { background: var(--red-grad); border-color: var(--line-bright); color: #fff; }
+
+      /* Tables */
+      thead th { color: var(--gold); border-bottom: 2px solid var(--line-dim); }
+      tbody td { border-bottom: 1px solid rgba(174, 184, 236, .32); }
+      .mirror-block { border-top: 2px solid var(--line-dim); }
+
+      /* Scroll target highlight (tree navigation) */
+      section.zone, article.tip-card, article.boss-card, article.guide-card,
+      article.walk-card, article.ending-card, .part-head { scroll-margin-top: 96px; }
+      .flash { box-shadow: 0 0 0 3px var(--gold-bright), var(--frame-shadow) !important; }
+
+      /* ——— Layout: tree sidebar + content ——— */
+      .layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 14px; }
+      .sidebar { flex: 0 0 268px; position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow-y: auto; }
+      .content { flex: 1 1 auto; min-width: 0; }
+      .content .toolbar { top: 0; }
+      .tree-toggle { display: none; }
+
+      /* ——— Tree menu ——— */
+      .tree { padding: 14px 12px 16px; }
+      .tree-title {
+        margin: 0 0 10px; font-family: "Cinzel", serif; font-weight: 700;
+        font-size: 13px; letter-spacing: .22em; color: var(--gold);
+        border-bottom: 2px solid var(--gold); padding-bottom: 8px;
+      }
+      .tree-root { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+      .tree-row { display: flex; gap: 6px; }
+      .tree-cat {
+        flex: 1 1 auto; min-width: 0; min-height: 42px; text-align: left;
+        padding: 8px 10px; border-radius: 2px; cursor: pointer;
+        border: 1.5px solid var(--line-dim);
+        background: linear-gradient(180deg, #08084e 0%, #0d0d6e 100%);
+        color: var(--ink); font: inherit; font-weight: 700; font-size: 15px; line-height: 1.35;
+      }
+      .tree-cat .n { display: block; font-weight: 500; font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+      .tree-cat[aria-pressed="true"] {
+        background: var(--red-grad); border-color: var(--line-bright); color: #fff;
+        box-shadow: inset 0 0 0 2px #4a050a, inset 0 0 0 4px rgba(255, 205, 205, .35);
+      }
+      .tree-cat[aria-pressed="true"] .n { color: #ffd9d9; }
+      .tree-exp {
+        flex: 0 0 34px; min-height: 42px; border-radius: 2px; cursor: pointer;
+        border: 1.5px solid var(--line-dim); background: #08084e; color: var(--gold);
+        font: inherit; font-size: 14px; line-height: 1;
+      }
+      .tree-children {
+        list-style: none; display: none;
+        margin: 6px 0 4px 14px; padding: 0 0 0 10px;
+        border-left: 2px solid var(--line-dim);
+      }
+      .tree-children.open { display: grid; gap: 3px; }
+      .tree-child {
+        display: block; width: 100%; text-align: left; cursor: pointer;
+        padding: 6px 9px; border-radius: 2px;
+        border: 1px solid transparent; background: transparent;
+        color: var(--muted); font: inherit; font-size: 14px; font-weight: 600; line-height: 1.4;
+      }
+      .tree-child .n { font-weight: 500; font-size: 12.5px; opacity: .75; margin-left: 5px; }
+      .tree-child:hover { color: var(--ink); border-color: var(--line-dim); background: #0a0a55; }
+      .tree-child.active { background: var(--red-grad); border-color: var(--line-bright); color: #fff; }
+
+      /* Phone: tables become framed single cards (same SotN frame) */
+      @media (max-width: 720px) {
+        tbody tr {
+          background: var(--surface);
+          border: 2px solid var(--line-bright);
+          border-radius: 2px;
+          box-shadow: inset 0 0 0 3px #030336, inset 0 0 0 5px #8b96d6;
+        }
+        section.zone { padding: 12px 12px 6px; }
+        /* Mirror sub-table stays a real table, not cards */
+        .mirror-table tbody tr {
+          background: none; border: none; border-radius: 0; box-shadow: none;
+        }
+      }
+
+      /* Mobile: sidebar collapses behind a toggle button */
+      .tree-toggle {
+        width: 100%; margin-top: 14px; min-height: 46px;
+        align-items: center; justify-content: center; gap: 8px;
+        background: var(--surface); color: var(--ink);
+        border: 2px solid var(--line-bright); border-radius: 2px;
+        box-shadow: var(--frame-shadow);
+        font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+      }
+      @media (max-width: 880px) {
+        .layout { flex-direction: column; }
+        .tree-toggle { display: flex; }
+        .sidebar { display: none; position: static; flex: none; width: 100%; max-height: none; overflow: visible; }
+        .sidebar.open { display: block; }
+        .content { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <p class="game">Castlevania · Belmont's Curse</p>
+        <h1>ยินดีต้อนรับสู่ น็อทร์-ดาม</h1>
+        <p class="lede">Castlevania: Belmont's Curse คือเกมภาคที่ 26 ในซีรีส์ Castlevania ระดับตำนาน พัฒนาโดย Evil Empire และทีมผู้สร้าง Dead Cells เกมภาคนี้พาซีรีส์กลับไปสู่รากเหง้าแบบ side-scrolling และการสำรวจอีกครั้ง</p>
+        <p class="lede" style="margin-top:10px;">เรื่องราวเกิดขึ้นในปี ค.ศ. 1499 ผู้เล่นจะรับบทเป็น Rose Belmont ลูกสาวของ Trevor Belmont นักล่าแวมไพร์ชื่อดัง กับ Sypha Belnades แม่มดผู้เก่งกาจ ความชั่วร้ายได้ผุดขึ้นใจกลางกรุงปารีส Rose ต้องไขปริศนาเบื้องหลังภัยคุกคามนี้ โดยอาศัยไพ่ทาโรต์ลึกลับที่แม่ผู้ล่วงลับทิ้งไว้ให้ และมันจะนำเธอไปสู่ปราสาทที่คุ้นเคยเกินไปแห่งหนึ่ง</p>
+        <p class="thanks" style="margin:16px auto 0;font-weight:700;color:var(--accent);font-size:15.5px;">ขอบคุณ IGN.com และ MapGenie</p>
+        <div class="rule"><span>✦ ✦ ✦</span></div>
+      </header>
+
+      <button class="tree-toggle" id="tree-toggle" type="button" aria-expanded="false" aria-controls="sidebar">☰ เมนูหมวด</button>
+      <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <nav class="tree" aria-label="เมนูหมวด">
+          <p class="tree-title">CONTENTS</p>
+          <ul class="tree-root">
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-relics" type="button" aria-pressed="true">Relics<span class="n">44 ชิ้น</span></button>
+                <button class="tree-exp" type="button" data-exp="relics" aria-expanded="true" aria-label="กางหรือหุบกลุ่มย่อยของ Relics">▾</button>
+              </div>
+              <ul class="tree-children open" data-children="relics"></ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-weapons" type="button" aria-pressed="false">อาวุธ · Weapons<span class="n">28 ชิ้น</span></button>
+                <button class="tree-exp" type="button" data-exp="weapons" aria-expanded="false" aria-label="กางหรือหุบกลุ่มย่อยของอาวุธ">▸</button>
+              </div>
+              <ul class="tree-children" data-children="weapons"></ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-tips" type="button" aria-pressed="false">เกร็ด<span class="n">11 หัวข้อ</span></button>
+              </div>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-collectibles" type="button" aria-pressed="false">ของสะสม · Collectibles<span class="n">81 รายการ</span></button>
+                <button class="tree-exp" type="button" data-exp="collectibles" aria-expanded="false" aria-label="กางหรือหุบกลุ่มย่อยของของสะสม">▸</button>
+              </div>
+              <ul class="tree-children" data-children="collectibles"></ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-bosses" type="button" aria-pressed="false">บอส · Boss Guides<span class="n">6 ตัว</span></button>
+              </div>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-guides" type="button" aria-pressed="false">ไกด์เฉพาะเรื่อง + ความลับ<span class="n">8 รายการ</span></button>
+                <button class="tree-exp" type="button" data-exp="guides" aria-expanded="false" aria-label="กางหรือหุบกลุ่มย่อยของไกด์เฉพาะเรื่องและความลับ">▸</button>
+              </div>
+              <ul class="tree-children" data-children="guides">
+                <li><button class="tree-child" type="button" data-cat="guides" data-target="grp-part-a">ส่วน A — ไกด์เฉพาะเรื่อง</button></li>
+                <li><button class="tree-child" type="button" data-cat="guides" data-target="grp-part-b">ส่วน B — Cheats and Secrets</button></li>
+              </ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-walkthrough" type="button" aria-pressed="false">Walkthrough<span class="n">8 พื้นที่</span></button>
+                <button class="tree-exp" type="button" data-exp="walkthrough" aria-expanded="false" aria-label="กางหรือหุบกลุ่มย่อยของ Walkthrough">▸</button>
+              </div>
+              <ul class="tree-children" data-children="walkthrough"></ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-endings" type="button" aria-pressed="false">ฉากจบ · Endings<span class="n">3 แบบ</span></button>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="content">
+
+      <div class="toolbar">
+        <div class="search-row">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+            <input id="search" type="search" placeholder="ค้นหา เช่น Crypt Key, มานา, แพร์รี…" aria-label="ค้นหา Relic" />
+          </div>
+          <div class="count" id="count" aria-live="polite"></div>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="กรองตามโซน"></div>
+      </div>
+
+      <div class="cat-head">
+        <h2 id="cat-title">Relics ทั้ง 44 ชิ้น</h2>
+        <p id="cat-lede">ตาราง Relic ครบทุกชิ้น — ผลของ Relic และวิธีไปเก็บ แปลเป็นภาษาไทย ส่วนชื่อไอเทมและชื่อสถานที่คงภาษาอังกฤษไว้ ค้นหาด้วยชื่อไอเทมหรือกรองตามโซนได้เลย</p>
+      </div>
+
+      <main id="list"></main>
+      <p class="empty" id="empty">ไม่พบรายการที่ตรงกับคำค้น ลองเปลี่ยนคำค้นหรือเลือกตัวกรองอื่น</p>
+
+      <footer class="note">ขอบคุณ IGN.com และ MapGenie<br />ชื่อไอเทม เวท สถานที่ และความสามารถคงภาษาอังกฤษไว้เพื่อให้เทียบกับในเกมได้ตรงกัน ส่วนคำอธิบายและวิธีไปแปลเป็นภาษาไทย</footer>
+      </div>
+      </div>
+    </div>
+
+    <script>
+    var ZONES = [
+      { id: "paris",     en: "Paris Streets",            th: "ถนนปารีส" },
+      { id: "cemetery",  en: "Holy Innocents' Cemetery", th: "สุสาน Holy Innocents" },
+      { id: "catacombs", en: "Catacombs of Paris",       th: "สุสานใต้ดินปารีส" },
+      { id: "mainhall",  en: "Main Hall",                th: "โถงหลัก" },
+      { id: "clock",     en: "Clock Tower",              th: "หอนาฬิกา" },
+      { id: "library",   en: "Library",                  th: "ห้องสมุด" },
+      { id: "notredame", en: "Notre Dame",               th: "มหาวิหาร Notre Dame" },
+      { id: "quarters",  en: "Master's Quarters",        th: "ห้องพักของท่านอาจารย์" },
+      { id: "mirrors",   en: "Hall of Mirrors",          th: "โถงกระจก" }
+    ];
+
+    var RELICS = [
+      // —— Paris Streets ——
+      { name: "Crypt Key", zone: "paris", require: "N/A",
+        effect: "ฟื้นพลังชีวิตและมานาของ Rose ให้เต็มทันที เมื่อเธอเปิดหีบ",
+        room: "Seer's Hovel",
+        dir: "เข้าประตูที่อยู่ในเขต Burned District" },
+      { name: "Twilight Gem", zone: "paris", require: "อยู่ท้ายชาเลนจ์แพลตฟอร์ม (ไม่ระบุความสามารถที่ต้องใช้)",
+        effect: "หลังจากใช้เวท Rose จะทำดาเมจเพิ่มขึ้น 30% เป็นเวลา 3 วินาที",
+        room: "Central Sewer Drain",
+        dir: "ผ่านห้องท้าทายทางตะวันตกของปล่องท่อระบายน้ำหลัก โดยเข้าจากฝั่งตะวันออก" },
+      { name: "Obsidian Fang", zone: "paris", require: "ชาเลนจ์แพลตฟอร์มที่ต้องใช้ Holy Light (Halo of Light)",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 45% เป็นเวลา 3 วินาที หลังจากทำลายการ์ดของศัตรู",
+        room: "Guard Level",
+        dir: "หลังปราบ Joan of Arc ให้ลงไปที่ฐานหอคอย แทนที่จะออกไป ให้สไลด์ลอดช่องที่ถูก Chaos Shards ปิดอยู่ แล้วปีนขึ้นห้องปริศนาเล็ก ๆ จะเจอหีบ" },
+      { name: "Shadow Veil", zone: "paris", require: "ต้องมี Holy Light และผ่าน arena battle ใต้ตัวหีบก่อน",
+        effect: "พลังป้องกันของ Rose เพิ่มขึ้น 33% เมื่อพลังชีวิตของเธอเหลือต่ำกว่า 33%",
+        room: "Burned District",
+        dir: "หลังปราบ Joan ให้กลับลงไปที่ฐานหอคอย แล้วมุ่งไปทางตะวันออกสู่ห้องเซฟใกล้สะพานหัก ตอนนี้จะเข้าพื้นที่ที่ถูก Chaos Shards ขวางอยู่ ในห้องใต้ห้องเซฟกลางทางขึ้นหอคอยได้ จัดการศัตรูเพื่อรับหีบ" },
+      { name: "Dark Sigil", zone: "paris", require: "ต้องมี Double Jump และ Arcane Whip",
+        effect: "พลังป้องกันของ Rose เพิ่มขึ้น 80% ตราบใดที่พลังชีวิตของเธอยังเต็ม 100%",
+        room: "Ruined Market",
+        dir: "ที่ด้านบนของฝั่งขวาของ Street of the Tomb Masons แทนที่จะเข้าประตู ให้กระโดดสองชั้นขึ้นไปบนขอบแล้วผ่านทางเข้าไป ทิ้งตัวลงและ wall-jump อย่างระมัดระวังระหว่างตะกอนพิษ จากนั้นกระโดดสองชั้นขึ้นขอบไปรับหีบ" },
+      { name: "Thrilling Eye", zone: "paris", require: "N/A",
+        effect: "ไม่มีผลในตัวเอง แต่จะเปิดประตูใน Catacombs of Paris เมื่อสวมพร้อมกับดวงตาอีกสองดวง",
+        room: "Hospital",
+        dir: "ใช้ท่า Smash พุ่งทะลุพื้นแตกได้ใกล้ทางเข้า Holy Innocents' Cemetery แล้วเข้าประตูไป Hospital หลบลูกแก้วหมุน ผ่านกับดัก และปราบศัตรูไปจนถึงด้านล่างสุด" },
+
+      // —— Holy Innocents' Cemetery ——
+      { name: "Abyssal Eye", zone: "cemetery", require: "ต้องมี Holy Light และ Arcane Whip",
+        effect: "Rose ทำดาเมจใส่ศัตรูที่ถูกควบคุมเพิ่มขึ้น 35%",
+        room: "Cemetery Entrance",
+        dir: "จากห้องเซฟแรก มุ่งไปทางตะวันตกจนเข้าสู่ Memorial of the Dead ขึ้นไปยังผิวดินแล้วขึ้นบันไดทางขวา เดินผ่านประตูเข้าสู่พื้นที่ถัดไป แล้วย้อนกลับมาที่ Cemetery Entrance กดสวิตช์ด้านล่างเพื่อเปิดทางลัด จากนั้นสไลด์ลอดใต้ช่อง Chaos Shard แล้วโหนข้ามไปทางขวาเพื่อไปถึงหีบ" },
+      { name: "Nightshade", zone: "cemetery", require: "N/A",
+        effect: "เมื่อใช้ยาฟื้นพลังชีวิต จะฟื้นมานาให้ 40% ของมานาสูงสุด",
+        room: "Pillaged Tomb",
+        dir: "ในห้อง Fountain of the Innocents ทางตะวันออกของน้ำพุหลัก สไลด์ข้ามพื้นยุบได้แล้วกดสวิตช์เพื่อเปิดพื้นทางผ่านใกล้ประตูฝั่งซ้าย ทิ้งตัวลงไปแล้วไปทางขวาจะเจอหีบ" },
+      { name: "Raven's Feather", zone: "cemetery", require: "อยู่ในพื้นที่ลับข้าง arena ของ Haunted Coffin",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 25% ขณะต่อสู้อยู่กลางอากาศ",
+        room: "Roman Baths",
+        dir: "ในห้องฝั่งตะวันออกสุดของพื้นที่นี้ โหนห่วงที่ห้อยอยู่กลางห้องขึ้นไปให้ถึงรูปปั้น ทุบกำแพงทางซ้ายเพื่อเผยประตูและโลงสาป 1 ใน 4 ใบในพื้นที่ใหม่ “Mass Grave” เคลียร์พื้นที่นั้นแล้วสไลด์ลอดช่องทางซ้ายจะเจอหีบ" },
+      { name: "Pale Thorn", zone: "cemetery", require: "ต้องมี Aerial Rush, Arcane Whip และ Holy Light",
+        effect: "Rose รับดาเมจจากด้านหน้าลดลง 60% แต่รับดาเมจจากด้านหลังเพิ่มขึ้น 100%",
+        room: "Hot Springs",
+        dir: "จากห้อง Ferryman ให้ไปทางซ้ายแล้วลงไปจนถึงห้องที่มีใบเลื่อยวงเดือนเคลื่อนที่ 3 ใบที่ด้านล่าง กระโดดสองชั้นและแดชข้ามไปอีกฝั่ง จากนั้นผ่านปริศนาในห้องถัดไปเพื่อรับ Relic" },
+      { name: "Vampire's Fang", zone: "cemetery", require: "ทำลาย Haunted Coffins ทุกโลงในพื้นที่ก่อน",
+        effect: "มีค้างคาวสัตว์เลี้ยงบินตาม Rose ขณะเธอเคลื่อนที่",
+        room: "Fountain of the Innocents",
+        dir: "ทำลายโลงสีเขียวทั้ง 5 ใบในพื้นที่นี้ จากนั้นทิ้งตัวลงผ่านฟองอากาศใน Fountain of the Lost เพื่อรับหีบนี้" },
+      { name: "Trembling Eye", zone: "cemetery", require: "N/A",
+        effect: "ไม่มีผลในตัวเอง แต่จะเปิดประตูใน Catacombs of Paris เมื่อสวมพร้อมกับดวงตาอีกสองดวง",
+        room: "Pillaged Tombs",
+        dir: "ในห้องก่อนถึง Fountain of the Innocents ให้ข้ามหลุมหนามแล้วสไลด์ไปกดสวิตช์ ลงไปห้องใหม่ด้านล่าง แล้วหลบลูกไฟยักษ์ที่ไล่ตามผ่านเขาวงกตที่เต็มไปด้วยกับดักและศัตรู" },
+
+      // —— Catacombs of Paris ——
+      { name: "Necro Charm", zone: "catacombs", require: "อยู่ท้ายชาเลนจ์แพลตฟอร์ม (ไม่ระบุความสามารถที่ต้องใช้)",
+        effect: "เป็นเวลา 3 วินาที Rose จะทำดาเมจเพิ่มขึ้น 25% หลังจากฆ่าศัตรู",
+        room: "Jaws of Limbo",
+        dir: "ผ่านห้องปริศนาทางซ้ายของห้องที่มีกะโหลกยักษ์" },
+      { name: "Mourning Bead", zone: "catacombs", require: "อุโมงค์ลับ",
+        effect: "เมื่อฆ่าศัตรู ความเร็วในการเคลื่อนที่ของ Rose จะเพิ่มขึ้น 35% เป็นเวลา 7 วินาที",
+        room: "Quarry Elevator",
+        dir: "แก้ปริศนาในห้องทางตะวันออกของลิฟต์ Catacombs ตัวแรก แล้วรับหีบที่ด้านบนสุด" },
+      { name: "Specter's Whisper", zone: "catacombs", require: "อุโมงค์ลับ",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 30% ตราบใดที่พลังชีวิตของเธอเหลือต่ำกว่า 20%",
+        room: "Charnel Galleries",
+        dir: "จากจุดเซฟแรก ไปทางซ้ายแล้วขึ้นทางลาด เดินต่อไปจนถึงจุดที่ต้องทิ้งตัวลง แทนที่จะลง ให้ขึ้นไปด้านบนแล้วผ่านปริศนา ห้องถัดไปมีทางลัดกลับไปทางเข้าและมีหีบอยู่" },
+      { name: "Forsaken Ring", zone: "catacombs", require: "ต้องมี Aerial Rush, Arcane Whip และ Holy Light",
+        effect: "Rose ทำดาเมจเพิ่มขึ้นอีก 25% ขณะพลังชีวิตเต็ม 100%",
+        room: "Antechamber of Sin",
+        dir: "เข้าจากฝั่ง Cathedral ของ Holy Innocents' Cemetery แล้วทุบพื้นขณะไต่ลงไปยังจุดที่ทางแยกออก จะเจอหีบ" },
+      { name: "Ebony Claw", zone: "catacombs", require: "เข้าพื้นที่ลับด้วยการแกว่งตัวบน Luminous Anchor หลายครั้ง",
+        effect: "เมื่อทำลายการ์ดของศัตรู ศัตรูจะติดสตันนานขึ้น 50%",
+        room: "Throat of Hell",
+        dir: "หลังเข้าจาก Holy Innocents' Cemetery ให้ไปที่ห้องเซฟฝั่งขวาแล้วเดินต่อไป จะเจอหีบก่อนกลับสู่เส้นทางหลักใกล้ขากรรไกรของกะโหลกยักษ์" },
+      { name: "Oozing Eye", zone: "catacombs", require: "อยู่หลังประตูที่ล็อกไว้ — ประตูจะเปิดเมื่อเคลียร์ arena battle แล้ว",
+        effect: "ไม่มีผลในตัวเอง แต่จะเปิดประตูใน Catacombs of Paris เมื่อสวมพร้อมกับดวงตาอีกสองดวง",
+        room: "Circle of Greed",
+        dir: "เข้า Catacombs จากด้านหลังของ Holy Innocents' Cemetery เมื่อทางแยกให้ไปทางซ้าย แล้วเดินตามทางต่อไปจนถึงห้องที่มีดวงตาอยู่กลางห้องและยิงเลเซอร์ออกมา หลบเลเซอร์และฆ่าศัตรูตัวอื่นให้หมดเพื่อเปิดประตู" },
+
+      // —— Main Hall ——
+      { name: "Witch's Knot", zone: "mainhall", require: "อยู่ท้ายชาเลนจ์แพลตฟอร์มใน West Hall",
+        effect: "ยาฟื้นพลังชีวิตจะฟื้นพลังชีวิตของ Rose 100%",
+        room: "West Hall",
+        dir: "ขณะที่เดินผ่าน Notre Dame และมุ่งขึ้นไปทาง Clock Tower ให้เข้าห้องข้างทางฝั่งซ้ายแล้วผ่านปริศนาเพื่อรับ Relic นี้" },
+      { name: "Ghostly Pendant", zone: "mainhall", require: "N/A",
+        effect: "กับดักทำดาเมจใส่ Rose น้อยลง 75%",
+        room: "Abandoned Workshop",
+        dir: "ในห้องที่มีรูปปั้นเล่าเรื่องเตาหลอมของ The Builder ที่ดับไปแล้ว ใช้ Arcane Whip วาร์ปเข้าไปในภาพวาดแล้วพุ่งขึ้นด้านบนตรง ๆ ปราบ skeleton berserker และ Bone Pillar 3 ต้นเพื่อรับหีบ" },
+      { name: "Grim Token", zone: "mainhall", require: "ต้องมี Aerial Rush และ Arcane Whip",
+        effect: "เมื่อแพร์รีการโจมตีสำเร็จ Rose จะได้รับมานา 5 แต้ม",
+        room: "Servant's Hall",
+        dir: "เข้าผ่าน Alucard Painting แล้วไปทางซ้าย สไลด์ผ่านใบเลื่อยวงเดือนแล้วเข้าประตูไป Crematorium ทางซ้าย จากตรงนั้นไต่ลงไปตามกำแพงฝั่งซ้าย กดสวิตช์ขณะย้อนกลับ แล้วปีนกำแพงขึ้นไปให้ทันก่อนประตูจะปิดเพื่อไปถึงหีบ" },
+      { name: "Cursed Coin", zone: "mainhall", require: "ทุบกำแพงใต้ตัวหีบ (Smash)",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 30% เป็นเวลา 3 วินาที หลังจากแพร์รีการโจมตีของศัตรู",
+        room: "Wine Cellar",
+        dir: "จากประตูฝั่งตะวันตกของพื้นที่นี้ เข้าไปแล้วขึ้นไปทางขวา เดินผ่านช่วงถัดไปจนเห็นสองทางแยกทางขวา เลือกทางล่างแล้วผ่านห้องที่มีสวิตช์เลื่อนพื้นขึ้น–ลง เมื่อตกลงไปห้องถัดไป ให้ไปทางขวาแล้วใช้จุดยึดโหนไปเรื่อย ๆ จนถึงหีบ" },
+      { name: "Blood Vial", zone: "mainhall", require: "ล็อกหลังปริศนาแพลตฟอร์มพลิก — เฉลยลำดับ: Circle, Cross, Circle, Diamond",
+        effect: "Rose จะมีขวดยาฟื้นพลังชีวิตชั่วคราวเพิ่มอีก 1 ขวด หลังจากใช้ห้องเซฟ",
+        room: "Archives",
+        dir: "จากประตูฝั่งตะวันตกของพื้นที่นี้ เข้าไปแล้วขึ้นไปทางขวา เดินผ่านช่วงถัดไปจนเห็นสองทางแยกทางขวา เลือกทางบนแล้วกดสวิตช์ไปเรื่อย ๆ จนมีเส้นทางโล่งต่อเนื่องไปถึงหีบ" },
+      { name: "Banshee's Wail", zone: "mainhall", require: "เข้าจากด้านล่าง",
+        effect: "คืนมานา 1 แต้ม ต่อดาเมจทุก 1 แต้มที่ได้รับ",
+        room: "Servant's Quarters",
+        dir: "จากจุดเซฟเหนือคุกกระจกของ Sage's Sigil ให้ไปทางซ้ายแล้วกดสวิตช์ ขึ้นไปตามทางที่เพิ่งเปิดออก แล้วเปิดหีบ" },
+      { name: "Blackened Heart", zone: "mainhall", require: "อยู่ท้ายชาเลนจ์แพลตฟอร์มแบบจับเวลา",
+        effect: "Rose ฟื้นพลังชีวิต 2 แต้มเมื่อโจมตีโดนศัตรู แต่จะใช้ยาฟื้นพลังชีวิตไม่ได้",
+        room: "Abandoned Staircase",
+        dir: "ผ่าน Alucard Painting ฝั่งซ้ายแล้วขึ้นไปที่ Armory ปีนขึ้นไปแล้วเลือกทางบนเข้าสู่ห้องสวิตช์ แก้ปริศนาจนทางไปประตูด้านบนโล่ง ผ่านเข้าไปแล้วขึ้นไปเรื่อย ๆ จนเห็นประตู เข้าไปแล้วหมุนเฟืองเพื่อเปิดทางลัด จากนั้นไปทางซ้ายแล้วเดินทางรอบห้องปริศนาที่มีหนามและพื้นสลายตัวจนได้หีบ" },
+
+      // —— Clock Tower ——
+      { name: "Sinister Rune", zone: "clock", require: "N/A",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 40% เมื่อโจมตีศัตรูที่พลังชีวิตยังเต็ม 100%",
+        room: "Eastern Access Shaft",
+        dir: "ขึ้นไปบนยอด Eastern Access Shaft ตามปกติ แต่เมื่อเห็นแท่นหมุน 2 แท่นกับกำปั้นเหล็ก 1 อันที่กำลังทุบปุ่ม ให้จัดแท่นทั้งสองให้เป็นแนวนอน แล้วย้อนกลับและกระโดดขึ้นไปปีนแท่นที่สอง สไลด์ลอดช่องเพื่อหลบกำปั้นเหล็กอันที่สอง ห้องด้านบนมีสนามประลองอยู่บนเฟือง ปราบศัตรูให้หมดแล้วรับหีบ" },
+      { name: "Phantom Ring", zone: "clock", require: "ต้องมี Smash และ Arcane Whip",
+        effect: "ศัตรูจะเกิดใหม่เมื่อออกจากห้อง แทนที่จะเกิดใหม่หลังจากเซฟ",
+        room: "Western Ascent",
+        dir: "เมื่อได้ท่า Smash แล้ว ให้กลับไปยังพื้นที่ที่มีสวิตช์แต่ไม่มีมือเหล็กคอยทุบ ใช้ท่า Smash หมุนแท่นต่าง ๆ แล้วเดินทางไปให้ถึงหีบ" },
+      { name: "Moonlit Shard", zone: "clock", require: "ใช้ Double Jump ขึ้นส่วนบนของโซน Path of Builder",
+        effect: "Rose ได้รับ XP เพิ่มขึ้น 20% จากการฆ่าศัตรู ตราบใดที่พลังชีวิตของเธอยังเต็ม 100%",
+        room: "Path of the Builder",
+        dir: "ก่อนถึงลิฟต์ก่อนบอส Builder จะมีห้องที่มีกำปั้นและจังหวะกระโดดขึ้นไปทางขวาที่แคบมาก ถ้าจับจังหวะถูก ทางไปหีบจะอยู่ด้านบนซ้ายโดยไม่มีอุปสรรคอื่นอีก" },
+      { name: "Vile Trinket", zone: "clock", require: "N/A",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 25% เมื่อโจมตีศัตรูจากด้านหลัง",
+        room: "Daedalus Crossing",
+        dir: "ก่อนไปทางขวาเข้า Upper Gallery ให้ตีเฟืองเหนือประตูซ้ำ ๆ เพื่อเปิดห้องทางซ้าย ปราบศัตรูในพื้นที่ที่เปิดออก แล้วปีนขึ้นไปบนขื่อเพื่อรับหีบ" },
+      { name: "Hollow Bone", zone: "clock", require: "ต้องไปถึงหีบขณะที่ Slowing Clock กำลังทำงาน",
+        effect: "ความเร็วในการเคลื่อนที่ของ Rose เพิ่มขึ้น 35% เป็นเวลา 5 วินาที หลังจากใช้แส้กับจุดยึด",
+        room: "Daedalus Crossing",
+        dir: "จากลูกแก้วชะลอเวลา Steps of Time ให้ตีมันแล้วรีบมุ่งไปทางซ้ายทันที นั่งลิฟต์ลง 1 ชั้นแล้วไปทางซ้าย กำปั้นเหล็กจะช้าลงพอให้ผ่านไปได้และรับหีบ" },
+
+      // —— Library ——
+      { name: "Midnight Tear", zone: "library", require: "เข้าพื้นที่ลับด้วยการวาดแพตเทิร์นตาม Star Chart",
+        effect: "Rose รับดาเมจน้อยลงตามปริมาณมานาที่ลดลง (สูงสุดลดดาเมจ 50% เมื่อเธอไม่มีมานาเหลือเลย)",
+        room: "Rhetoric Shelves",
+        dir: "ใช้กลุ่มดาว Man Star Chart บนลูกโลกในห้องนี้เพื่อให้สัญลักษณ์ขนาดใหญ่ปรากฏ ใช้มันเพื่อขึ้นไปถึงเพดานแล้วผ่านปริศนาเพื่อหาหีบ" },
+      { name: "Revenant's Shard", zone: "library", require: "ต้องมี Smash และ Aerial Rush",
+        effect: "Rose ฟื้นมานาเพิ่มขึ้นอีก 10% เมื่อฆ่าศัตรู",
+        room: "Curiosity Cabinet",
+        dir: "ห้องนี้มีพื้นทุบได้ 2 แผ่น ทุบทะลุลงไป แล้วไปทางซ้ายตามทางเดินและกดสวิตช์ ไม่ต้องสนใจศัตรู วิ่งไปอีกฝั่งให้ทันเพื่อเปิดหีบ" },
+      { name: "Wraith's Tear", zone: "library", require: "ต้องมี Double Jump และ Aerial Rush",
+        effect: "Rose ฟื้นพลังชีวิต 7% ของพลังชีวิตสูงสุด เมื่อโจมตีโดนศัตรูที่เคยโจมตีเธออย่างน้อย 1 ครั้ง (ได้เพียงครั้งเดียวต่อศัตรู 1 ตัว และจะชาร์จใหม่เมื่อถูกโจมตีอีกครั้ง)",
+        room: "Study Room",
+        dir: "ห้องนี้มี Skeleton planet อยู่ ใช้จุดยึดด้านบนซ้ายของมันโหนขึ้นทะลุพื้น หลังจากผ่านปริศนาสั้น ๆ เกี่ยวกับสัญลักษณ์และหนาม จะเจอหีบและสวิตช์" },
+      { name: "Lich's Mark", zone: "library", require: "พื้นที่ลับหลัง Breakable Wall (Rhetoric Shelves ฝั่งตะวันตก)",
+        effect: "ถ้าร่ายเวทภายในเวลาไม่เกิน 1.5 วินาทีหลังจากเวทแรก ค่าใช้เวทนั้นจะลดลง 40%",
+        room: "Rhetoric Shelves",
+        dir: "หลังจากเข้าห้อง ให้ทุบกำแพงทางขวาแล้วกระโดดไปบนสัญลักษณ์ต่าง ๆ โหนไปทางซ้ายเพื่อหลบหนามด้านบน จนไปถึงหีบ" },
+
+      // —— Notre Dame ——
+      { name: "Beelzebub's Seal", zone: "notredame", require: "ดึงคันโยกและปราบศัตรูในห้องเล็กทางตะวันออกของตัวหีบก่อน",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 30% แต่พลังชีวิตสูงสุดของเธอลดลง 50%",
+        room: "Chapel of Patience",
+        dir: "ที่มุมล่างขวาของโซนทั้งหมด จะเจอพื้นยุบได้พร้อมสวิตช์และ Axe Knight ถือโล่ 2 ตัว ทิ้งตัวลงไปแล้วกดสวิตช์เพื่อปลุกพวกมัน เมื่อปราบได้แล้ว ให้ไปทางซ้ายแล้วกระโดดข้ามช่องไปรับหีบ" },
+      { name: "Soul Fragment", zone: "notredame", require: "เข้าถึงได้หลังชำระ Great Organ แล้ว",
+        effect: "Rose ได้รับมานาเพิ่มขึ้น 50% เมื่อโจมตีโดนศัตรู ขณะที่พลังชีวิตของเธอเหลือ 30% หรือต่ำกว่า",
+        room: "Nave",
+        dir: "ชิ้นนี้ใช้ทางลัดได้ถ้าไม่อยากลอบผ่านแถว Great Organ — ทางขวาของทางเข้า กระโดดสองชั้นแล้วโหนขึ้นไปที่จุดยึดสีชมพูด้านขวาสุด ต้องจับจังหวะให้ดี โหนไปทางซ้าย แล้วขึ้นไปและกลับมาทางขวาเพื่อรับหีบ" },
+      { name: "Witch's Brew", zone: "notredame", require: "ห้องลับหลัง Breakable Wall บนสุดของ Transept",
+        effect: "Rose ทำดาเมจเพิ่มขึ้น 20% ต่อยาฟื้นพลังชีวิตที่ว่างเปล่า 1 ขวด",
+        room: "Transcept",
+        dir: "ทิ้งตัวลงจากช่องที่แยก La Fléche ลงไปยัง Great Organ แล้วชิดกำแพงซ้ายไว้ จะมีแท่นอยู่ทางซ้ายที่มีหีบวางอยู่" },
+      { name: "Eldritch Talisman", zone: "notredame", require: "อยู่ข้างใน Destructible Block (โซน East Gallery)",
+        effect: "Rose เป็นอมตะ 15 วินาทีหลังจากพักในห้องเซฟ และระยะเวลาอมตะหลังจากรับดาเมจก็เพิ่มขึ้นเป็น 2 เท่าด้วย",
+        room: "East Gallery",
+        dir: "มีพื้นลับที่ทุบได้อยู่ครึ่งล่างของห้องนี้ ระหว่างหนาม 2 อันที่มีจุดยึด 2 จุดอยู่ทางซ้าย ทุบทะลุลงไปจะเจอหีบซ่อนนี้" },
+      { name: "Infernal Medallion", zone: "notredame", require: "ต้องมี Double Jump, Aerial Rush และ Arcane Whip",
+        effect: "มานาของ Rose จะเพิ่มเกิน 80% ของมานาสูงสุดไม่ได้ แต่ค่าใช้เวทปัจจุบันจะลดลง 10 แต้ม",
+        room: "Reliquary",
+        dir: "ในห้องที่เต็มไปด้วยเลเซอร์ยิงผ่านเสาหนามขนาดใหญ่ ให้เดินข้ามไปอย่างระมัดระวัง อย่าลืมดันกำแพงทางขวาก่อนทิ้งตัวลงพื้นในตอนท้าย นั่นคือสวิตช์ที่เปิดห้องทางขวา สไลด์ลอดช่องตอนท้ายสุดเพื่อรับหีบ" },
+
+      // —— Master's Quarters ——
+      { name: "Gloomstone", zone: "quarters", require: "N/A",
+        effect: "บอกใบ้ให้รู้เมื่อ Rose อยู่ใกล้ความลับ",
+        room: "Sanctuary of Solitude",
+        dir: "โหนจุดยึดแล้วแดชเพื่อ wall-jump ขึ้นไป กดสวิตช์ทั้งสองฝั่งเพื่อเปิดประตูด้านล่าง จากนั้นโหนขึ้นไปตรงกลางเพื่อรับหีบและประตู Ferryman" },
+
+      // —— Hall of Mirrors ——
+      { name: "Dusk Amulet", zone: "mirrors", require: "ทำลาย Destructible Block 2 ก้อนและผ่าน Warp Door",
+        effect: "Rose เคลื่อนที่เร็วขึ้น 35% ตราบใดที่มานาของเธอเหลือ 15% ของมานาสูงสุดหรือต่ำกว่า",
+        room: "Delived Level",
+        dir: "ทุบทะลุพื้นในห้องแนวตั้ง แล้วผ่านประตูมิติไปจะเจอหีบ" },
+      { name: "Crystalized Blood", zone: "mirrors", require: "N/A",
+        effect: "ไอเทมประเภทใช้แล้วหมดจะปรากฏบ่อยขึ้น เมื่อ Rose ฆ่าศัตรู",
+        room: "Dead End Tower",
+        dir: "ห้องนี้มีปริศนาประตูมิติและ Chaos Shard ที่ยากมาก พร้อมจุดยึดมากมาย หีบอยู่ที่ด้านบนสุด" },
+      { name: "Sand Charm", zone: "mirrors", require: "ใช้ Warp Door ที่อยู่ฝั่งตรงข้ามหีบเหนือหนาม",
+        effect: "Rose เคลื่อนที่เร็วขึ้น 35% เป็นเวลา 30 วินาที หลังจากพักในห้องเซฟหรือใช้บริการของ Ferryman",
+        room: "Servants' Refectory",
+        dir: "ที่มุมบนซ้ายของห้องนี้มีสวิตช์อยู่ กดมันแล้วโหนจุดยึดขึ้นไปสู่ขื่อด้านบน ขึ้นไปทางซ้าย กระโดดสองชั้นและแดชผ่านประตูมิติเพื่อหาหีบ" },
+      { name: "Haunting Relic", zone: "mirrors", require: "เปิดได้หลังทำชาเลนจ์จับเวลาที่อยู่เหนือหีบสำเร็จ",
+        effect: "พลังป้องกันของ Rose เพิ่มขึ้น 60% เป็นเวลา 4 วินาที หลังจากถูกโจมตี",
+        room: "Steps of Misdirection",
+        dir: "กลางห้องนี้มีสวิตช์อยู่ กดมันแล้วเอาตัวรอดจากสนามประลอง แดชและมุดหลบไปยังแท่นยุบได้เพื่อหลีกเลี่ยงการถูกโจมตีในช่วงท้าย เมื่อผ่านแล้ว หีบจะอยู่ที่ด้านล่างของห้อง" }
+    ];
+
+    var WEAPON_TYPES = [
+      { id: "sword1h", en: "One-handed Swords", th: "ดาบมือเดียว", desc: "" },
+      { id: "swordshield", en: "Sword and Shields", th: "ดาบและโล่", desc: "ดาบมือเดียวคู่กับโล่ ทำให้ Rose บล็อกการโจมตีได้" },
+      { id: "spears", en: "Spears", th: "หอก", desc: "อาวุธสองมือ ระยะโจมตีไกลกว่าอาวุธประเภทอื่น" },
+      { id: "knuckles", en: "Brass Knuckles", th: "สนับมือ", desc: "อาวุธระยะประชิด ยิ่งโจมตีต่อเนื่องมากเท่าไร ยิ่งทำดาเมจแรงขึ้น" },
+      { id: "greatswords", en: "Great Swords", th: "ดาบใหญ่", desc: "ดาบใหญ่สองมือ ช้ามาก แต่พลังโจมตีหนักหน่วง หมุนตัวโจมตีกลางอากาศได้ หรือชาร์จบนพื้นเพื่อโจมตีต่อเนื่อง" },
+      { id: "dual", en: "Dual Swords", th: "ดาบคู่", desc: "ดาบคู่ยาว ใช้โจมตีหมุนตัวรวดเร็ว และต่อคอมโบหลังจบการเหวี่ยงครั้งแรกเป็นท่าปิดฉากอันรุนแรงได้" },
+      { id: "whips", en: "Whips", th: "แส้", desc: "อาวุธคลาสสิกของนักล่าแวมไพร์กลับมาแล้ว โจมตีระยะไกลได้ทุกทิศทาง และดาเมจแรงที่สุดที่ปลายของแส้" },
+      { id: "unknown", en: "N/A", th: "N/A", desc: "" }
+    ];
+
+    var COMING_SOON = "N/A";
+
+    var WEAPONS = [
+      // One-handed Swords
+      { name: "Longsword", type: "sword1h", attack: 25, require: "N/A — เป็นอาวุธเริ่มต้น", location: "N/A",
+        dir: "เป็นอาวุธเริ่มต้นของ Rose Belmont มีให้ใช้ตั้งแต่เริ่มเกม" },
+      { name: "Bastard Sword", type: "sword1h", attack: 50, require: "N/A", location: "Paris Streets: Justice District Sewers",
+        steps: [
+          "จาก Paris Streets: Court of Justice ไปที่ทางออกด้านขวาล่าง ซึ่งอยู่ทางขวาของประตูสีแดง พอเข้าบริเวณท่าเรือ ให้ทิ้งตัวลงผ่านแท่น แล้วสไลด์ผ่านทางเข้าเล็ก ๆ ด้านซ้ายล่าง",
+          "ไปทางซ้ายสู่ Justice District Sewers แล้วทิ้งตัวลงอีกครั้ง ก่อนใช้ Holy Light ทะลุพื้นหินลงไป",
+          "โหนไปทางซ้าย จับจังหวะให้ตัวเองอยู่ระหว่างใบมีดสองใบขณะโหน",
+          "อีกฝั่งของเสาหินสองต้น ใช้แส้ตีสวิตช์",
+          "โหนกลับมาที่เสาหินสองต้นขณะถือ Holy Light ค้างไว้ แล้วปล่อยเพื่อเด้งออกจากเสาหินขึ้นไปด้านบน",
+          "เมื่อแท่นลดระดับลงแล้ว โหนตะขอแส้ด้านบนไปให้ถึงหีบที่มุมขวาบนของห้อง"
+        ] },
+      { name: "Joyeuse", type: "sword1h", attack: 75, require: "ชาเลนจ์จับเวลา: หลังดึง Timed Lever ทางตะวันออกของหีบ ต้องไปถึงห้องหีบก่อนเวลาหมด", location: "Notre-Dame: Path Of The Penitent", dir: COMING_SOON },
+      { name: "Valmanway", type: "sword1h", attack: 75, require: "ต้องชั่งตาชั่ง (Balance the Scales) โดยเก็บ Wise Heart Fragments + Brave Heart Fragments รวมกันอย่างน้อยครึ่งหนึ่งของทั้งหมดที่มีใน Paris", location: "Paris Streets: Palace Of Justice", dir: COMING_SOON },
+
+      // Sword and Shields
+      { name: "Rusted Harpe and Aegis", type: "swordshield", attack: 25, require: "ปราบ Medusa (The Prophetess)", location: "Holy Innocents Cemetery: Serpents' Lair",
+        dir: "หลังปราบ Medusa ที่ Serpent's Lair ให้เดินผ่านทางออกด้านขวา จะเจอ Rusted Harpe and Aegis อยู่ที่ด้านล่างของบันได" },
+      { name: "Fleuret and Tower Shield", type: "swordshield", attack: 50, require: "N/A", location: "Library: Condemned Shelves",
+        steps: [
+          "เข้า Library: Condemned Shelves จากทางเข้าตรงกลางฝั่งซ้ายของห้อง จะเจอลูกโลกขนาดใหญ่ล้อมรอบด้วยลูกแก้วลอย",
+          "ไปฝั่งขวาของห้อง จัดการศัตรู แล้วใช้ขอบแท่นฝั่งขวากระโดดขึ้นแท่นที่อยู่ระดับเดียวกับลูกโลก",
+          "กระโดดเหยียบลูกแก้วเรืองแสง 4 ลูกด้านล่างเท่านั้น — อย่าโดนลูกอื่น — จะมีลูกแก้วเรืองแสงลูกใหญ่กว่าปรากฏเหนือลูกโลก",
+          "กระโดดเหยียบลูกใหม่นี้พุ่งขึ้นตรง ๆ เพื่อเผยพื้นที่ลับ",
+          "กระโดดเหยียบลูกแก้วขึ้นไปเรื่อย ๆ แล้วใช้ Aerial Rush แดชไปทางซ้าย และใช้ Holy Light ทะลุพื้นหิน",
+          "ไปถึงลูกแก้วชุดถัดไปทางซ้าย กระโดดเหยียบขึ้นอีกครั้ง ลงจอดบนแท่นฝั่งขวาโดยไม่ใช้ Holy Light เพื่อยึดเกาะ จากนั้นพุ่งไปทางซ้ายขณะถือ Holy Light และใช้ Aerial Rush แดชข้ามไปสุดฝั่งซ้ายของทางเดินนี้",
+          "เมื่อถึงฝั่งซ้ายของทางเดิน — อยู่เหนือเชิงเทียนพอดี — ให้ทิ้งตัวลงตรง ๆ จะเจอหีบ"
+        ],
+        note: "ความสามารถที่ต้องใช้: Aerial Rush, Holy Light" },
+      { name: "Alucard's Sword And Shield", type: "swordshield", attack: 100, require: "เปิด Secret Door ใน Alucard's Tower", location: "Main Hall: Alucard's Tower", dir: COMING_SOON },
+
+      // Spears
+      { name: "Lance", type: "spears", attack: 25, require: "N/A", location: "Holy Innocents' Cemetery",
+        steps: [
+          "จาก Holy Innocents' Cemetery ไปทางซ้ายของน้ำพุ แล้วเริ่มขึ้นบันไดใหญ่",
+          "บนสุดของบันไดมีห้องที่มีสวิตช์อยู่ เข้าไปตีสวิตช์เพื่อเริ่มศึกกับศัตรูหลายตัว",
+          "ปราบศัตรูให้หมด แล้วไปทางขวาจะเห็นกำแพงที่เพิ่งปรากฏ ทำให้กระโดดสองชั้นขึ้นไปเหนือห้องนี้ได้",
+          "กระโดดสลับไปมาระหว่างกำแพงเดิมกับกำแพงที่เพิ่งปรากฏ เพื่อขึ้นไปด้านบนของห้อง",
+          "จากตรงนั้นไปทางซ้ายจะเจอหีบ"
+        ] },
+      { name: "Halberd", type: "spears", attack: 50, require: "N/A", location: "Clock Tower: Mechanic's Ascent", dir: COMING_SOON },
+      { name: "Gungnir", type: "spears", attack: 75, require: "ทำลาย Destructible Block ด้านบนเพื่อไปให้ถึงหีบ", location: "Catacombs of Paris: Collapsed Path Of Orpheus", dir: COMING_SOON },
+      { name: "Chauve-Souris", type: "spears", attack: 100, require: "ปราบ The Zealot (Isaac)", location: "Clock Tower: Heart of The Clock", dir: "วิธีได้: ปราบ Isaac" },
+
+      // Brass Knuckles
+      { name: "Cestus", type: "knuckles", attack: 25, require: "N/A", location: "Paris Streets: Sewer Reservoir",
+        steps: [
+          "จากฐานหอคอยของ Paris Streets โดยเฉพาะบริเวณ Guard Level ให้ไปทางขวา",
+          "เดินต่อไปทางซ้ายจนเห็นตะแกรง แล้วกดปุ่มกระโดดขณะกด Down ค้าง เพื่อทะลุตะแกรงใต้ตัว Rose ลงไป",
+          "ที่ชั้นล่างนี้ ทุบรูปปั้นทางซ้าย แล้วไปทางขวาและสไลด์ลอดทางลับที่ซ่อนอยู่",
+          "ไปที่ตะแกรงฝั่งขวาแล้วทิ้งตัวลงอีกครั้ง",
+          "กระโดดข้ามแท่นไม้ไปให้ถึงหีบที่ฝั่งซ้ายของห้องใหญ่ห้องนี้",
+          "เปิดหีบแล้วกำแพงรอบห้องจะปิดขึ้นและศัตรูหลายตัวจะบุกเข้ามา ปราบให้หมดเพื่อออกไปพร้อมอาวุธ Cestus ชิ้นใหม่"
+        ] },
+      { name: "Jewel Knuckles", type: "knuckles", attack: 50, require: "N/A", location: "Main Hall - Old Gallery",
+        steps: [
+          "จาก Mirror Room ใน Main Hall: Archives ให้ออกทางประตูด้านขวา",
+          "ใช้แส้เกาะและเข้าไปในกระจกลอยที่อยู่เหนือทางเข้าที่เพิ่งผ่านมา",
+          "กระโดดเฉียงขึ้นไปทางขวาให้ถึงแท่นไม้ลอย ขณะหลบใบเลื่อยวงเดือนที่เคลื่อนที่",
+          "จากแท่นไม้ ใช้แส้พุ่งไปทางขวาอย่างรวดเร็วและเข้าไปในภาพวาดภาพที่สอง ก่อนที่แท่นไม้จะพัง",
+          "ยิงตัว Rose ออกจากภาพวาดไปยังแท่นที่มีเทียนทางขวา แท่นนี้จะไม่พัง",
+          "ใช้แส้เข้าไปในภาพวาดภาพถัดไป ซึ่งอยู่เหนือแท่นเทียน",
+          "ยิงตัว Rose ออกจากภาพวาดเฉียงขึ้นไปทางขวาและด้านบน — ภาพวาดจะแกว่งซ้าย–ขวาเล็กน้อย จึงต้องยิงตัวออกตอนภาพอยู่ซ้ายสุดของการแกว่ง เพื่อไม่ให้พุ่งไปโดนใบเลื่อย",
+          "เมื่อข้ามมาได้ รีบลงจอดบนแท่นไม้ที่กำลังพัง แล้วกระโดดไปทางขวาเพื่อทิ้งตัวลงแท่นที่อยู่ด้านล่าง",
+          "ใช้แส้เข้าไปในภาพวาดทางซ้ายของตัวเอง",
+          "หลบใบเลื่อยแล้วทิ้งตัวลงทางเดินด้านล่างที่มีพรมแดง จากนั้นเริ่มไปทางขวา แล้วทิ้งตัวลงตะแกรงที่อยู่ใต้จุดยึดสีชมพูพอดี",
+          "ห้องถัดไป ให้ไปทางซ้าย ทิ้งตัวลงตะแกรงอีกอัน แล้วไปทางขวา",
+          "หลบศัตรูที่ถือหอกหรือฆ่ามันซะ แล้วปีนบันไดขึ้นไปเข้าห้องใหม่ทางฝั่งขวา",
+          "ในห้องใหม่นี้ ทิ้งตัวลงตะแกรงตรงกลางเพื่อไปถึงประตูสีแดงบานใหม่ แล้วเข้าประตูไป",
+          "เมื่อถึงอีกฝั่งของประตูสีแดง กระโดดขึ้นไปตีสวิตช์เหนือตัว Rose",
+          "เมื่อกำแพงข้างหีบลดระดับลงแล้ว Rose จะไปทางขวาและเปิดหีบได้"
+        ] },
+      { name: "Fist Of Talos", type: "knuckles", attack: 75, require: "N/A", location: "Clock Tower: Builder's Bureau", dir: COMING_SOON },
+
+      // Great Swords
+      { name: "Burnt Sword of Fierbois", type: "greatswords", attack: 25, require: "ปราบ The Warrior (Joan of Arc)", location: "Paris Streets - Roof of the Tower", dir: COMING_SOON },
+      { name: "Claymore", type: "greatswords", attack: 50, require: "N/A", location: "Clock Tower: The Way Of The Fist", dir: COMING_SOON },
+      { name: "Durandal", type: "greatswords", attack: 75, require: "วาดแพตเทิร์นตาม Star Pattern Hint บนดาวเคราะห์ด้านล่าง แล้วใช้ Aerial Rush กับ Arcane Whip ไปให้ถึงหีบ", location: "Library - Lisa's Laboratory", dir: COMING_SOON },
+      { name: "Excalibur", type: "greatswords", attack: 100, require: "ปราบ The Brittle King", location: "N/A", dir: COMING_SOON },
+
+      // Dual Swords
+      { name: "Pair of Longswords", type: "dual", attack: 25, require: "N/A", location: "Catacombs Of Paris - Crossroads Of The Dead", dir: COMING_SOON },
+      { name: "Rapiers", type: "dual", attack: 50, require: "ชาเลนจ์จับเวลา: เปิด Lever จากอีกฝั่งหนึ่งของหีบให้ทัน", location: "Main Hall - Watch Tower", dir: COMING_SOON },
+      { name: "Almace and Hauteclaire", type: "dual", attack: 75, require: "ต้องมี Smash (Talos' Smash)", location: "Holy Innocents' Cemetery: Flooded Crypt", dir: COMING_SOON },
+      { name: "War And Famine", type: "dual", attack: 100, require: "เปิด Secret Door ใน Great Organ Room โดยค้นพบ Secret Melody", location: "Notre-Dame: Great Organ Room", dir: COMING_SOON },
+
+      // Whips
+      { name: "Whip", type: "whips", attack: 25, require: "N/A", location: "Catacombs Of Paris - Hall Of The Fallen Angels", dir: COMING_SOON },
+      { name: "Thorn Whip", type: "whips", attack: 50, require: "วาดแพตเทิร์นตาม Star Pattern Hint บนดาวเคราะห์ด้านล่าง และต้องมี Aerial Rush", location: "Library - Fine Arts Shelves", dir: COMING_SOON },
+      { name: "Morning Star", type: "whips", attack: 75, require: "ใช้ Aerial Rush ไปให้ถึง Transition Point จากฝั่ง Storerooms", location: "Main Hall: Inner Courtyard", dir: COMING_SOON },
+      { name: "Vampire Killer", type: "whips", attack: 100, require: "ปราบ Death ใน Notre-Dame", location: "Notre-Dame: Deacon's Quarter", dir: COMING_SOON },
+      { name: "Arondight and Lancelot's Shield", type: "swordshield", attack: null, attackText: "N/A", require: "N/A", location: "Notre-Dame: Tower Entrance",
+        dir: "หีบที่ Tower Entrance ใน Notre-Dame ต้องใช้กำปั้นของ Talos ทุบไปเอา" },
+      { name: "Bernhard's Wrath", type: "unknown", attack: null, attackText: "N/A", require: "ใช้ Secret Transition Mirror", location: "N/A",
+        spoiler: true }
+    ];
+
+    var TIPS_INTRO = "Belmont's Curse คือภาคล่าสุดในซีรีส์ Castlevania ที่มีมาอย่างยาวนาน แต่ถึงจะเป็นผู้เล่นรุ่นเก๋าของซีรีส์นี้ ก็ยังมีไอเดียใหม่ ๆ และไอเดียเก่าที่ถูกนำมารีมิกซ์มากมาย จนภาคนี้ให้ความรู้สึกต่างออกไป ตัวเกมมี tutorial ให้ก็จริง แต่ก็ยังมีกลไกสำคัญหลายอย่างที่เกมไม่ได้บอกไว้ตรง ๆ";
+
+    var TIPS = [
+      { n: 1, en: "Leveling Up", th: "การเลเวลอัพ",
+        body: [
+          "การเลเวลอัพเป็นส่วนหนึ่งของเกม Castlevania มานานแล้ว แต่ไม่ได้ชัดเจนเสมอไปว่ามันทำงานอย่างไร หรือแม้แต่ทำอะไรให้ตัวเอกอย่าง Rose ของเราบ้าง ตอนเลเวลอัพจะมีแค่ข้อความ “level up” เด้งขึ้นบนจอเท่านั้น ไม่มีตัวบ่งชี้อื่นที่ชัดเจนว่ามันหมายความว่าอะไรสำหรับผู้เล่น",
+          "คำตอบจริง ๆ นั้นง่ายมาก: ทุกครั้งที่เลเวลอัพ พลังโจมตีและพลังป้องกันของคุณจะเพิ่มขึ้น การเช็กค่าสถานะพวกนี้ง่ายมาก เพราะมันแสดงอยู่ที่ด้านล่างของแท็บ Equipment ในเมนู pause นอกจากนี้ยังมีเกจที่เติมเต็มทุกครั้งที่ได้รับ XP พอเกจเต็มก็จะเลเวลอัพ และพลังโจมตีกับพลังป้องกันก็จะขยับขึ้นอีกครั้ง",
+          "ระหว่างสำรวจ Paris คุณยังหา Red Books และ Blue Books ได้ด้วย เล่มสีแดงเพิ่มพลังโจมตี ส่วนเล่มสีน้ำเงินเพิ่มพลังป้องกัน คอยมองหาไว้เลย เพราะบูสต์เล็ก ๆ ทุกอย่างมีความหมาย"
+        ] },
+      { n: 2, en: "Increasing Your Health and Mana", th: "วิธีเพิ่มพลังชีวิตและมานา",
+        body: [
+          "หัวข้อที่แล้วไม่ได้พูดถึง HP หรือ MP เลย คุณอาจสงสัยว่าจะเพิ่มพลังชีวิตและพลังเวทได้อย่างไร — นั่นเป็นอีกระบบแยกต่างหาก ระหว่างสำรวจ ให้คอยมองหา Brave Heart Fragments และ Wise Heart Fragments ของสะสมสีแดงและสีน้ำเงินที่ลุกไหม้พวกนี้จะอยู่ในอุปกรณ์หน้าตาคล้ายรังเสมอ",
+          "เจอเมื่อไรให้ทำเครื่องหมายไว้บนแผนที่เลย เพราะหลายชิ้นต้องสำรวจต่อไปอีก หรือต้องมีความสามารถเพิ่มเติมก่อนถึงจะไปถึงได้ เก็บ Brave Heart Fragments ครบ 4 ชิ้นจะเพิ่มหลอดพลังชีวิต ส่วน Wise Heart Fragments ครบ 4 ชิ้นจะเพิ่มพลังเวท หลักการง่ายแค่นี้ แต่การหาพวกมันให้ครบทั้งหมดเป็นอีกเรื่องหนึ่งเลย"
+        ] },
+      { n: 3, en: "Weapon Rarities and Stats", th: "ระดับความหายากและค่าสถานะของอาวุธ",
+        body: [
+          "ระหว่างสำรวจคุณจะเจออาวุธใหม่มากมายเช่นกัน Belmont's Curse มีอาวุธหลายประเภท ตั้งแต่ดาบธรรมดา ถุงมือสายประชิดตัว ไปจนถึงหอกระยะไกล แต่ละประเภทมีสไตล์การต่อสู้และสิทธิพิเศษเฉพาะตัวต่างกันโดยสิ้นเชิง ตัวอย่างเช่น หอกขว้างใส่เป้าหมายไกลได้ ส่วนชุดดาบกับโล่ให้คุณนั่งหลังโล่ซับแรงโจมตี ก่อนแดชพุ่งเข้าไปฟันสวนได้",
+          "ยิ่งไปกว่านั้น อาวุธที่อยู่ในระดับ (tier) เดียวกันจะมีค่าสถานะเท่ากัน โดยพลังโจมตีรวมถูกกำหนดจากเลเวลของคุณ นั่นแปลว่าคุณลองอาวุธแบบต่าง ๆ หรือสลับอาวุธระหว่างสำรวจได้เลย โดยไม่ต้องเสียพลังโจมตี แน่นอนว่ายิ่งเล่นไปเรื่อย ๆ จะเจออาวุธระดับสูงขึ้น ซึ่งตีแรงกว่าชิ้นก่อน ๆ อาวุธธรรมดาทุกชิ้นมีพลังโจมตี 25 ส่วนระดับถัดไปคืออาวุธ refined ทุกชิ้นมีพลังโจมตี 50",
+          "อย่าลืมว่าคุณ parry ได้ไม่ว่าจะถืออาวุธระดับหรือประเภทไหนอยู่ก็ตาม เมื่อปลดล็อกพลัง Holy Light แล้ว"
+        ] },
+      { n: 4, en: "You Can Stop Enemy Projectiles", th: "หยุดกระสุน/อาวุธพุ่งของศัตรูได้",
+        body: [
+          "การ parry ในเกมนี้ให้ความรู้สึกสะใจมาก ช่วงเวลา (timing window) ค่อนข้างกว้าง และดาเมจจะสะท้อนกลับไปหาผู้โจมตีทันที โดยไม่ต้อง riposte ตาม วิธีนี้ใช้ได้ทั้งกับการโจมตีระยะประชิดและอาวุธพุ่ง (projectiles) แต่ที่น่ารู้คือ คุณหยุดอาวุธพุ่งได้ด้วยการโจมตีธรรมดาเช่นกัน",
+          "ถ้าลูกธนูหรือ fireball กำลังพุ่งมาหาคุณ แค่จับจังหวะให้ถูกก็ตีมันร่วงกลางอากาศได้เลย Greatswords ทำเรื่องนี้ง่ายเป็นพิเศษเพราะวงเหวี่ยงกว้าง จำไว้เลยถ้าคุณรู้สึกว่า parry กดให้ติดยากไปหน่อย"
+        ] },
+      { n: 5, en: "Some Enemies Respawn Infinitely", th: "ศัตรูบางชนิดเกิดใหม่ไม่จำกัด",
+        body: [
+          "เมื่อกำจัดศัตรูตัวหนึ่งแล้ว มันจะไม่เกิดใหม่จนกว่าคุณจะพักที่ Mirror of Life — โดยมีข้อยกเว้นบางอย่าง ตามสไตล์ Castlevania แท้ ๆ ศัตรูบางชนิดจะ spawn ไม่จำกัด เช่น Ghost Skulls และ Medusa Heads ซึ่งเป็นสองชนิดที่เจอบ่อย ให้มองพวกมันเป็นอุปสรรคแนว platforming มากกว่าศัตรูที่ต้องคอยกำจัดซ้ำ ๆ",
+          "หมายเหตุ: ฟาร์ม XP จากศัตรูที่เกิดไม่จำกัดพวกนี้ไม่ได้นะ ถ้าไม่เห็นมันดรอปลูกแก้วสีเหลือง (yellow orbs) แปลว่ามันไม่นับ อย่างไรก็ตาม ในเกมนี้มีจุด grinding ดี ๆ อยู่เหมือนกัน ถ้าคุณกำลังมองหาอยู่"
+        ] },
+      { n: 6, en: "Health Potions Are Limited (Or Are They?)", th: "ยาฟื้นพลังชีวิตมีจำกัด (หรือเปล่า?)",
+        body: [
+          "สู้กันขนาดนั้น คุณต้องฮีลบ่อยแน่ ๆ Rose เริ่มการผจญภัยด้วย Health Potions 3 ขวด และน่าเสียดายที่จำนวนพื้นฐานนี้ไม่เพิ่มขึ้นเลย อย่างน้อยมันก็เติมเต็มทุกครั้งที่พักที่ Mirror of Life",
+          "โชคดีที่ระหว่างเดินทางคุณหาโปชันเสริมชั่วคราวได้ ศัตรูที่ปราบได้และโคมไฟที่แตกจะดรอปให้เป็นบางครั้ง โปชันพวกนี้ใช้ฮีลได้ครั้งเดียว แต่จะไม่เติมเมื่อพักที่กระจก — มันจะหายไปแทน นอกจากนี้ พลังชีวิตและพลังเวทของคุณจะเติมเต็มทุกครั้งที่ปราบและดูดซับ (absorb) บอสได้ด้วย อันนี้ดีเลย"
+        ] },
+      { n: 7, en: "Learning Advanced Grapple Maneuvers", th: "เรียนรู้ท่าโหนขั้นสูง",
+        body: [
+          "หนึ่งในพลังใหม่แรก ๆ ที่ได้ในเกมนี้คือ Arcane Whip — ก็แหงล่ะ นี่คือ Castlevania นี่นา พลังนี้ใช้เป็นตะขอเกี่ยว (grappling hook) เป็นหลัก ให้คุณโหนจากตะขอสีเหลือง และพุ่งตรงตัวเข้าไปหาตะขอสีม่วงได้ สำหรับตะขอสีเหลือง บ่อยครั้งคุณต้องโหนแบบขั้นสูงขึ้นเล็กน้อย คือโหนกลับตัวเพื่อสลับทิศกลางอากาศ",
+          "คอยมองหาตะขอพิเศษที่ทำหน้าที่เป็นคันโยก (lever) ไปด้วย คุณต้องโหนไปมาเรื่อย ๆ เพื่อเปิดใช้งานมันให้สุด เคล็ดลับแถม: การโหนพุ่งเข้าหาศัตรูแล้วกดปุ่มโจมตีระหว่างทาง จะเป็นการโจมตีพิเศษที่นับเป็น whip attack ถ้าจะทำท่าพวกนี้เป็นส่วนหนึ่งของ Works of Mercy ที่ผูกกับ Arcana บางอย่าง ให้จำข้อนี้ไว้"
+        ] },
+      { n: 8, en: "Unlocking Works of Mercy", th: "การปลดล็อก Works of Mercy",
+        body: [
+          "Works of Mercy คือความท้าทายในเกมที่ผูกกับ Arcana เฉพาะอย่าง หรือก็คือเวทมนตร์ของ Rose นั่นเอง แต่ละงานจะเขียนไว้ข้างตัวเวทในเมนู Arcana บอกชัดเจนเลยว่าคุณต้องทำอะไรเพื่อติ๊กงานนั้นให้สำเร็จ บางงานต้องสำรวจ บางงานท้าให้ลองท่าบางอย่างระหว่างต่อสู้ แต่ทุกงานให้รางวัลแบบเดียวกันคือ Purification Gem",
+          "ให้มอง gem พวกนี้เหมือน skill points พอมีหนึ่งเม็ด คุณใช้มันเพิ่มพลังให้เวทได้ — แต่เฉพาะเวทที่คุณทำ Work of Mercy สำเร็จเท่านั้น พูดอีกอย่างคือ ถ้าคุณทำชาเลนจ์ด้วย Holy Cross ก็อัปเกรดได้เฉพาะ Holy Cross เท่านั้น อย่างไรก็ตาม คุณเลือกได้ว่าจะเอาสิทธิพิเศษเสริมอันไหนก่อน จึงยังมีทางเลือกของผู้เล่นอยู่"
+        ] },
+      { n: 9, en: "Solving Tarot Cards", th: "การไขไพ่ Tarot",
+        body: [
+          "ถัดจาก Arcana ในเมนู pause คือสำรับ Tarot ของคุณ ไพ่แต่ละใบในนี้แทนบอสหนึ่งตัว และเบาะแสใหม่แต่ละอันมีไว้ช่วยคุณหาว่าพวกมันซ่อนตัวอยู่ที่ไหน คุยกับวิญญาณเร่ร่อน (wandering spirits) ในแต่ละ biome เพื่อรับเบาะแสใหม่ ส่วนนี้เกมอธิบายไว้แล้ว แต่ที่เกมไม่ได้บอกคือ คุณไม่จำเป็นต้องหาเบาะแสให้ครบทุกอันก็ไปถึงตัวบอสได้",
+          "จริง ๆ แล้วเป็นไปได้เลยที่จะบังเอิญไปเจอรังของบอสขณะกำลังสำรวจอยู่ ไม่สปอยล์นะ แต่ผู้เล่นหลายคนเจอรังของ Medusa โดยบังเอิญล้วน ๆ และคงไม่ใช่คนเดียวที่เป็นแบบนี้"
+        ] },
+      { n: 10, en: "Fast Traveling Through the Hall of Mirrors", th: "วาร์ปเร็วผ่าน Hall of Mirrors",
+        body: [
+          "พูดถึงการค้นพบแล้ว ในเกมมีระบบ fast travel ทั้งระบบที่เกมซ่อนไว้จากคุณ คุณจะเจอ Ferryman ก่อนไปถึง Dracula's Castle แต่ละพื้นที่มีท่าเรือ (harbor) ที่ใช้เดินทางจากโซนหนึ่งไปอีกโซนหนึ่งได้ แต่ยังมีกลไก fast travel อีกแบบที่ให้คุณวาร์ปไปรอบ ๆ ภายในโซนเดียวได้ด้วย",
+          "หลังจากไปถึง Dracula's Castle แล้ว ให้หมอบ (crouch) อยู่หน้า Mirror of Life ตัวไหนก็ได้สักครู่ คุณจะถูกเทเลพอร์ตไปยัง Hall of Mirrors จากที่นี่ คุณจะเทเลพอร์ตไปยังกระจกตัวไหนก็ได้ที่คุณเคยค้นพบในพื้นที่นั้น ยิ่งเล่นลึกเข้าไปเท่าไร ก็ยิ่งมีปลายทางให้เลือกมากขึ้นเท่านั้น"
+        ] },
+      { n: 11, en: "Check Out These Accessibility Options", th: "ลองดูตัวเลือกการเข้าถึง (Accessibility) พวกนี้",
+        body: [
+          "สุดท้าย ถ้าส่วนไหนของ Belmont's Curse ทำให้คุณลำบาก ขอให้รู้ว่าเกมมีตัวเลือกการเข้าถึง (accessibility options) ที่ช่วยได้มากในเมนู Settings คุณสามารถปรับรูปลักษณ์ของ Rose และศัตรูของเธอให้อ่านแอ็กชันได้ง่ายขึ้น และยังมีการปรับระดับความยากด้วย",
+          "ไปที่แท็บตั้งค่า gameplay แล้วเปิด Custom Mode ได้เลย โหมดนี้ให้คุณพกโปชันเพิ่ม ลดดาเมจของศัตรู เพิ่มดาเมจของตัวเอง หรือหลีกเลี่ยงการตายไปเลยก็ได้ การเปิดใช้สิ่งเหล่านี้เมื่อจำเป็นไม่มีอะไรผิดเลย"
+        ] }
+    ];
+
+    var COLLECT_GROUPS = [
+      { id: "brave", en: "Brave Heart Fragments", th: "เศษหัวใจแห่งความกล้า", unit: "ชิ้น",
+        desc: "เก็บครบ 4 ชิ้นเพิ่มเลือดสูงสุดให้ Rose — ทั้งหมด 24 ชิ้น โซนละ 3 ชิ้น" },
+      { id: "wise", en: "Wise Heart Fragments", th: "เศษหัวใจแห่งปัญญา", unit: "ชิ้น",
+        desc: "เก็บครบ 4 ชิ้นเพิ่มมานาสูงสุดให้ Rose — ทั้งหมด 24 ชิ้น โซนละ 3 ชิ้น" },
+      { id: "red", en: "Red Books", th: "หนังสือแดง — เพิ่ม Attack", unit: "เล่ม",
+        desc: "Red Book แต่ละเล่มเพิ่ม Attack ให้ Rose แบบถาวร — ทั้งหมด 14 เล่ม" },
+      { id: "blue", en: "Blue Books", th: "หนังสือน้ำเงิน — เพิ่ม Defense", unit: "เล่ม",
+        desc: "Blue Book แต่ละเล่มเพิ่ม Defense ให้ Rose แบบถาวร — ทั้งหมด 14 เล่ม" },
+      { id: "keepsake", en: "Keepsakes", th: "ของที่ระลึก — ไอเทมกุญแจจากบอส", unit: "ชิ้น",
+        desc: "ไอเทมกุญแจที่ได้จากการปราบบอส — ทั้งหมด 5 ชิ้น" }
+    ];
+
+    var COLLECTIBLES = [
+      // —— Brave Heart Fragments (24) ——
+      { group: "brave", name: "Prison Tower ชิ้นที่ 1", zone: "paris", location: "Prison Tower", require: "Arcane Whip" },
+      { group: "brave", name: "Prison Tower ชิ้นที่ 2", zone: "paris", location: "Prison Tower", require: "Arcane Whip + Holy Light และผ่าน arena battle ด้านล่าง" },
+      { group: "brave", name: "Court of Justice", zone: "paris", location: "Court of Justice", require: "Arcane Whip + Holy Light" },
+      { group: "brave", name: "Ossuary of the Innocents", zone: "cemetery", location: "Ossuary of the Innocents", require: "Arcane Whip" },
+      { group: "brave", name: "Mausoleum of the Kings", zone: "cemetery", location: "Mausoleum of the Kings", require: "เปิด Timed Lever Door แล้วไปให้ถึงชิ้นส่วนก่อนเวลาหมด" },
+      { group: "brave", name: "Ancient Sewers", zone: "cemetery", location: "Ancient Sewers", require: "ใช้ Smash เข้าห้อง" },
+      { group: "brave", name: "Catacomb Entrance", zone: "catacombs", location: "Catacomb Entrance", require: "Arcane Whip + Holy Light" },
+      { group: "brave", name: "Blood Pits", zone: "catacombs", location: "Blood Pits", require: "Holy Light" },
+      { group: "brave", name: "Circle of Greed", zone: "catacombs", location: "Circle of Greed", require: "ทำชาเลนจ์แพลตฟอร์มเล็กในพื้นที่โดยใช้ Aerial Rush" },
+      { group: "brave", name: "Balcony", zone: "mainhall", location: "Balcony", require: "มาถึง Balcony จาก Torture Chambers โดยเผยจุด transition ด้วยการทำลาย Destructible Block ใน Servants' Quarters" },
+      { group: "brave", name: "Armoury", zone: "mainhall", location: "Armoury", require: "ลดแท่นหินลงเพื่อไปให้ถึงชิ้นส่วน" },
+      { group: "brave", name: "Mirror Rooms", zone: "mainhall", location: "Mirror Rooms", require: "Double Jump + Aerial Rush" },
+      { group: "brave", name: "Poetry Shelves", zone: "library", location: "Poetry Shelves", require: "หาทางลับในเพดานฝั่งตะวันออก" },
+      { group: "brave", name: "Library Foyer", zone: "library", location: "Library Foyer", require: "ไม่ระบุเงื่อนไข" },
+      { group: "brave", name: "Planetarium", zone: "library", location: "Planetarium", require: "วาดแพตเทิร์นตาม Star Pattern Hint" },
+      { group: "brave", name: "Serpent Pinion", zone: "clock", location: "Serpent Pinion", require: "Arcane Whip และเปิด Gear Door ด้านล่าง" },
+      { group: "brave", name: "Eastern Steps", zone: "clock", location: "Eastern Steps", require: "Holy Light + Aerial Rush" },
+      { group: "brave", name: "The Gauntlet", zone: "clock", location: "The Gauntlet", require: "ไปให้ถึงปลายทางของ The Gauntlet ขณะ Slowing Clock ทำงานอยู่" },
+      { group: "brave", name: "Tree of Saints", zone: "notredame", location: "Tree of Saints", require: "ผ่านชาเลนจ์แพลตฟอร์มและ arena battle ใน Small Tower ทางตะวันออกของต้นไม้" },
+      { group: "brave", name: "La Flèche", zone: "notredame", location: "La Flèche", require: "ดึง Timed Lever ด้านล่างแล้วรีบขึ้นยอดหอก่อนประตู Timed Lever Door ปิด (ง่ายขึ้นมากหลังชำระ Great Organ และมี Double Jump)" },
+      { group: "brave", name: "The Forest", zone: "notredame", location: "The Forest", require: "ชำระความเสื่อมใน Great Organ Room แล้วผ่านห้องกับดักเลเซอร์" },
+      { group: "brave", name: "Nightmare Atrium", zone: "mirrors", location: "Nightmare Atrium", require: "Double Jump + Aerial Rush" },
+      { group: "brave", name: "Steps of Misdirection", zone: "mirrors", location: "Steps of Misdirection", require: "ทำชาเลนจ์แพลตฟอร์มด้านล่างโดยใช้ Double Jump + Aerial Rush" },
+      { group: "brave", name: "Looping Hallways", zone: "mirrors", location: "Looping Hallways", require: "หาทางลับจากส่วนล่างของ Looping Hallways" },
+
+      // —— Wise Heart Fragments (24) ——
+      { group: "wise", name: "Street of the Tomb Masons", zone: "paris", location: "Street of the Tomb Masons", require: "เข้าผ่านประตู Door 2 ของ Street of the Tomb Masons ใน Morgue" },
+      { group: "wise", name: "Guard Storehouse", zone: "paris", location: "Guard Storehouse", require: "Double Jump + Arcane Whip + Aerial Rush + Smash" },
+      { group: "wise", name: "Torture Level", zone: "paris", location: "Torture Level", require: "Holy Light" },
+      { group: "wise", name: "Cloister", zone: "cemetery", location: "Cloister", require: "Arcane Whip" },
+      { group: "wise", name: "Roman Baths", zone: "cemetery", location: "Roman Baths", require: "ไม่ระบุเงื่อนไข" },
+      { group: "wise", name: "Mausoleum of the Kings", zone: "cemetery", location: "Mausoleum of the Kings", require: "เปิด Timed Lever Door แล้วไปให้ถึงชิ้นส่วนก่อนเวลาหมด" },
+      { group: "wise", name: "Chamber of Whispers", zone: "catacombs", location: "Chamber of Whispers", require: "ทุบกำแพงข้างรูปปั้นที่อยู่ใกล้ ๆ" },
+      { group: "wise", name: "Throat of Hell", zone: "catacombs", location: "Throat of Hell", require: "Arcane Whip" },
+      { group: "wise", name: "Hall of the Fallen Angels", zone: "catacombs", location: "Hall of the Fallen Angels", require: "ทำชาเลนจ์แพลตฟอร์มโดยใช้ Double Jump + Aerial Rush + Smash + Arcane Whip" },
+      { group: "wise", name: "Entrance Corridor", zone: "mainhall", location: "Entrance Corridor", require: "ไม่ระบุเงื่อนไข" },
+      { group: "wise", name: "Balcony", zone: "mainhall", location: "Balcony", require: "มาถึง Balcony จาก Torture Chambers โดยเผยจุด transition ด้วยการทำลาย Destructible Block ใน Servants' Quarters" },
+      { group: "wise", name: "Wine Cellar", zone: "mainhall", location: "Wine Cellar", require: "ไม่ระบุเงื่อนไข" },
+      { group: "wise", name: "Planetarium", zone: "library", location: "Planetarium", require: "วาดแพตเทิร์นตาม Star Pattern Hint บนดาวเคราะห์ด้านล่าง" },
+      { group: "wise", name: "Fine Arts Shelves", zone: "library", location: "Fine Arts Shelves", require: "ทำชาเลนจ์แพลตฟอร์มแบบง่าย" },
+      { group: "wise", name: "Rhetoric Shelves", zone: "library", location: "Rhetoric Shelves", require: "Smash" },
+      { group: "wise", name: "West Tower Base", zone: "clock", location: "West Tower Base", require: "ใช้ลิฟต์ Mechanic's Ascent" },
+      { group: "wise", name: "Central Fuel Reservoir", zone: "clock", location: "Central Fuel Reservoir", require: "หาช่องลับในกำแพงฝั่งตะวันตก ต้องมี Double Jump" },
+      { group: "wise", name: "Upper Gallery", zone: "clock", location: "Upper Gallery", require: "นั่งกำปั้นตัวแรกขึ้นไปจนถึงเพดานตอนต้นของโซน Way of the Fist แล้วใช้ Luminous Anchors ไปให้ถึงแท่น" },
+      { group: "wise", name: "Chapel of Patience", zone: "notredame", location: "Chapel of Patience", require: "ชำระความเสื่อมใน Great Organ Room ก่อน" },
+      { group: "wise", name: "Tree of Saints", zone: "notredame", location: "Tree of Saints", require: "ผ่านชาเลนจ์แพลตฟอร์มและ arena battle ใน Great Tower ฝั่งตะวันตก หลังมี Double Jump แล้ว" },
+      { group: "wise", name: "Apse", zone: "notredame", location: "Apse", require: "Double Jump" },
+      { group: "wise", name: "Boudoir of Bewilderment", zone: "mirrors", location: "Boudoir of Bewilderment", require: "ผ่าน arena battle ด้านล่าง" },
+      { group: "wise", name: "Chamber of Secrecy", zone: "mirrors", location: "Chamber of Secrecy", require: "Double Jump + Aerial Rush + Arcane Whip" },
+      { group: "wise", name: "Nightmare Atrium", zone: "mirrors", location: "Nightmare Atrium", require: "ทำชาเลนจ์แพลตฟอร์มฝั่งตะวันตกโดยใช้ Double Jump + Holy Light + Aerial Rush" },
+
+      // —— Red Books (14) ——
+      { group: "red", name: "Sewer Reservoir", zone: "paris", location: "Sewer Reservoir", require: "Arcane Whip" },
+      { group: "red", name: "Prison Tower", zone: "paris", location: "Prison Tower", require: "Arcane Whip และผ่าน arena battle เหนือตัวหนังสือ" },
+      { group: "red", name: "Stairs to the Tower Roof", zone: "paris", location: "Stairs to the Tower Roof", require: "Holy Light" },
+      { group: "red", name: "Ossuary of the Innocents", zone: "cemetery", location: "Ossuary of the Innocents", require: "Arcane Whip" },
+      { group: "red", name: "Overgrown Crypt", zone: "cemetery", location: "Overgrown Crypt", require: "เข้า Warp Door โดยใช้ Aerial Rush + Double Jump" },
+      { group: "red", name: "Old Gallery", zone: "mainhall", location: "Old Gallery", require: "ใช้ portrait dash ด้านล่างเพื่อไปให้ถึงชาน" },
+      { group: "red", name: "Wine Cellar", zone: "mainhall", location: "Wine Cellar", require: "ใช้แส้ตี Lever ใต้ตัวหนังสือเพื่อยกแท่นขึ้น แล้วอ้อมพื้นที่ไปให้ถึงชาน" },
+      { group: "red", name: "Counterweight Chamber", zone: "clock", location: "Counterweight Chamber", require: "เปิด Lever Door ด้วยการดึง Lever ที่ปลายทางเดิน และใช้ Arcane Whip" },
+      { group: "red", name: "Narthex", zone: "notredame", location: "Narthex", require: "Double Jump + Arcane Whip + Aerial Rush" },
+      { group: "red", name: "Tomb of the Chevaliers ชิ้นที่ 1", zone: "notredame", location: "Tomb of the Chevaliers", require: "ทำชาเลนจ์แพลตฟอร์มแบบง่ายหลังเปิด Secret Door ใกล้ ๆ" },
+      { group: "red", name: "Tomb of the Chevaliers ชิ้นที่ 2", zone: "notredame", location: "Tomb of the Chevaliers", require: "หาช่องคลาน (crawlspace) เข้าไปจากด้านล่างโดยใช้ Aerial Rush" },
+      { group: "red", name: "Tree of Saints", zone: "notredame", location: "Tree of Saints", require: "ผ่านชาเลนจ์แพลตฟอร์มและ arena battle ใน Small Tower ทางตะวันออก" },
+      { group: "red", name: "Looping Hallways", zone: "mirrors", location: "Looping Hallways", require: "Double Jump + Aerial Rush" },
+      { group: "red", name: "Ballroom of Terror", zone: "mirrors", location: "Ballroom of Terror", require: "หาช่องว่างของใบมีดเคลื่อนที่ที่อยู่เหนือตัวหนังสือ" },
+
+      // —— Blue Books (14) ——
+      { group: "blue", name: "Ruined Market", zone: "paris", location: "Ruined Market", require: "Arcane Whip" },
+      { group: "blue", name: "Upper Tower", zone: "paris", location: "Upper Tower", require: "อยู่กลางชาเลนจ์แพลตฟอร์ม หลังกำแพงที่ทำลายได้" },
+      { group: "blue", name: "Abandoned Sewers", zone: "paris", location: "Abandoned Sewers", require: "Holy Light และผ่าน arena battle ข้าง ๆ" },
+      { group: "blue", name: "Ancient Sewers", zone: "cemetery", location: "Ancient Sewers", require: "ไม่ระบุเงื่อนไข" },
+      { group: "blue", name: "Flooded Crypt", zone: "cemetery", location: "Flooded Crypt", require: "Smash และเคลียร์ arena battle ด้านล่าง" },
+      { group: "blue", name: "Daedalus Crossing", zone: "clock", location: "Daedalus Crossing", require: "ใช้ Double Jump ขึ้นไปบนกำปั้นจากห้องด้านล่าง หรือผ่านแท่นด้านบน" },
+      { group: "blue", name: "Eastern Summit", zone: "clock", location: "Eastern Summit", require: "ไปให้ถึงตัวหนังสือขณะที่ Slowing Clock ทำงานอยู่" },
+      { group: "blue", name: "Servant's Quarters", zone: "mainhall", location: "Servant's Quarters", require: "ใช้ Timed Lever ด้านล่าง ฝ่าชาเลนจ์แพลตฟอร์มไปจนเสาที่ยกตัวขึ้นไปถึงยอด" },
+      { group: "blue", name: "Mirror Rooms", zone: "mainhall", location: "Mirror Rooms", require: "มาถึงจากจุด Torture Chambers Transition Point" },
+      { group: "blue", name: "Great Organ Room", zone: "notredame", location: "Great Organ Room", require: "ชำระความเสื่อมของท่อ Green (Bass Clef) ใน Great Organ Room + Arcane Whip + Aerial Rush" },
+      { group: "blue", name: "Tree of Saints", zone: "notredame", location: "Tree of Saints", require: "ผ่านชาเลนจ์แพลตฟอร์มและ arena battle ใน Great Tower ฝั่งตะวันตก หลังมี Double Jump แล้ว" },
+      { group: "blue", name: "East Triforium", zone: "notredame", location: "East Triforium", require: "ใช้ Arcane Whip บนการ์กอยล์ และ Double Jump" },
+      { group: "blue", name: "Corridor of Déjà Vu", zone: "mirrors", location: "Corridor of Déjà Vu", require: "Double Jump + Aerial Rush" },
+      { group: "blue", name: "Passage of Perplexity", zone: "mirrors", location: "Passage of Perplexity", require: "หาห้องลับในเพดานของพื้นที่" },
+
+      // —— Keepsakes (5) ——
+      { group: "keepsake", name: "The Fallen's Key", zone: "paris", location: "Paris Streets", require: "ปราบ The Fallen" },
+      { group: "keepsake", name: "The Warrior's Key", zone: "paris", location: "Paris Streets", require: "ปราบ The Warrior (Joan of Arc)" },
+      { group: "keepsake", name: "The Prophetess's Key", zone: "cemetery", location: "Holy Innocents' Cemetery", require: "ปราบ Medusa" },
+      { group: "keepsake", name: "Brauner's Paintbrush", zone: "library", location: "Library", require: "ปราบ Carmilla" },
+      { group: "keepsake", name: "Ferryman's Obol", zone: "catacombs", location: "Catacombs of Paris", require: "ปราบ The Miser" }
+    ];
+
+    var BOSSES = [
+      { n: 1, name: "The Fallen",
+        identity: "บอสตัวแรกที่ Rose ต้องเผชิญหน้า",
+        area: "Paris Streets: Gate of the Catacombs Room — หลังผ่านช่วงท่อระบายน้ำ",
+        phases: "เฟส 2 เริ่มเมื่อพลังชีวิตเหลือ 70–60%",
+        moves: [
+          "คอมโบฟัน 3 จังหวะ — จังหวะที่ 3 จะหันมากวาดด้านหลังถ้า Rose อยู่ข้างหลัง",
+          "Holy Cross — กระสุนหมุนพุ่งไปแล้ววกกลับ ทำลายทิ้งได้ด้วยการโจมตีระยะประชิดหรือเวทระยะไกล",
+          "เฟส 2: คำรามแล้วทุบพื้นจนสนามสั่น",
+          "เฟส 2: โหน anchor สีเหลืองด้านบน แกว่งตัวลงมาตบ",
+          "ท่าแส้ดึง Rose จากอีกฝั่งของสนาม แล้วพุ่งเข้ามาตบหนัก"
+        ],
+        strategy: [
+          "อาศัยช่องว่างระหว่างคอมโบ ม้วนตัวลอดไปตีด้านหลัง — แต่ระวังจังหวะที่ 3 ที่หันหลัง",
+          "รักษาระยะแล้วใช้ Cursed Flame",
+          "ทำลาย Holy Cross ก่อนมันถึงตัว",
+          "กระโดดข้ามท่าแส้ดึง แล้วสวนก่อนบอสเริ่มคอมโบ",
+          "รอให้บอสลงพื้นหลังท่าโหนก่อนกลับเข้าไปตี"
+        ],
+        reward: "ดูดซับ Arcana ของบอส — ปลดล็อกเวท Holy Cross" },
+
+      { n: 2, name: "The Warrior",
+        identity: "บอสตัวที่ 2 เฝ้าอยู่บนยอด Prison Tower",
+        area: "Paris Streets: Roof of the Tower — บนยอด Prison Tower ต้องใช้ Guardian keys 2 ดอกเพื่อไปถึง สนามมีกำแพงไฟสองข้าง แตะแล้วเจ็บ ต้องยืนกลางสนาม",
+        phases: "เปลี่ยนร่าง (ร่างห่อด้วยไฟ) เมื่อพลังชีวิตเหลือครึ่งหนึ่ง",
+        moves: [
+          "คอมโบฟัน 3 จังหวะที่ลื่นกว่า The Fallen — จังหวะ 2–3 แทงด้านหลังได้",
+          "ท่าสไลด์พุ่งข้ามสนาม พร้อมปักดาบลงพื้นเมื่อ Rose อยู่ไกล",
+          "เรียกลูกไฟลอยด้านบน แล้วทุบดาบลงให้ลูกไฟร่วงเป็นเสาไฟ — ยืนตรงช่องว่างระหว่างเสา",
+          "พอเลือดครึ่งหนึ่ง จะดึงลูกไฟไปที่ anchor สีเหลืองกลางสนาม ร่างถูกห่อด้วยไฟ บินไปโหน anchor กลางแล้วทุบลงให้ไฟปะทุสองข้าง",
+          "หลังเปลี่ยนร่าง ดาบติดไฟ ฟันไกลและใหญ่ขึ้น"
+        ],
+        strategy: [
+          "ใช้ Whip Attack สวนท่าสไลด์กลางทาง หรือหลบลอดใต้",
+          "ยืนช่องว่างระหว่างเสาไฟตอนลูกไฟร่วง",
+          "ช่วงเสาไฟเป็นจังหวะฮีลได้",
+          "ใช้ Whip Attack รับดาบติดไฟ",
+          "หลังเปลี่ยนร่างแพตเทิร์นเดิม — วิธีเดิมใช้ได้"
+        ],
+        reward: "ดูดซับ Arcana — ปลดล็อกเวท Infernal Pyre และได้อาวุธ Burnt Sword of Fierbois" },
+
+      { n: 3, name: "The Prophetess",
+        identity: "ตัวจริงคือ Medusa — ลักวิญญาณไปทำพิธี",
+        area: "Holy Innocents' Cemetery",
+        phases: "คลุ้มคลั่งเมื่อพลังชีวิตราว 70% · ปล่อยคลื่นสาปเป็นหินทั่วสนามที่ 50% และ 25%",
+        moves: [
+          "ตบด้วยกรงเล็บ และใช้เส้นผมที่เป็นงูทุบลงมา",
+          "รังสีสาปหิน — ตาส่องแสง คลื่นสีเขียวขาว ให้หันหน้าหนีเพื่อไม่โดนดาเมจและไม่แข็งเป็นหิน (ถ้าแข็งจะขยับไม่ได้ไม่กี่วินาที แต่ดิ้นหลุดได้)",
+          "ถ้า Rose อยู่แพลตฟอร์มฝั่งตรงข้ามนาน บอสจะสลับข้าง และหางฟาดแพลตฟอร์มล่างทั้งสองฝั่ง",
+          "ช่วงคลุ้มคลั่ง: กรงเล็บรัวด้านหน้าและหางฟาดถี่ จากนั้นหินจะร่วงลงแพลตฟอร์มล่างฝั่งตรงข้าม — ยืนหลังหินกำบังคลื่นทั่วสนามจนหินแตก แล้วบอสจะสลับข้าง",
+          "ช่วงท้ายมีหัว Medusa เล็ก ๆ โผล่มา (ทำลายทิ้ง มันสาปเป็นหินได้) และเศษหินร่วงจากเพดาน"
+        ],
+        strategy: [
+          "ใช้ Lance คู่กับ Arcana Holy Cross เพื่อตีจากระยะไกล ",
+          "หันหน้าหนีรังสีสาปหิน และสู้จากหลังที่กำบังเมื่อทำได้",
+          "อย่าแช่อยู่แพลตฟอร์มฝั่งตรงข้ามนาน",
+          "ช่วงคลุ้มคลั่ง ให้ถอยไปฝั่งตรงข้ามไกลสุดแล้วรอให้จบ",
+          "กำบังหลังหินตอนคลื่นทั่วสนาม และทำลายหัว Medusa เล็ก"
+        ],
+        reward: "Tarot card 1 ใบ, เวท Petrifying Gaze และกุญแจดอกที่ 3 (ดอกสุดท้าย) สำหรับเปิด Catacombs" },
+
+      { n: 4, name: "The Builder",
+        identity: "หุ่นยนต์ชื่อ Talos",
+        area: "Clock Tower",
+        note: "เกร็ด: Main Hall คือพื้นที่แรกของปราสาท Dracula และการไป Clock Tower ก่อนจะช่วยให้ช่วงหลังง่ายขึ้น",
+        phases: "เปลี่ยนเฟสที่พลังชีวิต 70–60% และอีกครั้งที่ราว 15%",
+        moves: [
+          "หลังโดนตีครั้งแรกจะกางโล่หลายอัน — โจมตีไม่เข้าจนกว่าจะทำลายโล่หมด จากนั้นจะชัตดาวน์ไม่กี่วินาที นั่นคือจังหวะตี",
+          "ลูกไฟกงล้อหมุนออกจากอก — หลบตามช่องว่างหรือใช้แพลตฟอร์มบัง",
+          "ทรงกลมไฟฟ้า — หัวหดเข้าและมีออร่าบอกวงระเบิด ต้องออกจากวงภายในไม่กี่วินาที",
+          "ลำแสงไฟขนาดใหญ่ยิงด้านบนหรือด้านล่าง — มีหมอกสีเทาบอกจุดที่จะยิง ให้ยืนจุดที่ไม่มีหมอก ไฟค้างอยู่ไม่กี่วินาที ถ้าโดนให้ใช้ยาฟื้นพลังดับดาเมจไฟต่อเนื่อง",
+          "ท่าตีระยะประชิดบนแพลตฟอร์มข้าง — ออกท่าชัดมาก หลบหรือกระโดดข้ามแพลตฟอร์มได้",
+          "ที่ 70–60% บอสหนีลงด้านล่าง ต้องไล่ตามทางซ้ายที่เต็มกับดักและด่านกำปั้นเหล็ก (แถวกลางก่อน แล้วเป็นคู่ทุบลง แพลตฟอร์มที่พังได้ต้องรอให้มันร่วงก่อน สไลด์ขวาตอนกำปั้นดึงขึ้น ใช้ anchor สีม่วงขึ้นไป เกาะ anchor กลางรอให้กำปั้นทุบประกบกัน แล้วไปทางขวา)",
+          "เฟส 2: แพตเทิร์นเดิม แต่กงล้อไฟเป็นสองด้าน และกำปั้นมีท่าสไลด์ข้ามไปอีกแพลตฟอร์ม — กระโดดสลับแพลตฟอร์มไปตีแบบเดิมไม่ได้แล้ว",
+          "ที่ราว 15% บอสหยุดและกลับขึ้นด้านบน ตัวจับเวลาเริ่มเดิน — ต้องวิ่งกลับขึ้นเขาวงกตไปจุดเริ่มต้น เวลาที่เหลือคือเวลาที่เหลือในการปิดบัญชี Talos ถ้าหมดเวลาบอสจะระเบิดและต้องเริ่มไฟต์ใหม่"
+        ],
+        strategy: [
+          "ใช้อาวุธระยะไกล Whip / Lance / Greatsword ตีจากด้านล่าง คู่กับ Arcana Cursed Fire หรือ Holy Cross",
+          "ทำลายโล่ก่อน แล้วตีตอนบอสชัตดาวน์",
+          "หลบช่องว่างกงล้อไฟ ออกจากวงทรงกลมไฟฟ้าให้ทัน และยืนเลี่ยงหมอกเทาก่อนลำแสงไฟ",
+          "ในด่านกำปั้น รอแพลตฟอร์มพังก่อนเคลื่อนที่ และใช้ anchor ตามจังหวะ",
+          "เฟสสุดท้าย รีบวิ่งกลับขึ้นไปก่อนหมดเวลา"
+        ],
+        reward: "ปลดล็อก Arcana ของ Talos (ชื่อ Arcana: N/A)" },
+
+      { n: 5, name: "The Occultist",
+        identity: "ตัวจริงคือ Carmilla — ทำพิธีให้เกิด Blood Moon ถาวรเพื่อ Dracula",
+        area: "Library: บนยอด Observation Tower",
+        phases: "ไม่มีเฟส 2",
+        special: "ไม่มีเฟส 2 และไม่มีตัวเลข HP — เวทเลือดเหนือหัวบอสโชว์เลข “8” คือจำนวนครั้งที่ Rose โดนโจมตีได้ ถ้าเหลือ 0 บอสจะจับ Rose และจบไฟต์ทันที ไม่ว่าเลือด Rose เหลือเท่าไหร่",
+        moves: [
+          "โล่กะโหลกคู่ปกป้องตัว — ต้องทำลายทั้งสองอันก่อนถึงจะทำดาเมจบอสได้ และบอสจะเสกโล่ใหม่เป็นระยะ",
+          "เสาเลือดพุ่งจากฐานสระเลือดสูงถึงเพดาน กระโดดข้ามไม่ได้ ต้องเดินหลบ — และจุดที่เคยปลอดภัยจะกลายเป็นจุดที่เสาพุ่งได้",
+          "บอสดำลงสระเลือดแล้วโผล่อีกฝั่ง — ให้ตามรอยเลือดไป"
+        ],
+        strategy: [
+          "ใช้ Lance / Whip / Greatsword คู่กับ Arcana Holy Cross หรือ Fist of Talos",
+          "ใช้ Fist of Talos หรือ Holy Cross โจมตีโล่กะโหลกให้โดนทั้งสองอัน",
+          "ทำลายโล่ครบค่อยทำดาเมจ ทำซ้ำทุกครั้งที่บอสเสกใหม่",
+          "ขยับหลบเสาเลือดตลอด อย่าไว้ใจจุดเดิม",
+          "ตามรอยเลือดตอนบอสดำน้ำ เพื่อรู้ว่าจะโผล่ฝั่งไหน",
+          "นับเลข 8 เป็นเส้นตายจริง — หลีกเลี่ยงการโดนตีแม้เลือดเต็ม"
+        ],
+        reward: "เวท Blood Spikes, ไอเทม Paint Brush (ให้นำกลับไป Main Hall) และปลดล็อก Air Dash ซึ่งเปิดเส้นทางไปพื้นที่อื่นเพิ่ม" },
+
+      { n: 6, name: "The Shadow",
+        identity: "ตัวจริงคือ Death สมุนที่ซื่อสัตย์ที่สุดของ Dracula — กำลังทำพิธีคืนพลังเต็มให้ Dracula ตอน Rose ไปถึง Trevor ถูกกับดักของ Death จับดูดเลือดอยู่",
+        area: "Notre-Dame: Great Organ room — ต้องปลดล็อก Melody Sheets ครบ 3 แผ่นสำหรับห้อง Grand Organ ก่อน",
+        phases: "จุดเปลี่ยนที่พลังชีวิต 80%, 50% และ 20%",
+        moves: [
+          "มือเรืองแสงสีเขียวยื่นคว้า — ถ้าแตะโดน Rose จะเจ็บหนักและกระเด็นกลับ (ช่วงออกท่าบอสเคลื่อนที่ช้า)",
+          "ฟันเคียวใหญ่ไปด้านหน้า ระยะไกลมาก",
+          "ที่ 80%: วาร์ปขึ้นอากาศหายตัว เส้นสีเขียวคมปรากฏแล้วระเบิดเป็นวงกว้าง ตามด้วยอีกสองเส้นต่างทิศ วนอยู่หลายวินาที แล้วโผล่กลับมาฟันเคียวระยะกลาง — ต้องหลบ ไม่ใช่เข้าไปบล็อก",
+          "ท่าโจมตีระยะไกลจากกลางห้อง — ยิงกระสุนตามติดหลายลูกใส่ตำแหน่ง Rose",
+          "ที่ราว 50%: หายตัวซ้ำ ชุดท่าฟันและระเบิดวงกว้างคือภัยหลัก — ใช้ anchor สีม่วงกับแพลตฟอร์มเคลื่อนรอบห้องหลบ",
+          "จากนั้นเคียวฟันระยะกลาง กระสุนเพิ่ม เคียวฟันใหญ่ขึ้น และท่าใหม่: ขว้างเคียวออกไปเป็นเคียวหมุนเล็กลอยใส่ Rose",
+          "ที่ 20%: หายตัวฟันกลางอากาศอีกครั้ง แล้ววนแพตเทิร์นเดิมแต่เร็วและคาดเดายากขึ้น ไม่มีท่าใหม่"
+        ],
+        strategy: [
+          "ใช้อาวุธระยะกลาง Lance / Greatsword / Whip / Longsword — ส่วน Sword and Shield ก็ดีเพราะบล็อกกระสุนได้ (แต่ยังรับดาเมจบางส่วน)",
+          "ใช้ Arcana Holy Cross กับ Fist of Talos ทำดาเมจหนักตอนบอสอยู่กับที่",
+          "หลบถอยหลังหนีมือคว้า ส่วนเคียวฟันให้เลือกเข้าไปชิดจนพ้นระยะ หรือถอยไกลแล้วยิงไกลสวน",
+          "ขยับหนีเส้นสีเขียวให้เร็วที่สุด และเคลื่อนที่ต่อไปจนกว่าจะหยุด",
+          "กระสุนตามติดให้หลบ ตีทิ้ง หรือใช้ Shield Bash ดูดซับ (โล่อาจบล็อกไม่หมด)",
+          "ตั้งแต่ 50% ใช้ anchor สีม่วงกับแพลตฟอร์มหลบระเบิดวงกว้าง"
+        ],
+        reward: "Death ไม่ได้ถูกดูดซับเข้า Tarot cards ของ Rose (บอกลาและบอกว่าจะเจอกันอีกเมื่อ Rose ข้ามไปโลกหลังความตาย) แต่ Rose ยังปลดล็อกเวทใหม่จาก Death (ชื่อเวท: N/A) และได้ความสามารถ Double Jump เมื่อออกจากห้อง ใช้สำรวจ Notre-Dame ต่อ" }
+    ];
+
+    var MIRRORS = [
+      { zone: "Paris Streets", names: ["Central Sewer Drain Mirror", "Burned District Mirror", "Prison Tower Mirror", "Undercity Mirror", "Gate to the Stone Bridge Mirror"] },
+      { zone: "Holy Innocents' Cemetery", names: ["Cloister Mirror", "Pauper's Grave Mirror", "Ancient Sewers Mirror", "Overgrown Crypt Mirror"] },
+      { zone: "Catacombs of Paris", names: ["Quarry Elevator Mirror", "Realm of Old Night Mirror"] },
+      { zone: "Dracula's Castle Main Hall", names: ["Entrance Corridor Mirror", "Boudoirs Mirror", "Ballrooms Mirror", "Elevator Tower Mirror"] },
+      { zone: "Dracula's Castle Main Hall (Back Rooms)", names: ["Waterworks Mirror", "Torture Chambers Mirror", "Servant's Quarters Mirror", "Storerooms Mirror", "Archives Mirror"] },
+      { zone: "Clock Tower", names: ["Foundry Apex Mirror", "Mechanic's Ascent Mirror", "Eastern Summit Mirror"] },
+      { zone: "Library", names: ["Rhetoric Shelves Mirror", "Exhibition Room Mirror"] },
+      { zone: "Notre Dame", names: ["Notre Dame Undercroft Mirror", "West Triforium Mirror", "East Gallery Mirror"] },
+      { zone: "Hall of Mirrors", names: ["Nightmare Atrium Mirror", "Threshold of Vision Mirror", "Familiar Way Mirror", "The Descent into Memory Mirror", "Heart of the Maze Mirror"] },
+      { zone: "Master's Quarters", names: ["Sanctuary of Solitude"] }
+    ];
+
+    var GUIDES = [
+      { label: "A1", en: "How to Unlock Mirror Fast Travel", th: "วิธีปลดล็อกการวาร์ปผ่านกระจก Mirror of Life",
+        intro: "แยกให้ชัดก่อนว่า การเดินทางในเกมมี 2 ระบบ — Ferryman ที่ท่าเรือของแต่ละพื้นที่ใช้เดินทางข้ามโซน ส่วนกระจก Mirror of Life ใช้วาร์ปภายในพื้นที่เดียวกัน ไกด์นี้พูดถึงระบบกระจก",
+        cond: [
+          "ปราบบอส 3 ตัวแรก — The Fallen, The Warrior และ The Prophetess",
+          "เจอ Ferryman ก่อนไปถึง Dracula's Castle",
+          "ไปถึง Dracula's Castle / Main Hall ก่อน — ในกระจกห้องลึกของ Main Hall หญิงชราลึกลับจะกระซิบใบ้ว่า “kneel in the presence of royalty” ซึ่งแปลว่าให้ นั่งยอง (crouch)"
+        ],
+        steps: [
+          "นั่งยองหน้า Mirror of Life บานไหนก็ได้ รอสักครู่ Rose จะถูกวาร์ปไปยังพื้นที่ย่อยลับ Hall of Mirrors",
+          "จาก Hall of Mirrors จะวาร์ปไปกระจกบานไหนก็ได้ในพื้นที่เดียวกันที่เคยค้นพบแล้ว แต่ละ Hall of Mirrors จะมีแถวกระจกเชื่อมไปห้องต่าง ๆ ในพื้นที่นั้น",
+          "สำรวจกระจกเพื่อดูว่ามันนำไปห้องไหน (ถ้าเคยค้นพบห้องนั้นแล้ว) แล้วนั่งยองหน้ากระจกเพื่อวาร์ป",
+          "กระจกที่สำรวจดูปลายทางไม่ได้ แปลว่ายังวาร์ปไปบานนั้นไม่ได้"
+        ],
+        result: "วาร์ปไปมาระหว่าง Mirror of Life ที่ค้นพบแล้วภายในพื้นที่เดียวกันได้",
+        mirrors: true },
+
+      { label: "A2", en: "How to Solve the Library Planetarium Puzzle", th: "วิธีแก้ปริศนา Planetarium ใน Library",
+        intro: "ห้อง Planetarium ใน Library มีลูกแก้วดาวเคราะห์ใหญ่ 3 ดวง — Man, Woman และ Skeleton แต่ละดวงล้อมด้วยวงลูกแก้วแสงเล็ก ผู้เล่นต้องกระโดดเหยียบเฉพาะลูกที่ถูกต้องเท่านั้น ห้ามแตะลูกอื่น คำใบ้ของแต่ละดวงซ่อนอยู่ในโน้ตตามจุดต่าง ๆ ของ Library และไม่มีความสามารถพิเศษที่ต้องมีก่อน",
+        sols: [
+          { head: "เฉลย Man", text: "หา Star Chart ที่ส่วนล่างของ Astronomer's Office ทางตะวันออกของ Planetarium ภาพเป็นรูปผู้ชายกับจุดเรืองแสง 4 จุดแนวขวาล่าง — เหยียบเฉพาะวัตถุล่าง 4 ชิ้นนั้น ลูกแก้วจะหมุนและเผยลูกแก้วเด้งที่ใหญ่กว่า" },
+          { head: "เฉลย Woman", text: "หาโน้ต Organic Astrology ในซอกด้านล่างซ้ายของ Drawing Room ตรงทางผ่านด้านบนฝั่งตะวันตก ภาพเป็นผู้หญิงมีเส้นพาด พร้อมรูปหัวและมือที่มีเส้นพาดกลาง และสัญลักษณ์มุมขวาบน (หัวมีเส้นอยู่ซ้ายบน มือมีเส้นอยู่ขวาล่าง) — เหยียบเฉพาะ 4 ชิ้นที่ปรากฏในทั้งสองสัญลักษณ์ เด้งจากฝั่งขวาไปซ้ายจะง่ายสุด จะเผยจุดเด้งที่ใหญ่กว่า" },
+          { head: "เฉลย Skeleton", text: "หา Blood Poem ในห้องที่ไปถึงด้วยการไต่กำแพงขึ้น/ลงตรงทางซ้ายบนของ Natural Philosophy Shelves ฝั่งตะวันตก โน้ตไม่มีสัญลักษณ์ แต่ใบ้ให้มองขึ้นไปบนฟ้า — ไปโซนเลานจ์ทางขวาล่าง นั่งเก้าอี้มองท้องฟ้ายามค่ำคืนผ่านหน้าต่างใหญ่ จะเห็นกลุ่มดาว 4 จุด — เด้งบน 4 ชิ้นนั้น เริ่มจากฝั่งขวาก่อนแล้วมาจบที่ชิ้นซ้ายชิ้นเดียว จะปลดปริศนาสุดท้าย" }
+        ],
+        result: "แต่ละชุดที่เด้งถูกจะเผยลูกแก้วแสงใหญ่/จุดเด้ง และเปิดทางขึ้นที่สูงใหม่ใน Planetarium — รางวัลเฉพาะ: N/A" },
+
+      { label: "A3", en: "How to Get the Durandal Sword", th: "วิธีได้ดาบ Durandal",
+        goal: "Durandal ดาบใหญ่ (Great Sword, Attack 75 — ดูรายละเอียดในหมวดอาวุธ) อยู่ใน Lisa's Laboratory พลังโจมตีสูงกว่าอาวุธอื่นที่หาได้ก่อนถึง Library และท่า whip-attack ของมันก็แรงด้วย",
+        condLabel: "เงื่อนไขก่อนทำ (บังคับ ไม่มีทางลัด)",
+        cond: ["ต้องปราบ Carmilla (The Occultist) ใน Library เพื่อได้ Air Dash ก่อน"],
+        steps: [
+          "ย้อนลงไป Curiosity Cabinet ซึ่งอยู่ห่างไปไม่กี่ห้องทางขวาของ Planetarium",
+          "กระโดดขึ้นกลุ่มลูกแก้วแสงกลางห้อง — ขั้นนี้ทำได้แม้ยังไม่ได้อ่านโน้ตเฉลยกลุ่มดาว เด้งเฉพาะ 4 ลูกเท่านั้น เด้งถูกขนาดลูกแก้วจะใหญ่ขึ้น",
+          "ถ้าพลาด ให้ลงจอดบนชานด้านขวาเพื่อรีเซ็ต ลองใหม่ได้ไม่จำกัด",
+          "พอเปิดทางได้ พุ่งขึ้นไปด้านบน ใช้ Air Dash ข้ามไปลงลูกแก้ว แล้วเกาะเกี่ยวผ่านไป",
+          "ลงบนแพลตฟอร์มเปราะ แล้ว Air Dash ไปชุดลูกแก้วอีกฝั่ง เกาะเกี่ยวข้ามเข้า Lisa's Laboratory",
+          "เปิดหีบในนั้นเพื่อรับ Durandal"
+        ],
+        result: "ได้ Durandal (Great Sword, Attack 75) จากหีบใน Lisa's Laboratory" },
+
+      { label: "A4", en: "How to Solve the Notre Dame Secret Organ Puzzle", th: "วิธีแก้ปริศนาออร์แกนลับใน Notre Dame",
+        goal: "เป้าหมายคือ Melody Sheet แผ่นที่ 3 ซึ่งเป็น Work of Mercy ชิ้นที่ 3 ของ Arcana ประจำตัว The Shadow เพื่อปลดล็อกการเข้าพบ The Shadow / Death ใน Grand Organ Room (ห้องนี้เข้าจาก Grand Narthex) ในห้องจะมีแผงล็อกที่ต้องใส่รหัส โดยท่อออร์แกนเป็นสัญลักษณ์จักรราศี: Taurus, Gemini, Cancer, Leo, Virgo, Sun, Moon, Libra, Scorpio, Sagittarius, Capricorn และ Aquarius",
+        note: "ไม่มีรหัสตายตัวให้ลอก — ต้องหาเอาเองในเกมด้วยวิธีนับเทียนตามด้านล่าง",
+        stepsLabel: "วิธีหาโค้ด",
+        steps: [
+          "ไป Gallery of Stained Glass (ห้องกลางของ Organ Gallery) ทางใต้ของ Grand Narthex วิญญาณที่นั่นจะให้รหัสของ Melody ที่ 3 — หน้าต่างยาวของห้องถูกแบ่งเป็นช่องด้วยเส้นตะกั่ว แต่ละช่องแทนสัญลักษณ์หนึ่งของออร์แกน",
+          "นับจำนวนเทียนบนขอบหน้าต่างแต่ละช่อง — นั่นคือกุญแจ มีทั้งหมด 10 ช่องอินพุต ห้ามตกหล่นสักช่อง (เรียงตามเลข 1 ถึง 10)",
+          "ใส่ลำดับ 10 สัญลักษณ์บน Grand Organ: เริ่มจากตรงกลางไปทางขวา แล้วย้อนกลับมาทางซ้าย โดยเรียงสัญลักษณ์ตามจำนวนเทียนจาก 1 ถึง 10"
+        ],
+        reward: "War & Famine ดาบคู่ที่เป็นหนึ่งในอาวุธดีที่สุดของเกม (Attack 100 — ดูหมวดอาวุธ) และนับเป็น Work of Mercy ชิ้นที่ 3 ถ้าทำสองชิ้นแรกครบแล้ว" }
+    ];
+
+    var SECRETS_INTRO = "เกมไม่มีสูตรโกงทั่วไปนอกจาก Konami Code ด้านล่าง เนื้อหาหลักของส่วนนี้คือสกินตัวละคร — Rose มีชุดเริ่มต้น 1 ชุด สลับสกินได้ตลอดเวลา และสกินที่ปลดล็อกแล้วจะปลดล็อกถาวรข้ามทุกไฟล์เซฟ";
+
+    var SECRETS = [
+      { label: "B1", en: "Konami Code", th: "สูตร Konami — สกิน Sonia Belmont",
+        intro: "กดลำดับนี้ตอนไหนของเกมก็ได้ (แนะนำให้กดในห้องที่ไม่มีศัตรู)",
+        codeSeq: ["↑", "↑", "↓", "↓", "←", "→", "←", "→", "B", "A"],
+        platforms: [
+          { name: "PlayStation", seq: "D-pad ขึ้น ขึ้น ลง ลง ซ้าย ขวา ซ้าย ขวา แล้ว Cross, Circle" },
+          { name: "Xbox", seq: "D-pad ลำดับเดียวกัน แล้ว B, A" },
+          { name: "Nintendo Switch", seq: "D-pad ลำดับเดียวกัน แล้ว B, A" },
+          { name: "PC", seq: "W W S S A D A D แล้ว Shift, Space" }
+        ],
+        warn: "ปุ่มสองปุ่มสุดท้ายสลับหน้าที่กันตามแพลตฟอร์ม — บน PlayStation กับ Switch ต้องกดกระโดดแล้วค่อยหลบ ส่วน PC ต้องกดหลบแล้วค่อยกระโดด แม้จะเสียบจอย PlayStation เล่นบน PC ก็ตาม",
+        result: "เมื่อกดสำเร็จ จะมีแจ้งเตือนเด้งที่มุมขวาล่างของจอ สกิน Sonia Belmont จะอยู่ในเมนู Options > System > Character Skin" },
+
+      { label: "B2", en: "Bad Ending", th: "ฉากจบแย่ — ชุด Cursed Outfit",
+        intro: "เกมมีฉากจบ 3 แบบ และฉากจบแย่ (Bad Ending) ไปถึงได้ค่อนข้างเร็ว เส้นทางคือ",
+        stepsLabel: "เส้นทางไป Bad Ending",
+        steps: [
+          "ไปถึง Dracula's Castle แล้วขึ้นไปโซน Clock Tower เหนือ Main Hall",
+          "ไปถึง Daedalus Crossing (มีลิฟต์ทางลัดกลับลง Main Hall)",
+          "ก่อนถึง Middle Gallery ให้เลี้ยวขวา ใช้แพลตฟอร์มเคลื่อนที่ไต่กำแพงขึ้น Upper Gallery",
+          "ข้ามแกลเลอรีกลางแจ้งใหญ่ไป Way of the Fist",
+          "ขึ้นไปย้อนซ้ายถึง Clock Tower Bridge ที่มีนาฬิกาต้องสาปขนาดใหญ่ “Horologium” ซึ่งตอบสนองต่อคำสาปของ Rose",
+          "เดินหน้าต่อไปโดยยังไม่ปราบ Death ก่อน จะได้เห็น Bad Ending ที่คำสาปกลืนกิน Rose"
+        ],
+        result: "Rose จะฟื้นที่ Mirror of Life บานล่าสุด (Ferryman ให้โอกาสที่สอง) และปลดล็อกชุด Cursed Outfit ใช้ได้ทุกไฟล์เซฟ" },
+
+      { label: "B3", en: "Midnight Edition", th: "ฉบับพิเศษ — สกิน Trevor และ Sypha",
+        body: ["ซื้อเกมฉบับพิเศษ Midnight Edition จะได้ชุดพิเศษ 2 ชุด: Trevor Style Costume (อิงจาก Trevor Belmont พ่อของ Rose) และ Sypha Style Costume (อิงจาก Sypha Belnades แม่ของ Rose)"] },
+
+      { label: "B4", en: "Pre-order Bonus", th: "โบนัสสั่งจองล่วงหน้า — สกิน Alucard",
+        body: ["สั่งจองล่วงหน้าจากร้านต่าง ๆ หรือบน Steam จะได้ Alucard Style Costume อิงจาก Alucard ลูกชายครึ่งมนุษย์ของ Dracula ชุดโทนดำสนิท"] }
+    ];
+
+    var WALK_AREAS = ["Paris Streets", "Prison Tower", "Holy Innocents' Cemetery", "Catacombs of Paris", "Clock Tower", "Main Hall", "Library", "Notre-Dame"];
+
+    var WALKTHROUGH = [
+      { n: 1, area: "Paris Streets", sub: "Finding The Fallen",
+        goal: "ช่วงแรกของเกม — ตามหาและปราบ The Fallen แล้วเปิด Gate to the Catacombs",
+        routes: [{ steps: ["The Dock (ฉากเปิด + สอนเล่น)", "Streets of Paris / ท่อระบายน้ำ", "Undercity of Paris", "Ruined Market (ทางแยกซ้าย)", "กลับเข้า Undercity ผ่านโซนถัง", "Sewer Reservoir (ลงผ่านตะแกรง ข้ามแพลตฟอร์มเปราะ)", "Path of the Rat", "Gate of the Catacombs Room (ประตูบอส)"] }],
+        loot: [
+          "ไพ่ Tarot ชุดแรกจาก Trevor ตั้งแต่ต้นเกม",
+          "ไพ่ The Fallen พร้อมคำใบ้แรก “A Lever For The Well” จากวิญญาณสีน้ำเงินบนหลังคาเหนือโซนถัง",
+          "Mirror of Life — Central Sewer Drain (ฮีล เติมขวดยา เซฟ จุดเกิดใหม่)",
+          "XP จากรูปปั้นเรืองแสงที่ทำลายได้",
+          "คำใบ้ที่สอง “A Monster Terrorizes Paris” ก่อนถึงประตูบอส",
+          "หนังสือเรืองแสงสีน้ำเงิน 2 เล่ม (Ruined Market 1 เล่ม, ใต้คันโยกใน Sewer Reservoir 1 เล่ม) — ตอนนี้ยังเก็บไม่ได้ ปักหมุดไว้กลับมาเอาทีหลัง"
+        ],
+        gates: [
+          "วงแหวนเรืองแสงใน Undercity ยังใช้ไม่ได้",
+          "ทางขวาออกจาก Undercity ไกลเกินเอื้อมในตอนแรก",
+          "คันโยกเปิดกำแพง/ประตูทางลัด 2 จุด (ใต้ถัง 1 จุด, ใน Sewer Reservoir 1 จุด)"
+        ],
+        boss: "The Fallen — ดูดซับ Arcana ของเขา ได้เวท Holy Cross, กุญแจ The Fallen's Key และเป้าหมายเปิด Gate to the Catacombs",
+        next: "ต้องเก็บกุญแจจาก Guardian อีก 2 ตัว — The Warrior (Prison Tower) กับ The Prophetess (สุสาน) เล่นตัวไหนก่อนก็ได้" },
+
+      { n: 2, area: "The Prison Tower", sub: "Finding The Warrior",
+        goal: "ปีน Prison Tower ใน Burned District ปราบ The Warrior (เป็นบอสตัวที่ 2 หรือ 3 ต่อจาก The Fallen ก็ได้ สลับลำดับกับ The Prophetess)",
+        routes: [{ steps: ["Abandoned Sewers (ออกขวาจากห้อง The Fallen)", "Path of the Rat / Sewer Reservoir", "Court of Miracles", "Burned District", "ด้านนอกและตัวหอคอย (โซน Guard Storehouse)", "Prison Tower Lift", "Upper Tower", "Roof of the Tower (ประตูบอส)"] }],
+        loot: [
+          "Arcane Whip (ใน Abandoned Sewers — เกาะจุดยึดสีเหลืองเรืองแสงและสีม่วงได้ และดึงตัวเข้าหาศัตรูได้)",
+          "หนังสือ Attack Up ถาวร (หนังสือเรืองแสงใต้คันโยกกลาง Sewer Reservoir)",
+          "Crypt Key relic (ทางแยกใน Burned District — มุดใต้กำแพง หลบกรด อยู่ในหีบแดงลับ ฟื้นเลือดและมานาเมื่อเปิดหีบ)",
+          "Cestus (หีบทองแถบไม้กระดานใน Sewer Reservoir ไปด้วยจุดยึดสีเหลือง เข้าห้องแล้วมีศัตรูมาหลายระลอก)",
+          "หนังสือ Attack Upgrade (ในหอคอย หลังอารีน่า harpy)",
+          "หนังสือ Defense Upgrade (Upper Tower ผ่านกำแพงลับ)",
+          "Carpenter's Crane Sketch (จากวิญญาณใน Upper Tower)"
+        ],
+        lootAfterLabel: "หลังปราบบอส — ช่วงย้อนเก็บของ",
+        lootAfter: [
+          "Joan ให้ความสามารถ Halo of Light (กด L2 ค้างเพื่อผ่าน Abyss Shards และใช้ parry ได้) จากนั้นย้อนเก็บของต่อไปนี้",
+          "Obsidian Fang relic (ปริศนาหลุมหนาม Guard Level ใช้ Halo — หลังทำลายการ์ดศัตรูแตก ดาเมจ +45% นาน 3 วินาที)",
+          "Brave Heart — Paris Streets #1 (ชั้น 2 ของหอคอย ปริศนาจุดยึด/ดาวแบบจับเวลา)",
+          "Shadow Veil relic (ใต้ Prison Tower Mirror of Life หลังผ่านอารีน่า — ป้องกัน +33% เมื่อ HP ต่ำกว่า 33%)",
+          "Twilight Gem relic (Central Sewer Drain ปริศนาฟันเฟือง/ใบมีด — หลังร่ายเวท ดาเมจ +30% นาน 3 วินาที)",
+          "ระหว่างทางไปสุสานใน Undercity: Brave Heart — Paris Streets #2, Wise Heart (Torture Level ในหอคอย), Wise Heart อีกชิ้น (Morgue โซน Street of Tomb Masons) และ Defense Upgrade (ตะวันตกของ Ruined Market)"
+        ],
+        gates: [
+          "Prison Tower Lift จะเผยออกเมื่อแกว่งต่อเนื่องบนโซ่จุดยึดสีม่วงและเหลืองเหนือ Mirror of Life แล้วดึงคันโยกเชื่อมส่วนต่าง ๆ ของหอคอย",
+          "โซนที่สามของ Burned District ค่อนข้างมืด",
+          "ของหลายชิ้นในบทนี้ต้องรอ Halo of Light หลังปราบบอสเท่านั้น"
+        ],
+        boss: "The Warrior — ได้เวท Infernal Pyre, ดาบ Burnt Sword of Fierbois และ Warrior's Key; Joan เข้าร่วมเป็นพวกหลังไฟต์",
+        next: "Holy Innocents' Cemetery" },
+
+      { n: 3, area: "Holy Innocents' Cemetery", sub: "Finding The Prophetess",
+        goal: "ตามหาและปราบ The Prophetess (Medusa) ในสุสาน เพื่อปลดล็อกทางเข้า Catacombs",
+        routes: [{ steps: ["Cemetery Entrance (ฝั่งซ้าย เจอโลงศพ)", "Cloister (Mirror of Life)", "Sepulcher of the Knight", "Memorial for the Dead", "กลับขึ้นส่วนบนของ Cloister", "Cemetery Entrance อีกครั้ง (คันโยก, Abyss Shards)", "Fountain of the Innocents", "Pillaged Tombs", "Fountain of the Lost", "Serpent's Lair (Ancient Sewers Mirror of Life)", "ประตูบอส The Prophetess"] }],
+        loot: [
+          "Wise Heart (Cloister ชั้นบน ผ่านกำแพงลับ — ชนกำแพงเพื่อเปิดทางซ่อน)",
+          "Abyssal Eye relic (หีบหลัง Abyss Shards — ดาเมจต่อศัตรูที่ถูกควบคุม +35%)",
+          "Nightshade relic (โซน Pillaged Tombs — ขวดยา HP จะฟื้นมานาสูงสุด 40% ด้วย)",
+          "Lance (หีบทอง หลังดึงคันโยกให้กำแพงตกลงมา)",
+          "หลังปราบบอสอย่าลืม Rusted Harpe and Aegis (ดาบและโล่ที่รูปปั้นถืออยู่ตรงทางออกห้องบอส — เก็บตอนนี้เพราะอยู่ใกล้จุดเริ่ม Catacombs)"
+        ],
+        gates: [
+          "กำแพงกั้นด้านล่าง Cemetery Entrance ยังทำลายไม่ได้ ต้องกลับมาพร้อมอัปเกรดภายหลัง",
+          "ทางลงใน Sepulcher of the Knight ถูกพื้นผิวที่ทำลายไม่ได้ปิดอยู่ กลับมาทีหลัง",
+          "หีบ Abyssal Eye ต้องใช้ Halo of Light ผ่าน Abyss Shards",
+          "หีบใหญ่ถูกล็อกโซ่ใน Serpent's Lair ไม่ใช่ของเนื้อเรื่อง อย่าเพิ่งเปิด ให้ไปทางซ้ายแทน"
+        ],
+        boss: "The Prophetess (Medusa) — ได้เวท Petrifying Gaze และกุญแจ Guardian",
+        next: "ย้อนผ่าน Ancient Sewers Mirror ไป Central Sewer Drain ใส่อัญมณีที่เหลือเข้าประตู แล้วลง Catacombs of Paris" },
+
+      { n: 4, area: "Catacombs of Paris", sub: "สู่พิธีคืนชีพ Dracula",
+        goal: "หลังปราบ Guardian ครบ 3 ตัว (อัญมณีของทั้งสามปลดล็อกประตู) ลงไปใต้ปารีส หาตัวการที่ทำพิธีคืนชีพ Lord Dracula หยุดพิธี แล้วมุ่งหน้า Dracula's Castle — พื้นที่นี้ไม่มีบอส Tarot ฉากไคลแม็กซ์เป็นไฟต์สคริปต์ที่ชนะไม่ได้ (ดูช่องบอสปิดท้าย)",
+        routes: [{ steps: ["Catacombs Entrance", "Path of the Abyss", "Quarry Elevator (Mirror of Life)", "Crossroads of the Dead", "Charnel Galleries", "Chamber of Whispers", "Gallery of Teeth", "De Rais Necropolis", "Jaws of Limbo", "Throat of Hell", "Condemned Mineshaft", "Blood Pits", "Hall of the Fallen Angels", "Stairway to Hell", "(ฉาก Death)", "Collapsed Path of Orpheus", "Ferryman", "Justice District Sewers", "Bridge of the Millers", "Court of Justice / Justice District", "Docks", "Gate to the Stone Bridge (Mirror of Life)", "ประตู Dracula's Castle", "Main Hall Entrance", "Castle Garden", "Entrance Corridor (Main Hall)"] }],
+        loot: [
+          "Brave Heart (Catacombs Entrance)",
+          "Shadow Arcana — Death Mark (ไพ่ Tarot จากวิญญาณแถว Charnel Galleries หลังจากนั้นรอยเครื่องหมายสีเขียวบนกำแพงจะปรากฏบนแผนที่)",
+          "Pair of Longswords (หีบทองชั้นบนของ Crossroads of the Dead)",
+          "Wise Heart (Throat of Hell)",
+          "Brave Heart (Blood Pits — ซ่อนอยู่หลังกำแพง Abyss)",
+          "Whip (หีบทองใน Hall of the Fallen Angels — อาวุธชิ้นสุดท้ายที่ปลดล็อก แส้ประจำตระกูล Belmont)",
+          "The Miser Arcana — Hospital Relic (ไพ่และคำใบ้ Arcana จากเศษไดอารี่กับโน้ตที่ Trevor ทิ้งไว้ใน Justice District)",
+          "เปิดใช้ Ferryman fast travel (สำรวจเตาอั้งโล่หลังฉาก Ferryman)",
+          "เปิดใช้ Hall of Mirrors fast travel (นั่งยองหน้า Mirror of Life ทดลองครั้งแรกที่ Gate to the Stone Bridge Mirror)"
+        ],
+        gates: [
+          "Halo of Light จำเป็นตลอดทางเพื่อผ่านกำแพง/พื้น Abyss Shards ใช้ร่วมกับจุดยึดแส้สีเหลืองและม่วง ลูกกลิ้งใบมีด แพลตฟอร์มเปราะ และหลุมหนาม",
+          "คันโยกใน Condemned Mineshaft เชื่อมลิฟต์กับ Quarry Elevator และลิฟต์อีกตัวใน Stairway to Hell เชื่อมกลับไป Condemned Mineshaft",
+          "ประตูที่ปิดอยู่ด้านล่าง Stairway to Hell เปิดด้วยคันโยกที่ไปถึงผ่านจุดยึดสีม่วง",
+          "คันโยกกังหันน้ำที่ Bridge of the Millers ต้องหมุนทวนเข็มนาฬิกาเพื่อขึ้นสู่พื้นดิน"
+        ],
+        boss: "ฉากไฟต์กับ The Shadow (Death) ชนะไม่ได้ — โจมตีของ Rose ไม่เข้าเลย Death จะชนะ พิธีสำเร็จ Dracula คืนชีพและปราสาทผุดขึ้นเหนือปารีส Trevor ช่วย Rose ไว้โดยแลกกับแขนของเขา และ Rose ได้รู้ว่า Guardian ที่เธอปราบกำลังช่วยเหลือเธอมาตลอด — The Fallen คือบรรพบุรุษของเธอ Leon ที่ถูก Dracula จับและครอบงำเมื่อสี่ศตวรรษก่อนและถูกปลดปล่อยด้วยไพ่ Tarot ต่อที่ Main Hall Entrance มีบอสไฟต์สั้น ๆ กับ Isaac (มี Carmilla อยู่ด้วยแต่เธอถอยไป) — Isaac เทเลพอร์ต ใช้ polearm โจมตี 3 แบบ (ฟันคู่ระยะใกล้ / ท่าสูงให้ก้มหลบ / ท่าต่ำให้กระโดดข้าม) มีหอกหมุนติดตามตัว และกงล้อเศษแก้วสีเขียวตรงกลางห้อง หลังไฟต์ Isaac เผยว่าร่างนี้เป็นภาพลวง เขาตัวจริงซ่อนอยู่ Clock Tower สะพานปราสาทจะลดระดับลง บทสนทนาที่ Entrance Corridor จะปลดล็อกชื่อไพ่ Tarot ทั้งหมด",
+        next: "Clock Tower — เป้าหมายต่อไปเริ่มจาก The Builder" },
+
+      { n: 5, area: "Clock Tower", sub: "Finding the Builder",
+        goal: "จาก Main Hall ไป Clock Tower ปราบ The Builder — Talos หุ่นที่เกิดใหม่จาก Jean de Chelles ผู้กำลังขยายปราสาทตามคำสั่ง Dracula หน้านี้เปิดเรื่องต่อทันทีหลังฉากพิธีใน Catacombs ที่ Main Hall Entrance Corridor",
+        routes: [
+          { label: "ช่วง Main Hall", steps: ["Entrance Corridor", "Grand Hall (กลไกเฟือง/แป้นเหยียบ ปริศนารูปปั้นช้าง/การ์กอยล์/เสือ)", "Abandoned Workshop (คำใบ้ว่า Builder หนีไป Clock Tower)", "Ballrooms (ลูกตาลอยได้, Ballrooms Mirror of Life)", "Gallery of Eternal Night (ภาพวาด Notre-Dame ของ Brauner — ตัว Artist ซ่อนอยู่ใน Main Hall ไว้กลับมาทีหลัง)", "West Hall (สี่แถวซ้ำเหมือนกันเป๊ะ มีเวฟศัตรูระดับบอสเล็ก)", "Watch Tower (ใช้ Halo of Light ฝ่า Abyss Shards พลาดคือเกิดใหม่ที่ด้านล่าง)", "Elevator Tower", "Bridge to the Clock Tower", "The Clock Door"] },
+          { label: "ช่วง Clock Tower", steps: ["West Tower Base", "Western Ascent (ลูกตุ้ม เฟืองหมุน Medusa Heads การ์กอยล์ โครงกระดูกสายฟ้า ศัตรูสายนักบวช แป้นกดรูปกำปั้น)", "Mechanic's Ascent (ลูกตุ้ม Halo รูปปั้น Dracula/คำใบ้ Zealot-Isaac)", "Lower Gallery", "Eastern Access Shaft (แป้นกดกำปั้น อีกา อันเดดสายฟ้า รูปปั้น XP ทางลับจากคันโยก)", "Foundry Apex (ประตู Ferryman, Mirror of Life, ลิฟต์ที่ยังถูกบล็อก)", "ห้อง Counterweight", "Smelting Room", "Path of the Builder (คันโยก Architect's Gate เชื่อมกลับ Western Ascent)", "Final Trap (ลิฟต์กลับ Foundry Apex)", "ประตูบอส Builder"] }
+        ],
+        loot: [
+          "Ghostly Pendant relic (ห้องลับใน Abandoned Workshop เข้าทางภาพวาดลอย — กับดักทำดาเมจน้อยลง 75%)",
+          "Ballrooms Mirror of Life",
+          "ประตู Ferryman (Grand Hall ชั้นบน ผ่านลิฟต์ Main Hall)",
+          "Mirror of Life — Mechanic's Ascent",
+          "Wise Heart (Mechanic's Ascent ซ้ายของลิฟต์ ตอนย้อนลงจากด้านล่าง)",
+          "Mirror of Life — Foundry Apex",
+          "หลังปราบบอส: Fist of Talos Arcana, ความสามารถ Talos' Smash และใน Builder's Bureau มีคำใบ้ Sage Arcana (“A Sketch From Talos”) กับอาวุธ Fist of Talos (อยู่ขวาของภาพสเก็ตช์)"
+        ],
+        gates: [
+          "จะเข้าถึงตัว Artist ได้ต้องปราบ Builder ก่อน",
+          "ประตูปลาย Elevator Tower ยังถูกบล็อกในตอนนี้",
+          "ลิฟต์ที่ Foundry Apex ถูกประตูกั้นจนกว่าจะผ่าน Final Trap",
+          "Talos' Smash (กระโดด แล้วกดอนาล็อกซ้ายลง + X ทุ่มลง) คือท่าเปิดทางหลัก — ทุบรูนเรืองแสงที่กั้น Final Trap ทุบเศษซากทางลง Builder's Bureau และเปิดพื้นที่ใหม่หลายจุด"
+        ],
+        boss: "The Builder (Talos) — ได้ Fist of Talos Arcana, ท่า Talos' Smash และอาวุธ Fist of Talos",
+        next: "Main Hall — ตามหา The Artist" },
+
+      { n: 6, area: "Main Hall", sub: "Finding the Artist",
+        goal: "หลังปราบ Builder ให้กลับ Main Hall ตามหา The Artist — เขาคือ Brauner จิตรกร ไม่ใช่นักสู้ พื้นที่นี้ไม่มีบอสไฟต์ (แม้จะนับเป็นบอสตัวถัดไป) Brauner ยอมแพ้แทบไม่ได้สู้และมอบ Arcana ให้ Rose โดยสมัครใจ Arcana ถูกดูดเข้าไพ่ Tarot หลังจากนั้นเขาจะอยู่ชั้นล่างให้คุยด้วยได้ตลอด",
+        routes: [{ steps: ["Ferryman's Wharf / Main Hall (ฮีลที่ร้าน แจ้ง Ferryman เรื่อง Library)", "Watch Tower (ปีนปริศนาเดิมซ้ำจากด้านบน พลาดเกิดใหม่ด้านล่าง)", "Elevator Tower (ประตู West ด้านบนเปิด ใส่ crank เข้าเกียร์ลิฟต์ ใช้ลิฟต์ปลดล็อกเส้นทางบน-ล่าง ไม่ต้องผ่าน Watch Tower อีก)", "Grand Hall ชั้นบน (อัศวินบิน รูปปั้น XP)", "Grand Hall ชั้นล่าง (โถงกับดักลูกไฟ ghouls อัศวินขวานมือ โครงกระดูกบูมเมอแรง ลูกตาลอย)", "รูปปั้น Dracula (คำใบ้ภาพวาด Alucard)", "Old Gallery", "กลับกลาง Grand Hall (เฟืองเปิดกำแพงเชื่อมส่วนต่าง ๆ ของ Grand Hall)", "Brauner's Atelier (เฟืองเปิดประตูห้อง)"] }],
+        loot: [
+          "Rapiers (หีบทองผ่านปริศนา Watch Tower แบบจับเวลา — ตีคันโยกที่ฐาน ปีนซ้ำแบบไม่พลาดเลย คันโยกจะหยุดเมื่อผ่านกำแพง ได้แล้ว Rose จะสวมอาวุธดาบได้ทุกประเภท)",
+          "Elevator Tower Mirror of Life",
+          "คำใบ้ Artist Arcana — “Alucard Guides” (คำใบ้ที่รูปปั้น Dracula เขียนโดย Talos: ภาพวาด Alucard คือประตูสู่ความลับ และจะปรากฏบนแผนที่)",
+          "หนังสือ Attack Up ถาวร (Old Gallery ชั้นบน ฝั่งซ้าย)",
+          "Artist Arcana — ความสามารถของ Brauner (อัญเชิญการ์กอยล์มาช่วยสู้ รวมถึงการ์กอยล์พ่นลูกไฟที่ลอยรอบตัว Rose)"
+        ],
+        gates: [
+          "การปีน Watch Tower รอบนี้มีแบบจับเวลาที่เข้มกว่าเดิมสำหรับ Rapiers โดยเฉพาะ",
+          "ลิฟต์ใช้ได้หลังใส่ crank เท่านั้น",
+          "ต้องใช้ Talos' Smash ทุบรูปปั้นใน Atelier (รูปปั้นในห้องแรกที่มีคำเตือนพิเศษสำหรับ Talos) รูปปั้นจะล้มและเรียก Brauner ออกมา"
+        ],
+        boss: "ไม่มีไฟต์ — Brauner มอบ Artist Arcana ให้",
+        next: "Library — ตามหา The Occultist ผ่าน Bridge of Knowledge จาก Grand Hall ชั้นบน" },
+
+      { n: 7, area: "Library", sub: "Finding the Occultist",
+        goal: "ข้าม Bridge of Knowledge จาก Main Hall เข้า Library ปราบ The Occultist — Carmilla ผู้พยายามทำให้เกิด Blood Moon ถาวรเพื่อคืนชีพ Dracula อย่างสมบูรณ์ เธอขโมย Paintbrush ไปจาก The Artist และเป็นผู้นำของเหล่า Ghouls (เธอไม่ตายตามธรรมชาติ)",
+        routes: [{ steps: ["Bridge of Knowledge", "Poetry Shelves", "Curiosity Cabinet (ไฟต์ Werwolf คันโยกเปิดประตู)", "Rhetoric Shelves / Mirror of Life", "Exhibition Room", "Trophy Room", "Astronomer's Office", "Drawing Room", "Fine Arts Shelves", "Natural Philosophy Shelves", "Fine Arts Shelves ส่วนที่สอง", "Planetarium", "Curiosity Cabinet (ย้อนกลับมาเพื่อ Durandal)", "Observation Tower", "ประตูบอส Carmilla", "หลังไฟต์กลับ Main Hall / Ferryman's Wharf (ขวาล่างของ Planetarium) ผ่านภาพวาด Notre-Dame"] }],
+        loot: [
+          "Brave Heart (Poetry Shelves — โซนซ่อน แบบจับเวลา มีรูปปั้น XP)",
+          "Mirror of Life — Rhetoric Shelves",
+          "Revenant's Shard relic (หีบใน Curiosity Cabinet หลังไฟต์ Werewolf — ฆ่าศัตรูได้มานาเพิ่ม +10%)",
+          "Fleuret and Tower Shield (Condemned Shelves หีบทอง — ดาบและโล่ที่มีท่า dash attack และ Shield Bash)",
+          "คำใบ้ Occultist Arcana — Star Chart (Astronomer's Office)",
+          "คำใบ้ Occultist Arcana — Magical Brush (Observation Tower จากรูปปั้น Dracula)",
+          "คำใบ้ Occultist Arcana — Organic Astrology (Drawing Room ซอกล่างซ้าย)",
+          "Wise Heart (Upper Planetarium — ลูกแก้ว Vitruvian ฝั่งหญิง)",
+          "Wise Heart (Fine Arts Shelves ด้านบน ระหว่างปริศนาลูกโลกโครงกระดูก)",
+          "Thorn Whip (Fine Arts Shelves ส่วนที่สอง หีบทอง)",
+          "คำใบ้ Occultist Arcana — Blood Poem (Fine Arts Shelves ทางซ้ายบนผ่านการไต่กำแพง)",
+          "Brave Heart (Planetarium ยอดลูกโลกโครงกระดูก ใช้ Talos' Smash ทะลุแพลตฟอร์มเปราะและจุดยึดสีม่วง)",
+          "หลังปราบบอส: เวท Blood Spikes, ไอเทมกุญแจ Paintbrush (ซ้ายของอารีน่าบอส) และความสามารถ Aerial Rush (อีกชื่อคือ Air Dash ในหน้าบอส — กดปุ่มหลบกลางอากาศ ไม่ต้องมีจุดยึด ฝึกได้จากชานตรงนั้น)"
+        ],
+        gates: [
+          "ลูกแก้วใน Planetarium เป็นปริศนาในตัว (เด้งเฉพาะลูกที่คำใบ้บอก — ดูหมวดไกด์เฉพาะเรื่อง)",
+          "Durandal เป็นการย้อนเก็บพิเศษในบทนี้: หลังปราบ Carmilla และได้ Aerial Rush แล้ว กลับไป Curiosity Cabinet เด้งลูกแก้วแสงตามแพตเทิร์น Planetarium แล้ว Air Dash/เกาะเกี่ยวข้ามไป Lisa's Laboratory รับดาบใหญ่ Durandal (ดูหมวดไกด์เฉพาะเรื่อง)",
+          "Aerial Rush จำเป็นสำหรับเปิดพื้นที่หลังจากบทนี้"
+        ],
+        boss: "The Occultist (Carmilla) — ได้เวท Blood Spikes, Paintbrush และ Aerial Rush / Air Dash",
+        next: "สวม Artist's Arcana แล้วเข้าภาพวาด Notre-Dame ใน Main Hall เพื่อไป Notre-Dame" },
+
+      { n: 8, area: "Notre-Dame", sub: "Finding the Shadow",
+        goal: "เข้าภาพวาด Notre-Dame ใน Main Hall (ปลดล็อกหลังปราบ Carmilla ได้ Paintbrush จบ Library และเพิ่ม Artist เข้าไพ่ Tarot แล้ว) หา Melody Sheet ครบ 3 แผ่นเพื่อชำระความเสื่อมจาก Great Organ แล้วปราบ The Shadow — Death — เพื่อช่วย Trevor ที่ถูกขังและดูดเลือดอยู่",
+        routes: [{ steps: ["ทางเข้าภาพวาด Notre-Dame (Main Hall)", "Nave (กับดักรูน F Clef อัศวินโล่มังกร)", "Transept (กำแพงรูน F Clef, Octave Clef, Tenor Clef กั้นทาง)", "Notre-Dame Undercroft", "Mirror of Life — Notre-Dame Undercroft", "Great Organ Room (ใช้ Talos' Smash ทะลุกำแพง ออร์แกนมี 14 ช่องโน้ต)", "พื้นที่ซ่อนใต้บันได (วิญญาณให้ Melody Sheet แผ่นแรก)", "Collapsed Crypt", "Path of the Penitent (เชื่อมกลับ Undercroft Mirror)", "Chapel of Patience (Octave/Tenor รูนยังทำงานอยู่ ทุบพื้นรูนเพื่อเลี่ยงช่วงกลาง)", "Path of the Penitent ปริศนาลำแสงจับเวลา", "Way of the Confessor (แพลตฟอร์มเปราะ Air Dash)", "Tomb of the Chevaliers (จุดยึดสีเหลืองที่ลดระดับเมื่อแกว่ง บูสต์ Attack ถาวร ยักษ์โครงกระดูกและพลธนูอันเดด รูปปั้น XP ผ่าน Abyss Shards)", "Narthex ฝั่งซ้าย (อีกา แป้นกด ทุบประตูเชื่อมทางเข้าภาพวาด)", "Tower Entrance (แพลตฟอร์มเปราะ ใช้กำปั้น Talos ทุบไปหีบอาวุธ)", "Gallery of the Four Virtues (หน้าต่างกระจกสี คำใบ้ Arcana ของ the Cursed — ที่นี่เป็นอารีน่ารีแมตช์ Arcana ร่างแข็งแกร่งกว่า ไว้มาทีหลัง)", "Mirror of Life — West Triforium และ Ferryman's Wharf", "La Flèche (ปีนจุดยึดแบบจับเวลาด้วยคันโยก วิญญาณให้ Melody Sheet แผ่นที่สอง)", "กลับ Great Organ Room เล่นเมโลดี้ที่สอง", "Tower Entrance ฝั่งซ้าย", "West Gallery", "Seal Scriptorium (คำใบ้ในหนังสือ ถูกซุ่มโจมตีโดยอัศวิน การ์กอยล์ ลูกแก้วลอย และ minotaur จุดยึดพังลงมาเผย Stained Glass Gallery)", "Stained Glass Gallery (วิญญาณให้ Melody Sheet แผ่นที่สาม)", "กลับ Transept / Great Organ Room เล่นเมโลดี้ที่สาม", "ห้องบอส"] }],
+        melodies: [
+          { name: "แผ่นที่ 1 — Fugue of Notre-Dame", seq: [8, 7, 8, 6, 5] },
+          { name: "แผ่นที่ 2 — Concerto of Notre-Dame", seq: [3, 4, 6, 5, 6, 5, 3] },
+          { name: "แผ่นที่ 3", seq: [11, 12, 14, 13, 12, 11, 12] }
+        ],
+        melodiesNote: "เลขคือช่องโน้ตออร์แกน 1–14 นับจากซ้ายไปขวา",
+        loot: [
+          "คำใบ้ Shadow Arcana — The Corrupted Pipes of the Notre-Dame Organ (Transept — Death ทำให้ท่อออร์แกนเสื่อม)",
+          "Mirror of Life — Notre-Dame Undercroft",
+          "คำใบ้ Shadow Arcana — The Masters of Music Hide from Death (วิญญาณใน Collapsed Crypt)",
+          "Beelzebub's Seal relic (หีบใน Chapel of Patience — Rose ทำดาเมจ +30% แต่ HP สูงสุดลดลง 50%)",
+          "Joyeuse (ปริศนาลำแสงจับเวลาใน Path of the Penitent)",
+          "บูสต์ Attack ถาวร (Tomb of the Chevaliers)",
+          "Arondight and Lancelot's Shield (หีบ Tower Entrance ใช้กำปั้น Talos ทุบไปเอา)",
+          "คำใบ้ Arcana ของ the Cursed (Gallery of the Four Virtues)",
+          "Mirror of Life — West Triforium",
+          "Brave Heart (ถ้าทันเวลาคันโยกที่ La Flèche)",
+          "หลังปราบบอส: แส้ในตำนาน Vampire Killer และความสามารถ Double Jump"
+        ],
+        gates: [
+          "กำแพงรูนใน Transept ผ่านไม่ได้จนกว่าจะเล่นครบทั้ง 3 เมโลดี้",
+          "ช่วงกลางของ Chapel of Patience ถูกบล็อกจนกว่าจะจบเมโลดี้อื่นก่อน",
+          "Talos' Smash, Air Dash / Aerial Rush, Halo of Light และจุดยึดแส้ต้องใช้ซ้ำ ๆ ตลอดบท"
+        ],
+        boss: "The Shadow (Death) — Death ไม่ถูกดูดเข้าไพ่ Tarot เขาหายตัวไปโดยบอกว่าจะพบ Rose อีกครั้งเมื่อวิญญาณของเธอเดินทางผ่านโลกหลังความตาย แต่ Rose ยังได้เวทของเขา (ชื่อเวท: N/A) เธอช่วย Trevor ได้ แต่เขาบาดเจ็บสาหัสจนเป็นนักล่าต่อไม่ได้ เขาจึงมอบแส้ Vampire Killer ให้ Rose เป็นสัญลักษณ์ของความเชื่อมั่น ออกจากห้อง Leon จะกระตุ้นให้ Rose กระโดดในระยะที่เป็นไปไม่ได้ จนปลดล็อก Double Jump (กระโดดครั้งที่สองกลางอากาศ) ซึ่งเปิดพื้นที่อีกหลายจุด",
+        next: "ยังไม่จบ — บอสตัวต่อไปอยู่ในสถานที่เดียวกันนี้คือ the Brittle King in Notre-Dame (ดูหมายเหตุท้ายเกมด้านล่าง)",
+        endnote: "ปราบ Death แล้วเกมยังไม่จบนะ — บอสตัวต่อไปอยู่ในสถานที่เดียวกันนี้คือ “the Brittle King in Notre-Dame”" }
+    ];
+
+    var ENDINGS_INTRO = [
+      "เกมมีฉากจบ 3 แบบจริง — ชื่อ Achievement ของแต่ละแบบบน Steam ยืนยันได้",
+      "ไม่มีฉากจบแบบไหนล็อกไฟล์เซฟ — เจอฉากจบแย่หรือฉากจบปกติแล้ว กดเล่นต่อจากเซฟเดิมได้ทันที และยังไล่เก็บฉากจบที่เหลือต่อในเซฟเดียวกันได้ ไม่ต้องเริ่มเกมใหม่",
+      "ลำดับที่แนะนำ: เก็บ Bad Ending ก่อนเพื่อเอาสกิน Cursed Outfit แล้วค่อยไป Normal Ending และ True Ending ต่อในเซฟเดียวกัน"
+    ];
+
+    var ENDINGS = [
+      { letter: "A", en: "Ending A: Bad Ending", th: "ฉากจบแย่", ach: "Belmont's fall",
+        lead: "กับดักอยู่ที่นาฬิกาเรืองแสง Cursed Horologium บน Clock Tower Bridge — ถ้า Rose ไปใช้งานหรือเข้าทางลับของนาฬิกาก่อนได้เวท Soul Harvest (เวทประจำตัว The Shadow ได้จากการปราบ Death ใน Notre-Dame ซึ่งใช้ปลดกับดักนี้) เธอจะติดกับดักทันที พูดอีกแบบคือเผชิญหน้า Dracula โดยไม่มี Death's Arcana มาคานกับดักไว้ก่อน",
+        cond: [
+          "ในฉากนั้น The Fallen กับ Joan จะเตือนให้ Rose หันหลังกลับ เพราะพวกเขาช่วยเธอข้างในไม่ได้ ส่วน Medusa จะยุให้เดินหน้าต่อ",
+          "ทางเดินจะเป็นลูปไม่สิ้นสุด และบังคับให้เข้าห้องที่ดูเหมือนท้องพระโรงของ Dracula"
+        ],
+        story: [
+          "Rose สู้ชนะ Dracula ตัวปลอม (ภาพลวงของ Isaac) อย่างง่ายดาย แต่แล้ว Death ก็ปรากฏตัว และ Dracula ตัวจริงนั่งอยู่บนบัลลังก์โดยไม่เป็นอะไรเลย",
+          "คำสาปกลืนกิน Rose อย่างรวดเร็ว เธอขอโทษพ่อแม่ก่อนกลายเป็นข้ารับใช้ของ Dracula และการมีอยู่ของเธอถูกลืมเลือน"
+        ],
+        save: "ไม่ใช่เกมโอเวอร์และไม่ล็อกเซฟ — โหลดเซฟเดิมกลับมา Rose จะถูกส่งกลับไปห้องเซฟ (Mirror of Life) ที่ใกล้ที่สุด ซึ่งเหล่าวิญญาณผู้นำทางกับ Ferryman จะบอกให้สำรวจปราสาทต่อไป",
+        unlock: "ครั้งแรกที่ได้ Bad Ending จะปลดล็อกสกินชุดต้องสาป Cursed Outfit — Rose ในสภาพที่คำสาปครอบงำสมบูรณ์ ใช้ได้ทุกไฟล์เซฟ" },
+
+      { letter: "B", en: "Ending B: Normal Ending", th: "ฉากจบปกติ", ach: "The hunt goes on",
+        lead: "เส้นทางมาตรฐานของเกม — ปลดกับดัก Horologium ให้ถูกต้องแล้วไปจบกับ Dracula โดยยังไม่มีเวท Absolution",
+        steps: [
+          "ปราบ Death ใน Notre-Dame ให้ได้เวท Soul Harvest ก่อน",
+          "ใช้ Soul Harvest ปลดกับดัก Cursed Horologium ที่ Clock Tower Bridge แล้วเข้าไปปราบ Isaac ตัวจริงข้างใน",
+          "จากนั้นไปสู้ Dracula — ร่างแรกใน Throne Room และร่างที่สอง (ร่างมีปีก) บน Castle Rooftops — โดยไม่ได้สวมเวท Absolution ไว้ตอนร่างที่สองล้ม"
+        ],
+        story: [
+          "Dracula ถูกปราบ แต่คำสาปที่เขาปล่อยไว้สู่โลกยังหยุดไม่ทัน ความชั่วร้ายจางหายไปแต่ยังแฝงตัวอยู่ใกล้ ๆ ในเงามืด เรื่องของ Rose จึงยังไม่จบ"
+        ],
+        save: "เล่นต่อจากเซฟเดิมได้ทันที ยังไล่เก็บ True Ending ต่อในเซฟเดียวกันได้",
+        saveNote: "เกร็ด: Achievement “Die monster! You don't belong in this world!” จะเด้งตอน Dracula ร่างที่สองล้ม ทั้งในฉากจบปกติและฉากจบจริง" },
+
+      { letter: "C", en: "Ending C: True Ending", th: "ฉากจบจริง", ach: "Curse lifted",
+        lead: "เงื่อนไขและวิธีไปให้ถึง — เช็กลิสต์ 4 ขั้น",
+        trueSteps: [
+          { head: "ขั้น 1 — เงื่อนไขพื้นฐานเหมือน Normal Ending", text: "มี Soul Harvest ปลดกับดัก Horologium และปราบ Isaac กับ Dracula ได้" },
+          { head: "ขั้น 2 — ทำบททดสอบ Four Virtues ให้ครบ", text: "บททดสอบอยู่ที่ Gallery of the Four Virtues ใน Notre-Dame (คำทำนายบนแผ่นจารึกทองในแกลเลอรีจะใบ้ขั้นตอนไว้) ต้องมี Arcana คุณธรรม 4 ใบ และหน้าต่างคุณธรรมแต่ละบานจะเปิดเมื่อสวม Arcana ที่ตรงกันเท่านั้น",
+            virtues: [
+              { name: "The Warrior", detail: "จาก Joan of Arc — เวท Infernal Pyre" },
+              { name: "The Judge", detail: "ชั่ง Scales of Justice ที่ Palace of Justice — เวท Chains of Justice" },
+              { name: "The Whisperer", detail: "นำ Ferryman's Obol จาก Mammon's Lair ไปคืนให้ Ferryman — เวท Freezing Path" },
+              { name: "The Sage", detail: "ปลดปล่อย Eleanor จากโซ่" }
+            ] },
+          { head: "ขั้น 3 — สู้กับเงาของ Rose เอง", text: "หลังผ่านทั้ง 4 บททดสอบ ไปสู้กับบอส “???” / Rose's Shadow ที่แท่นบูชา ชนะแล้วได้ไพ่ The Self และเวท Absolution พร้อมพบวิญญาณของ Sypha" },
+          { head: "ขั้น 4 — ใช้ Absolution ในจังหวะสุดท้าย", text: "สวมเวท Absolution ไว้ แล้วกลับไปสู้ Dracula อีกครั้งทั้งสองร่าง (Throne Room ต่อด้วยร่างปีกบน Castle Rooftops) ในจังหวะสั้น ๆ ราว 10–12 วินาทีหลังร่างที่สองล้ม ช่วงบทสนทนาเริ่ม ให้กดปุ่มร่ายเวทค้างเพื่อใช้ Absolution — แค่สวมไว้เฉย ๆ โดยไม่ใช้ จะได้ Normal Ending แทน" }
+        ],
+        story: [
+          "พลังของ Sypha รวมกับพลังไพ่ Tarot ทั้งหมดที่ Rose รวบรวมมา ทำลายคำสาปลงได้ ความมืดอาจหวนกลับมาอีก แต่มนุษยชาติสามารถมองข้ามมันไปสู่วันใหม่ได้"
+        ],
+        save: "ไม่จำเป็นต้องเก็บของ 100% — ต้องการแค่ Arcana คุณธรรม 4 ใบ บททดสอบทั้ง 4 และ The Self เท่านั้น ไม่ต้องเก็บอาวุธหรืออัปเกรดครบ และถ้าเพิ่งได้ Normal Ending ไปก่อน ก็ยังกลับมาทำ True Ending ต่อในเซฟเดียวกันได้" }
+    ];
+
+    var ENDINGS_BOSS_NOTE = "บอสช่วงท้ายเกมหลายตัว (Dracula ทั้งสองร่าง, Isaac ตัวจริงใน Horologium, Rose's Shadow) ยังไม่มีการ์ดแยกในหมวดบอสของหน้านี้";
+
+    var collectGroupById = {};
+    COLLECT_GROUPS.forEach(function (g) { collectGroupById[g.id] = g; });
+
+    var weaponTypeById = {};
+    WEAPON_TYPES.forEach(function (t) { weaponTypeById[t.id] = t; });
+
+    var zoneById = {};
+    ZONES.forEach(function (z) { zoneById[z.id] = z; });
+
+    var activeCat = "relics";
+    var activeZone = "all";
+    var activeType = "all";
+    var query = "";
+
+    var listEl = document.getElementById("list");
+    var chipsEl = document.getElementById("chips");
+    var countEl = document.getElementById("count");
+    var emptyEl = document.getElementById("empty");
+    var searchEl = document.getElementById("search");
+    var titleEl = document.getElementById("cat-title");
+    var ledeEl = document.getElementById("cat-lede");
+    var tabBtns = {
+      relics: document.getElementById("tab-relics"),
+      weapons: document.getElementById("tab-weapons"),
+      tips: document.getElementById("tab-tips"),
+      collectibles: document.getElementById("tab-collectibles"),
+      bosses: document.getElementById("tab-bosses"),
+      guides: document.getElementById("tab-guides"),
+      walkthrough: document.getElementById("tab-walkthrough"),
+      endings: document.getElementById("tab-endings")
+    };
+
+    var CAT_META = {
+      relics: {
+        title: "Relics ทั้ง 44 ชิ้น",
+        lede: "ตาราง Relic ครบทุกชิ้น — ผลของ Relic, วิธีไปเก็บ และช่อง Require (เงื่อนไขที่ต้องมีก่อนเก็บ) แปลเป็นภาษาไทย ส่วนชื่อไอเทมและชื่อสถานที่คงภาษาอังกฤษไว้ ค้นหาด้วยชื่อไอเทมหรือกรองตามโซนได้เลย",
+        placeholder: "ค้นหา เช่น Crypt Key, มานา, แพร์รี, Double Jump…",
+        unit: "ชิ้น", total: RELICS.length
+      },
+      weapons: {
+        title: "อาวุธ ทั้ง 28 ชิ้น",
+        lede: "อาวุธทุกชิ้นแบ่งตามประเภทอาวุธ แต่ละประเภทมีหลายระดับความหายาก พลังโจมตีเพิ่มทีละ 25 สูงสุด 100 และแต่ละประเภทมีท่าโจมตีกับกลไกเฉพาะตัว ชื่ออาวุธและชื่อสถานที่คงภาษาอังกฤษไว้ ส่วนคำอธิบายประเภทอาวุธและวิธีไปเก็บแปลเป็นภาษาไทย ค้นหาด้วยชื่ออาวุธหรือกรองตามประเภทได้เลย",
+        placeholder: "ค้นหา เช่น Vampire Killer, Excalibur, Holy Light…",
+        unit: "ชิ้น", total: WEAPONS.length
+      },
+      tips: {
+        title: "เกร็ดที่เกมไม่ได้บอก · 11 หัวข้อ",
+        lede: "Things Castlevania: Belmont's Curse Doesn't Tell You — กลไกสำคัญที่ tutorial ไม่ได้บอกไว้ตรง ๆ แปลเนื้อหาเป็นภาษาไทยทั้งหมด ส่วนชื่อเฉพาะ ชื่อไอเทม ชื่อเวท ชื่อสถานที่ และชื่อความสามารถคงภาษาอังกฤษไว้เหมือนหมวดอื่น อ่านแยกทีละหัวข้อและค้นหาได้",
+        placeholder: "ค้นหาเกร็ด เช่น Tarot, parry, Mirror of Life, XP…",
+        unit: "หัวข้อ", total: TIPS.length
+      },
+      collectibles: {
+        title: "ของสะสม · Collectibles ทั้ง 81 รายการ",
+        lede: "ของสะสมทั้งหมด 81 รายการ แบ่ง 5 กลุ่ม — Brave Heart Fragments 24 ชิ้น (เก็บครบ 4 ชิ้นเพิ่มเลือดสูงสุด), Wise Heart Fragments 24 ชิ้น (เก็บครบ 4 ชิ้นเพิ่มมานาสูงสุด), Red Books 14 เล่ม (เพิ่ม Attack ถาวร), Blue Books 14 เล่ม (เพิ่ม Defense ถาวร) และ Keepsakes 5 ชิ้น แต่ละรายการมีโซน ชื่อพื้นที่ (คงภาษาอังกฤษไว้) และเงื่อนไขการเก็บ (Require) เป็นภาษาไทย ค้นหาด้วยชื่อพื้นที่หรือเงื่อนไข หรือกรองตามโซนได้เลย",
+        placeholder: "ค้นหา เช่น Prison Tower, Double Jump, Arcane Whip, Medusa…",
+        unit: "รายการ", total: COLLECTIBLES.length
+      },
+      bosses: {
+        title: "บอส · Boss Guides ทั้ง 6 ตัว",
+        lede: "การ์ดบอสทีละตัว เรียงตามลำดับที่เจอในเกม แต่ละตัวมีพื้นที่ที่สู้ ตัวตนบอส จุดเปลี่ยนเฟสเป็น % พลังชีวิต ท่าโจมตีหลัก วิธีสู้ และรางวัลที่ได้ ชื่อบอส ชื่อสถานที่ ชื่อเวทและไอเทมคงภาษาอังกฤษไว้ ส่วนเนื้อความเรียบเรียงเป็นภาษาไทย ค้นหาด้วยชื่อบอส ชื่อเวท หรือชื่อสถานที่ได้เลย",
+        placeholder: "ค้นหา เช่น Medusa, Holy Cross, Clock Tower, Death…",
+        unit: "ตัว", total: BOSSES.length
+      },
+      guides: {
+        title: "ไกด์เฉพาะเรื่อง + ความลับ · Topic Guides & Secrets",
+        lede: "ส่วน A คือการ์ดไกด์เฉพาะเรื่อง 4 ใบ แต่ละใบมีเงื่อนไขก่อนทำ ขั้นตอน และผลที่ได้ ส่วน B คือ Cheats and Secrets — สูตรและของปลดล็อกทั้งหมด ชื่อเฉพาะ ชื่อไอเทม และชื่อสถานที่คงภาษาอังกฤษไว้ ส่วนเนื้อความเรียบเรียงเป็นภาษาไทย ค้นหาด้วยชื่อไกด์ ชื่อไอเทม ชื่อกระจก หรือชื่อสกินได้เลย",
+        placeholder: "ค้นหา เช่น Mirror of Life, Durandal, Konami, Sonia, Cursed Outfit…",
+        unit: "รายการ", total: GUIDES.length + SECRETS.length
+      },
+      walkthrough: {
+        title: "Walkthrough — เส้นทางตามเนื้อเรื่อง · 8 พื้นที่",
+        lede: "คู่มือนี้จัดตามจุดเช็กพอยต์บอส — แต่ละพื้นที่คือการตามหา Guardian ประจำไพ่ Tarot หนึ่งใบ เกมเป็น Metroidvania จึงมีการปลดล็อกความสามารถใหม่แล้วย้อนกลับไปพื้นที่เดิมเสมอ การ์ดแต่ละใบมีโครงเดียวกัน: เป้าหมาย / เส้นทางโดยย่อ / ของสำคัญระหว่างทาง / ประตูที่ต้องใช้ความสามารถและการย้อนกลับ / บอสปิดท้ายและสิ่งที่ปลดล็อก / ไปต่อที่ไหน ชื่อเฉพาะ ชื่อไอเทม และชื่อห้องคงภาษาอังกฤษไว้ ส่วนเนื้อความเรียบเรียงเป็นภาษาไทย ค้นหาด้วยชื่อพื้นที่ ชื่อห้อง ชื่อไอเทม หรือชื่อบอสได้เลย",
+        placeholder: "ค้นหา เช่น Catacombs, Halo of Light, Vampire Killer, Melody Sheet…",
+        unit: "พื้นที่", total: WALKTHROUGH.length
+      },
+      endings: {
+        title: "ฉากจบทั้ง 3 แบบ · Endings",
+        lede: "เกมมีฉากจบ 3 แบบ — Bad, Normal และ True แต่ละใบมีชื่อ Achievement เงื่อนไขและวิธีไปให้ถึง สรุปเหตุการณ์ และผลต่อไฟล์เซฟกับของปลดล็อก ชื่อฉากจบ ชื่อ Achievement ชื่อเวทและชื่อสถานที่คงภาษาอังกฤษไว้ ส่วนเนื้อความเรียบเรียงเป็นภาษาไทย ค้นหาด้วยชื่อฉากจบ ชื่อ Achievement หรือชื่อเวทได้เลย",
+        placeholder: "ค้นหา เช่น Bad Ending, Absolution, Curse lifted, Soul Harvest…",
+        unit: "แบบ", total: ENDINGS.length
+      }
+    };
+
+    function esc(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function matchesRelic(r) {
+      if (activeZone !== "all" && r.zone !== activeZone) return false;
+      if (!query) return true;
+      var z = zoneById[r.zone];
+      var hay = (r.name + " " + r.effect + " " + (r.require || "") + " " + r.room + " " + r.dir + " " + z.en + " " + z.th).toLowerCase();
+      return hay.indexOf(query) !== -1;
+    }
+
+    function matchesWeapon(w) {
+      if (activeType !== "all" && w.type !== activeType) return false;
+      if (!query) return true;
+      var t = weaponTypeById[w.type];
+      var parts = [w.name, w.location, w.attack || "", w.attackText || "", w.require || "", t.en, t.th, t.desc, w.dir || "", w.note || ""];
+      if (w.steps) parts = parts.concat(w.steps);
+      return parts.join(" ").toLowerCase().indexOf(query) !== -1;
+    }
+
+    function matchesTip(t) {
+      if (!query) return true;
+      var hay = (t.en + " " + t.th + " " + t.body.join(" ")).toLowerCase();
+      return hay.indexOf(query) !== -1;
+    }
+
+    function matchesCollectible(c) {
+      if (activeZone !== "all" && c.zone !== activeZone) return false;
+      if (!query) return true;
+      var g = collectGroupById[c.group];
+      var parts = [c.name, g.en, g.th, g.desc, c.location || "", c.require || ""];
+      if (c.zone) { var z = zoneById[c.zone]; parts.push(z.en, z.th); }
+      return parts.join(" ").toLowerCase().indexOf(query) !== -1;
+    }
+
+    function renderChips() {
+      if (activeCat === "tips" || activeCat === "bosses" || activeCat === "guides" || activeCat === "walkthrough" || activeCat === "endings") { chipsEl.style.display = "none"; chipsEl.innerHTML = ""; return; }
+      chipsEl.style.display = "";
+      var html = "";
+      if (activeCat === "relics") {
+        html = '<button class="chip" data-zone="all" aria-pressed="' + (activeZone === "all") + '">ทุกโซน<span class="n">' + RELICS.length + "</span></button>";
+        ZONES.forEach(function (z) {
+          var n = RELICS.filter(function (r) { return r.zone === z.id; }).length;
+          html += '<button class="chip" data-zone="' + z.id + '" aria-pressed="' + (activeZone === z.id) + '">' + esc(z.en) + '<span class="n">' + n + "</span></button>";
+        });
+      } else if (activeCat === "collectibles") {
+        html = '<button class="chip" data-zone="all" aria-pressed="' + (activeZone === "all") + '">ทุกโซน<span class="n">' + COLLECTIBLES.length + "</span></button>";
+        ZONES.forEach(function (z) {
+          var n = COLLECTIBLES.filter(function (c) { return c.zone === z.id; }).length;
+          if (!n) return;
+          html += '<button class="chip" data-zone="' + z.id + '" aria-pressed="' + (activeZone === z.id) + '">' + esc(z.en) + '<span class="n">' + n + "</span></button>";
+        });
+      } else {
+        html = '<button class="chip" data-zone="all" aria-pressed="' + (activeType === "all") + '">ทุกประเภท<span class="n">' + WEAPONS.length + "</span></button>";
+        WEAPON_TYPES.forEach(function (t) {
+          var n = WEAPONS.filter(function (w) { return w.type === t.id; }).length;
+          html += '<button class="chip" data-zone="' + t.id + '" aria-pressed="' + (activeType === t.id) + '">' + esc(t.en) + '<span class="n">' + n + "</span></button>";
+        });
+      }
+      chipsEl.innerHTML = html;
+    }
+
+    function renderRelics() {
+      var shown = 0, html = "";
+      ZONES.forEach(function (z) {
+        var rows = RELICS.filter(function (r) { return r.zone === z.id && matchesRelic(r); });
+        if (!rows.length) return;
+        shown += rows.length;
+        html += '<section class="zone" id="grp-z-' + z.id + '"><div class="zone-head"><h2>' + esc(z.en) + '</h2>' +
+          '<span class="zone-th">' + esc(z.th) + '</span>' +
+          '<span class="zone-count">' + rows.length + ' ชิ้น</span></div>' +
+          '<table><thead><tr><th>ชื่อ Relic</th><th>ผลของ Relic</th><th>สถานที่ &amp; วิธีไป</th><th>Require — เงื่อนไขที่ต้องมีก่อนเก็บ</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td class="name">' + esc(r.name) + '</td>' +
+            '<td class="effect">' + esc(r.effect) + '</td>' +
+            '<td class="loc"><span class="room">' + esc(z.en) + " – " + esc(r.room) + '</span>' +
+            '<span class="dir">' + esc(r.dir) + "</span></td>" +
+            '<td class="require"><span class="req-text">' + esc(r.require || "N/A") + "</span></td></tr>";
+        });
+        html += "</tbody></table></section>";
+      });
+      return { shown: shown, html: html };
+    }
+
+    function renderWeapons() {
+      var shown = 0, html = "";
+      WEAPON_TYPES.forEach(function (t) {
+        var rows = WEAPONS.filter(function (w) { return w.type === t.id && matchesWeapon(w); });
+        if (!rows.length) return;
+        shown += rows.length;
+        html += '<section class="zone" id="grp-t-' + t.id + '"><div class="zone-head"><h2>' + esc(t.en) + '</h2>' +
+          '<span class="zone-th">' + esc(t.th) + '</span>' +
+          '<span class="zone-count">' + rows.length + ' ชิ้น</span></div>';
+        if (t.desc) html += '<p class="zone-desc">' + esc(t.desc) + "</p>";
+        html += '<table><thead><tr><th>ชื่ออาวุธ</th><th>พลังโจมตี</th><th>สถานที่ &amp; วิธีไป</th><th>Require — เงื่อนไขที่ต้องมีก่อนเก็บ</th></tr></thead><tbody>';
+        rows.forEach(function (w) {
+          var locHtml = '<span class="room">' + esc(w.location) + "</span>";
+          if (w.steps) {
+            locHtml += '<ol class="steps">' + w.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>";
+          } else if (w.dir) {
+            locHtml += '<span class="dir">' + esc(w.dir) + "</span>";
+          }
+          if (w.note) locHtml += '<span class="note">' + esc(w.note) + "</span>";
+          var nameHtml = esc(w.name);
+          if (w.spoiler) nameHtml += '<span class="spoiler-tag">สปอยล์</span>';
+          var atkHtml = (w.attack !== null && w.attack !== undefined)
+            ? '<span class="atk-badge">ATK ' + w.attack + "</span>"
+            : '<span class="atk-unknown">' + esc(w.attackText || "N/A") + "</span>";
+          html += '<tr><td class="name">' + nameHtml + '</td>' +
+            '<td class="attack">' + atkHtml + "</td>" +
+            '<td class="loc">' + locHtml + "</td>" +
+            '<td class="require"><span class="req-text">' + esc(w.require || "N/A") + "</span></td></tr>";
+        });
+        html += "</tbody></table></section>";
+      });
+      return { shown: shown, html: html };
+    }
+
+    function renderTips() {
+      var rows = TIPS.filter(matchesTip);
+      var html = "";
+      if (!query || TIPS_INTRO.toLowerCase().indexOf(query) !== -1) {
+        html += '<div class="tip-intro"><strong>บทนำ —</strong> ' + esc(TIPS_INTRO) + "</div>";
+      }
+      rows.forEach(function (t) {
+        html += '<article class="tip-card"><div class="tip-card-head"><span class="tip-num">' + t.n + '</span>' +
+          '<div><h2>' + esc(t.en) + '</h2><span class="tip-th">' + esc(t.th) + "</span></div></div>" +
+          t.body.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + "</article>";
+      });
+      return { shown: rows.length, html: html };
+    }
+
+    function matchesBoss(b) {
+      if (!query) return true;
+      var parts = [b.name, b.identity, b.area, b.phases, b.special || "", b.note || "", b.reward].concat(b.moves, b.strategy);
+      return parts.join(" ").toLowerCase().indexOf(query) !== -1;
+    }
+
+    function renderBosses() {
+      var rows = BOSSES.filter(matchesBoss);
+      var html = "";
+      rows.forEach(function (b) {
+        html += '<article class="boss-card"><div class="boss-head"><span class="boss-num">' + b.n + '</span>' +
+          '<div><h2>' + esc(b.name) + '</h2><span class="boss-order">บอสตัวที่ ' + b.n + ' ตามลำดับที่เจอในเกม</span></div></div>' +
+          '<div class="boss-meta">' +
+          '<div class="row"><span class="k">พื้นที่ที่สู้</span><span class="v">' + esc(b.area) + '</span></div>' +
+          '<div class="row"><span class="k">ตัวตนบอส</span><span class="v">' + esc(b.identity) + '</span></div>' +
+          '<div class="row"><span class="k">จุดเปลี่ยนเฟส</span><span class="v">' + esc(b.phases) + '</span></div>' +
+          '</div>';
+        if (b.special) {
+          html += '<div class="boss-special"><span class="k">กลไกพิเศษ — ต้องรู้ก่อนสู้</span><span class="v">' + esc(b.special) + '</span></div>';
+        }
+        if (b.note) html += '<p class="boss-note">' + esc(b.note) + '</p>';
+        html += '<div class="boss-sec"><h3>ท่าโจมตีหลัก</h3><ul>' +
+          b.moves.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></div>" +
+          '<div class="boss-sec"><h3>วิธีสู้</h3><ul>' +
+          b.strategy.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul></div>" +
+          '<div class="boss-reward"><span class="k">รางวัลที่ได้</span><span class="v">' + esc(b.reward) + '</span></div>' +
+          "</article>";
+      });
+      return { shown: rows.length, html: html };
+    }
+
+    function renderCollectibles() {
+      var shown = 0, html = "";
+      COLLECT_GROUPS.forEach(function (g) {
+        var rows = COLLECTIBLES.filter(function (c) { return c.group === g.id && matchesCollectible(c); });
+        if (!rows.length) return;
+        shown += rows.length;
+        html += '<section class="zone" id="grp-g-' + g.id + '"><div class="zone-head"><h2>' + esc(g.en) + '</h2>' +
+          '<span class="zone-th">' + esc(g.th) + '</span>' +
+          '<span class="zone-count">' + rows.length + " " + g.unit + '</span></div>' +
+          '<p class="zone-desc">' + esc(g.desc) + "</p>" +
+          '<table><thead><tr><th>ชื่อพื้นที่ / ไอเทม</th><th>โซน</th><th>Require — เงื่อนไขการเก็บ</th></tr></thead><tbody>';
+        rows.forEach(function (c) {
+          var zoneLabel = c.zone ? zoneById[c.zone].en : "N/A";
+          html += '<tr><td class="name">' + esc(c.name) + '</td>' +
+            '<td class="zonec">' + esc(zoneLabel) + '</td>' +
+            '<td class="require"><span class="req-text">' + esc(c.require || "N/A") + "</span></td></tr>";
+        });
+        html += "</tbody></table></section>";
+      });
+      return { shown: shown, html: html };
+    }
+
+    function guideHay(g) {
+      var parts = [g.en, g.th, g.intro || "", g.goal || "", g.note || "", g.result || "", g.reward || ""];
+      if (g.cond) parts = parts.concat(g.cond);
+      if (g.steps) parts = parts.concat(g.steps);
+      if (g.sols) g.sols.forEach(function (s) { parts.push(s.head, s.text); });
+      if (g.mirrors) MIRRORS.forEach(function (m) { parts.push(m.zone); parts = parts.concat(m.names); });
+      return parts.join(" ").toLowerCase();
+    }
+
+    function secretHay(s) {
+      var parts = [s.en, s.th, s.intro || "", s.warn || "", s.result || ""];
+      if (s.body) parts = parts.concat(s.body);
+      if (s.steps) parts = parts.concat(s.steps);
+      if (s.codeSeq) parts = parts.concat(s.codeSeq);
+      if (s.platforms) s.platforms.forEach(function (p) { parts.push(p.name, p.seq); });
+      return parts.join(" ").toLowerCase();
+    }
+
+    function mirrorTableHtml() {
+      var total = 0;
+      var opts = '<option value="all">ทุกโซน</option>';
+      MIRRORS.forEach(function (m) {
+        total += m.names.length;
+        opts += '<option value="' + esc(m.zone) + '">' + esc(m.zone) + " (" + m.names.length + ")</option>";
+      });
+      var rows = "";
+      MIRRORS.forEach(function (m) {
+        m.names.forEach(function (n) {
+          rows += '<tr data-zone="' + esc(m.zone) + '" data-name="' + esc(n.toLowerCase()) + '"><td class="mz">' + esc(m.zone) + '</td><td>' + esc(n) + "</td></tr>";
+        });
+      });
+      return '<div class="mirror-block"><h3>ตำแหน่ง Mirror of Life ทั้งหมด ' + total + ' บาน</h3>' +
+        '<div class="mirror-tools"><input id="mirror-q" type="search" placeholder="ค้นหาชื่อกระจก เช่น Archives…" aria-label="ค้นหาชื่อกระจก" />' +
+        '<select id="mirror-zone" aria-label="กรองกระจกตามโซน">' + opts + '</select>' +
+        '<span class="mirror-count" id="mirror-count"></span></div>' +
+        '<table class="mirror-table"><thead><tr><th>โซน</th><th>ชื่อกระจก</th></tr></thead><tbody>' + rows + "</tbody></table></div>";
+    }
+
+    function applyMirrorFilter() {
+      var qEl = document.getElementById("mirror-q");
+      var zEl = document.getElementById("mirror-zone");
+      var cEl = document.getElementById("mirror-count");
+      if (!qEl || !zEl) return;
+      var q = qEl.value.trim().toLowerCase();
+      var z = zEl.value;
+      var rows = listEl.querySelectorAll(".mirror-table tbody tr");
+      var shown = 0;
+      rows.forEach(function (tr) {
+        var ok = (z === "all" || tr.getAttribute("data-zone") === z) &&
+          (!q || tr.getAttribute("data-name").indexOf(q) !== -1 || tr.getAttribute("data-zone").toLowerCase().indexOf(q) !== -1);
+        tr.style.display = ok ? "" : "none";
+        if (ok) shown++;
+      });
+      if (cEl) cEl.textContent = "แสดง " + shown + " / " + rows.length + " บาน";
+    }
+
+    function renderGuideCard(g) {
+      var html = '<article class="guide-card"><div class="guide-head"><span class="guide-badge">' + esc(g.label) + '</span>' +
+        '<div><h2>' + esc(g.en) + '</h2><span class="guide-th">' + esc(g.th) + "</span></div></div>";
+      if (g.intro) html += "<p>" + esc(g.intro) + "</p>";
+      if (g.goal) html += '<div class="guide-sec"><h3>เป้าหมาย</h3><p>' + esc(g.goal) + "</p></div>";
+      if (g.note) html += '<div class="alert-note"><span class="k">หมายเหตุสำคัญ</span><span class="v">' + esc(g.note) + "</span></div>";
+      if (g.cond) {
+        html += '<div class="guide-sec"><h3>' + esc(g.condLabel || "เงื่อนไขก่อนทำ") + "</h3><ul>" +
+          g.cond.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("") + "</ul></div>";
+      }
+      if (g.sols) {
+        g.sols.forEach(function (s) {
+          html += '<div class="guide-sec"><h3>' + esc(s.head) + "</h3><p>" + esc(s.text) + "</p></div>";
+        });
+      }
+      if (g.steps) {
+        html += '<div class="guide-sec"><h3>' + esc(g.stepsLabel || "ขั้นตอน") + "</h3><ol>" +
+          g.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol></div>";
+      }
+      if (g.result) html += '<div class="guide-result"><span class="k">ผลที่ได้</span><span class="v">' + esc(g.result) + "</span></div>";
+      if (g.reward) html += '<div class="guide-result"><span class="k">รางวัล</span><span class="v">' + esc(g.reward) + "</span></div>";
+      if (g.mirrors) html += mirrorTableHtml();
+      return html + "</article>";
+    }
+
+    function renderSecretCard(s) {
+      var html = '<article class="guide-card"><div class="guide-head"><span class="guide-badge">' + esc(s.label) + '</span>' +
+        '<div><h2>' + esc(s.en) + '</h2><span class="guide-th">' + esc(s.th) + "</span></div></div>";
+      if (s.intro) html += "<p>" + esc(s.intro) + "</p>";
+      if (s.body) html += s.body.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+      if (s.codeSeq) {
+        html += '<div class="guide-sec"><h3>ลำดับปุ่มที่ต้องกด</h3><div class="code-seq">' +
+          s.codeSeq.map(function (k) { return "<span>" + esc(k) + "</span>"; }).join("") + "</div></div>";
+      }
+      if (s.platforms) {
+        html += '<div class="guide-sec"><h3>แยกตามแพลตฟอร์ม</h3><div class="plat-rows">' +
+          s.platforms.map(function (p) {
+            return '<div class="row"><span class="k">' + esc(p.name) + '</span><span class="v">' + esc(p.seq) + "</span></div>";
+          }).join("") + "</div></div>";
+      }
+      if (s.warn) html += '<div class="alert-note"><span class="k">ข้อควรระวัง</span><span class="v">' + esc(s.warn) + "</span></div>";
+      if (s.steps) {
+        html += '<div class="guide-sec"><h3>' + esc(s.stepsLabel || "ขั้นตอน") + "</h3><ol>" +
+          s.steps.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ol></div>";
+      }
+      if (s.result) html += '<div class="guide-result"><span class="k">ผลที่ได้</span><span class="v">' + esc(s.result) + "</span></div>";
+      return html + "</article>";
+    }
+
+    function renderGuides() {
+      var gRows = GUIDES.filter(function (g) { return !query || guideHay(g).indexOf(query) !== -1; });
+      var sRows = SECRETS.filter(function (s) { return !query || secretHay(s).indexOf(query) !== -1; });
+      var html = "";
+      if (gRows.length) {
+        html += '<div class="part-head" id="grp-part-a"><h2>ส่วน A — ไกด์เฉพาะเรื่อง</h2><p>การ์ดไกด์ 4 ใบ แต่ละใบมีเงื่อนไขก่อนทำ ขั้นตอน และผลที่ได้</p></div>';
+        gRows.forEach(function (g) { html += renderGuideCard(g); });
+      }
+      if (sRows.length) {
+        html += '<div class="part-head" id="grp-part-b"><h2>ส่วน B — Cheats and Secrets</h2><p>ความลับและของปลดล็อก — สูตรโกงเดียวของเกมและสกินตัวละครทั้งหมด</p></div>';
+        if (!query || SECRETS_INTRO.toLowerCase().indexOf(query) !== -1) {
+          html += '<div class="tip-intro"><strong>ภาพรวม —</strong> ' + esc(SECRETS_INTRO) + "</div>";
+        }
+        sRows.forEach(function (s) { html += renderSecretCard(s); });
+      }
+      return { shown: gRows.length + sRows.length, html: html };
+    }
+
+    function walkHay(w) {
+      var parts = [w.area, w.sub, w.goal, w.boss, w.next, w.endnote || "", w.melodiesNote || ""];
+      w.routes.forEach(function (r) { if (r.label) parts.push(r.label); parts = parts.concat(r.steps); });
+      parts = parts.concat(w.loot, w.gates);
+      if (w.lootAfter) parts = parts.concat(w.lootAfter);
+      if (w.melodies) w.melodies.forEach(function (m) { parts.push(m.name, m.seq.join(" ")); });
+      return parts.join(" ").toLowerCase();
+    }
+
+    function routeChainHtml(steps) {
+      return '<div class="route-chain">' + steps.map(function (s, i) {
+        return (i ? '<span class="rarrow" aria-hidden="true">→</span>' : "") + '<span class="rstep">' + esc(s) + "</span>";
+      }).join("") + "</div>";
+    }
+
+    function renderWalkthrough() {
+      var rows = WALKTHROUGH.filter(function (w) { return !query || walkHay(w).indexOf(query) !== -1; });
+      var html = "";
+      if (!query) {
+        html += '<div class="spoiler-note"><span class="k">หมายเหตุสปอยล์</span><span class="v">หมวดนี้เปิดเผยเนื้อเรื่องหลัก ใครอยากเลี่ยงให้ข้ามไปหมวดอื่นก่อน</span></div>';
+        html += '<div class="area-order"><span class="k">ลำดับพื้นที่ตามเนื้อเรื่อง</span>' +
+          '<div class="route-chain">' + WALK_AREAS.map(function (a, i) {
+            return (i ? '<span class="rarrow" aria-hidden="true">→</span>' : "") + '<span class="rstep">' + esc(a) + "</span>";
+          }).join("") + "</div></div>";
+      }
+      rows.forEach(function (w) {
+        html += '<article class="walk-card" id="grp-w-' + w.n + '"><div class="walk-head"><span class="walk-num">' + w.n + '</span>' +
+          '<div><h2>' + esc(w.area) + '</h2><span class="walk-sub">' + esc(w.sub) + "</span></div></div>" +
+          '<div class="walk-goal"><span class="k">เป้าหมาย</span><span class="v">' + esc(w.goal) + "</span></div>";
+        html += '<div class="walk-sec"><h3>เส้นทางโดยย่อ</h3>';
+        w.routes.forEach(function (r) {
+          if (r.label) html += "<h4>" + esc(r.label) + "</h4>";
+          html += '<div class="route-box">' + routeChainHtml(r.steps) + "</div>";
+        });
+        html += "</div>";
+        if (w.melodies) {
+          html += '<div class="walk-sec"><h3>เมโลดี้ทั้ง 3 แผ่น</h3><div class="melody-rows">' +
+            w.melodies.map(function (m) {
+              return '<div class="melody-row"><span class="k">' + esc(m.name) + '</span><span class="melody-seq">' +
+                m.seq.map(function (n) { return "<span>" + n + "</span>"; }).join("") + "</span></div>";
+            }).join("") + "</div>";
+          if (w.melodiesNote) html += '<p style="margin-top:8px;color:var(--muted);font-size:14.5px;">' + esc(w.melodiesNote) + "</p>";
+          html += "</div>";
+        }
+        html += '<div class="walk-sec"><h3>ของสำคัญระหว่างทาง</h3><ul>' +
+          w.loot.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>";
+        if (w.lootAfter) {
+          html += '<div class="walk-sec"><h3>' + esc(w.lootAfterLabel || "ของสำคัญเพิ่มเติม") + '</h3><ul>' +
+            w.lootAfter.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>";
+        }
+        html += '<div class="walk-sec"><h3>ประตูที่ต้องใช้ความสามารถ / การย้อนกลับ</h3><ul>' +
+          w.gates.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          '<div class="walk-boss">' +
+          '<div class="row"><span class="k">บอสปิดท้าย / ปลดล็อก</span><span class="v">' + esc(w.boss) + '</span></div>' +
+          '<div class="row"><span class="k">ไปต่อที่ไหน</span><span class="v">' + esc(w.next) + "</span></div>" +
+          "</div>";
+        if (w.endnote) {
+          html += '<div class="walk-endnote"><span class="k">หมายเหตุท้ายเกม</span><span class="v">' + esc(w.endnote) + "</span></div>";
+        }
+        html += "</article>";
+      });
+      return { shown: rows.length, html: html };
+    }
+
+    function endHay(e) {
+      var parts = [e.en, e.th, e.ach, e.lead, e.save, e.saveNote || "", e.unlock || ""];
+      if (e.cond) parts = parts.concat(e.cond);
+      if (e.steps) parts = parts.concat(e.steps);
+      if (e.story) parts = parts.concat(e.story);
+      if (e.trueSteps) e.trueSteps.forEach(function (s) {
+        parts.push(s.head, s.text);
+        if (s.virtues) s.virtues.forEach(function (v) { parts.push(v.name, v.detail); });
+      });
+      return parts.join(" ").toLowerCase();
+    }
+
+    function renderEndingCard(e) {
+      var html = '<article class="ending-card"><div class="ending-head"><span class="ending-badge">' + esc(e.letter) + '</span>' +
+        '<div><h2>' + esc(e.en) + '</h2><span class="ending-th">' + esc(e.th) + "</span></div></div>" +
+        '<div class="ending-ach"><span class="k">ACHIEVEMENT</span><span class="v">“' + esc(e.ach) + "”</span></div>";
+      html += '<div class="ending-sec"><h3>เงื่อนไขและวิธีไปให้ถึง</h3><p>' + esc(e.lead) + "</p>";
+      if (e.cond) html += e.cond.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+      if (e.steps) {
+        html += "<ol>" + e.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>";
+      }
+      if (e.trueSteps) {
+        html += "<ol>" + e.trueSteps.map(function (s) {
+          var li = "<li><strong>" + esc(s.head) + "</strong> — " + esc(s.text);
+          if (s.virtues) {
+            li += '<div class="virtue-rows">' + s.virtues.map(function (v) {
+              return '<div class="row"><span class="k">' + esc(v.name) + '</span><span class="v">' + esc(v.detail) + "</span></div>";
+            }).join("") + "</div>";
+          }
+          return li + "</li>";
+        }).join("") + "</ol>";
+      }
+      html += "</div>";
+      html += '<div class="ending-sec"><h3>เกิดอะไรขึ้น</h3>' +
+        e.story.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + "</div>";
+      html += '<div class="ending-result"><span class="k">ผลต่อไฟล์เซฟ / ของปลดล็อก</span><span class="v">' + esc(e.save) + "</span>";
+      if (e.unlock) html += "<p>" + esc(e.unlock) + "</p>";
+      if (e.saveNote) html += "<p>" + esc(e.saveNote) + "</p>";
+      html += "</div></article>";
+      return html;
+    }
+
+    function renderEndings() {
+      var rows = ENDINGS.filter(function (e) { return !query || endHay(e).indexOf(query) !== -1; });
+      var html = "";
+      if (!query) {
+        html += '<div class="spoiler-note"><span class="k">⚠ เตือนสปอยล์ระดับสูงสุด</span><span class="v">หมวดนี้เปิดเผยฉากจบและบทสรุปของเนื้อเรื่องทั้งหมด ใครยังเล่นไม่จบและอยากเลี่ยงสปอยล์ ให้ข้ามไปหมวดอื่นก่อน</span></div>';
+        html += '<div class="tip-intro"><strong>สิ่งที่ผู้เล่นต้องรู้ —</strong><ul style="margin:8px 0 0;padding-left:20px;">' +
+          ENDINGS_INTRO.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" + "</div>";
+      }
+      rows.forEach(function (e) { html += renderEndingCard(e); });
+      if (!query) {
+        html += '<div class="ending-note"><strong>หมายเหตุ — เชื่อมกับหมวดบอส:</strong> ' + esc(ENDINGS_BOSS_NOTE) + "</div>";
+      }
+      return { shown: rows.length, html: html };
+    }
+
+    function render() {
+      var res = activeCat === "relics" ? renderRelics()
+        : (activeCat === "weapons" ? renderWeapons()
+        : (activeCat === "collectibles" ? renderCollectibles()
+        : (activeCat === "bosses" ? renderBosses()
+        : (activeCat === "walkthrough" ? renderWalkthrough()
+        : (activeCat === "guides" ? renderGuides()
+        : (activeCat === "endings" ? renderEndings() : renderTips()))))));
+      listEl.innerHTML = res.html;
+      if (activeCat === "guides") applyMirrorFilter();
+      var meta = CAT_META[activeCat];
+      countEl.textContent = "แสดง " + res.shown + " / " + meta.total + " " + meta.unit;
+      emptyEl.classList.toggle("show", res.shown === 0);
+      emptyEl.textContent = activeCat === "tips"
+        ? "ไม่พบเกร็ดที่ตรงกับคำค้น ลองเปลี่ยนคำค้นดู"
+        : (activeCat === "bosses"
+          ? "ไม่พบบอสที่ตรงกับคำค้น ลองเปลี่ยนคำค้นดู"
+          : (activeCat === "walkthrough"
+            ? "ไม่พบพื้นที่ใน Walkthrough ที่ตรงกับคำค้น ลองเปลี่ยนคำค้นดู"
+            : (activeCat === "guides"
+              ? "ไม่พบไกด์หรือความลับที่ตรงกับคำค้น ลองเปลี่ยนคำค้นดู"
+              : (activeCat === "endings"
+                ? "ไม่พบฉากจบที่ตรงกับคำค้น ลองเปลี่ยนคำค้นดู"
+                : "ไม่พบรายการที่ตรงกับคำค้น ลองเปลี่ยนคำค้นหรือเลือกตัวกรองอื่น"))));
+      renderChips();
+    }
+
+    function setCat(cat) {
+      activeCat = cat;
+      activeZone = "all";
+      activeType = "all";
+      Object.keys(tabBtns).forEach(function (k) {
+        tabBtns[k].setAttribute("aria-pressed", k === cat ? "true" : "false");
+      });
+      titleEl.textContent = CAT_META[cat].title;
+      ledeEl.textContent = CAT_META[cat].lede;
+      searchEl.placeholder = CAT_META[cat].placeholder;
+      searchEl.setAttribute("aria-label", cat === "tips" ? "ค้นหาเกร็ด" : (cat === "weapons" ? "ค้นหาอาวุธ" : (cat === "collectibles" ? "ค้นหาของสะสม" : (cat === "bosses" ? "ค้นหาบอส" : (cat === "walkthrough" ? "ค้นหา Walkthrough" : (cat === "guides" ? "ค้นหาไกด์และความลับ" : (cat === "endings" ? "ค้นหาฉากจบ" : "ค้นหา Relic")))))));
+      render();
+    }
+
+    tabBtns.relics.addEventListener("click", function () { setCat("relics"); });
+    tabBtns.weapons.addEventListener("click", function () { setCat("weapons"); });
+    tabBtns.tips.addEventListener("click", function () { setCat("tips"); });
+    tabBtns.collectibles.addEventListener("click", function () { setCat("collectibles"); });
+    tabBtns.bosses.addEventListener("click", function () { setCat("bosses"); });
+    tabBtns.guides.addEventListener("click", function () { setCat("guides"); });
+    tabBtns.walkthrough.addEventListener("click", function () { setCat("walkthrough"); });
+    tabBtns.endings.addEventListener("click", function () { setCat("endings"); });
+
+    listEl.addEventListener("input", function (e) {
+      if (e.target && e.target.id === "mirror-q") applyMirrorFilter();
+    });
+    listEl.addEventListener("change", function (e) {
+      if (e.target && e.target.id === "mirror-zone") applyMirrorFilter();
+    });
+
+    chipsEl.addEventListener("click", function (e) {
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      if (activeCat === "weapons") activeType = btn.getAttribute("data-zone");
+      else activeZone = btn.getAttribute("data-zone");
+      render();
+    });
+
+    searchEl.addEventListener("input", function () {
+      query = searchEl.value.trim().toLowerCase();
+      render();
+    });
+
+    /* ——— Tree menu: build child nodes from the existing group data ——— */
+    var sidebarEl = document.getElementById("sidebar");
+    var treeToggleBtn = document.getElementById("tree-toggle");
+
+    function fillChildren(cat, items) {
+      var ul = sidebarEl.querySelector('[data-children="' + cat + '"]');
+      if (!ul) return;
+      items.forEach(function (it) {
+        var li = document.createElement("li");
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "tree-child";
+        b.setAttribute("data-cat", cat);
+        b.setAttribute("data-target", it.target);
+        b.innerHTML = esc(it.label) + (it.count != null ? '<span class="n">' + it.count + "</span>" : "");
+        li.appendChild(b);
+        ul.appendChild(li);
+      });
+    }
+
+    var relicChildren = [];
+    ZONES.forEach(function (z) {
+      var n = RELICS.filter(function (r) { return r.zone === z.id; }).length;
+      if (n) relicChildren.push({ target: "grp-z-" + z.id, label: z.en, count: n });
+    });
+    fillChildren("relics", relicChildren);
+
+    var weaponChildren = [];
+    WEAPON_TYPES.forEach(function (t) {
+      var n = WEAPONS.filter(function (w) { return w.type === t.id; }).length;
+      if (n) weaponChildren.push({ target: "grp-t-" + t.id, label: t.en, count: n });
+    });
+    fillChildren("weapons", weaponChildren);
+
+    var collectChildren = [];
+    COLLECT_GROUPS.forEach(function (g) {
+      var n = COLLECTIBLES.filter(function (c) { return c.group === g.id; }).length;
+      if (n) collectChildren.push({ target: "grp-g-" + g.id, label: g.en, count: n });
+    });
+    fillChildren("collectibles", collectChildren);
+
+    fillChildren("walkthrough", WALK_AREAS.map(function (a, i) {
+      return { target: "grp-w-" + (i + 1), label: a, count: null };
+    }));
+
+    function setChildrenOpen(cat, open) {
+      var ul = sidebarEl.querySelector('[data-children="' + cat + '"]');
+      var exp = sidebarEl.querySelector('[data-exp="' + cat + '"]');
+      if (ul) ul.classList.toggle("open", open);
+      if (exp) {
+        exp.setAttribute("aria-expanded", open ? "true" : "false");
+        exp.textContent = open ? "▾" : "▸";
+      }
+    }
+
+    function syncTree() {
+      Object.keys(tabBtns).forEach(function (k) {
+        if (sidebarEl.querySelector('[data-children="' + k + '"]') && k === activeCat) setChildrenOpen(k, true);
+      });
+    }
+
+    var setCatOrig = setCat;
+    setCat = function (cat) {
+      setCatOrig(cat);
+      sidebarEl.querySelectorAll(".tree-child.active").forEach(function (b) { b.classList.remove("active"); });
+      syncTree();
+    };
+
+    function goToGroup(cat, target, btn) {
+      if (activeCat !== cat || query || activeZone !== "all" || activeType !== "all") {
+        searchEl.value = "";
+        query = "";
+        setCat(cat);
+      }
+      sidebarEl.querySelectorAll(".tree-child.active").forEach(function (b) { b.classList.remove("active"); });
+      if (btn) btn.classList.add("active");
+      setChildrenOpen(cat, true);
+      var el = document.getElementById(target);
+      if (!el && btn) {
+        var label = btn.textContent.replace(/\d+\s*$/, "").trim();
+        listEl.querySelectorAll("section.zone, article, .part-head").forEach(function (s) {
+          if (el) return;
+          var h = s.querySelector("h2");
+          if (h && label.indexOf(h.textContent.trim()) !== -1) el = s;
+        });
+      }
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        el.classList.remove("flash");
+        void el.offsetWidth;
+        el.classList.add("flash");
+        setTimeout(function () { el.classList.remove("flash"); }, 2000);
+      }
+      if (window.innerWidth <= 880) {
+        sidebarEl.classList.remove("open");
+        treeToggleBtn.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    sidebarEl.addEventListener("click", function (e) {
+      var exp = e.target.closest(".tree-exp");
+      if (exp) {
+        var cat = exp.getAttribute("data-exp");
+        var ul = sidebarEl.querySelector('[data-children="' + cat + '"]');
+        setChildrenOpen(cat, !(ul && ul.classList.contains("open")));
+        return;
+      }
+      var child = e.target.closest(".tree-child");
+      if (child) {
+        goToGroup(child.getAttribute("data-cat"), child.getAttribute("data-target"), child);
+        return;
+      }
+      if (e.target.closest(".tree-cat") && window.innerWidth <= 880) {
+        sidebarEl.classList.remove("open");
+        treeToggleBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    treeToggleBtn.addEventListener("click", function () {
+      var open = sidebarEl.classList.toggle("open");
+      treeToggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    syncTree();
+    render();
+    </script>
+  
+<div style="text-align:center;padding:36px 16px 48px;">
+  <a href="index.html" style="display:inline-block;padding:12px 34px;border:2px solid #7f8fc9;border-radius:6px;background:linear-gradient(180deg,#1a2350,#0d1230);color:#dfe6ff;text-decoration:none;font-family:'Segoe UI',Tahoma,sans-serif;font-size:17px;letter-spacing:.03em;box-shadow:0 0 14px rgba(90,110,200,.35);">&#8962; กลับหน้า Home</a>
+</div>
+</body>
+</html>
