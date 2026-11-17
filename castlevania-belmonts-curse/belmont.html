@@ -764,10 +764,15 @@
           <ul class="tree-root">
             <li class="tree-item">
               <div class="tree-row">
-                <button class="tree-cat" id="tab-relics" type="button" aria-pressed="true">Relics<span class="n">44 ชิ้น</span></button>
-                <button class="tree-exp" type="button" data-exp="relics" aria-expanded="true" aria-label="กางหรือหุบกลุ่มย่อยของ Relics">▾</button>
+                <button class="tree-cat" id="tab-gameplay" type="button" aria-pressed="true">เกมเพลย์ · Gameplay</button>
               </div>
-              <ul class="tree-children open" data-children="relics"></ul>
+            </li>
+            <li class="tree-item">
+              <div class="tree-row">
+                <button class="tree-cat" id="tab-relics" type="button" aria-pressed="false">Relics<span class="n">44 ชิ้น</span></button>
+                <button class="tree-exp" type="button" data-exp="relics" aria-expanded="false" aria-label="กางหรือหุบกลุ่มย่อยของ Relics">▸</button>
+              </div>
+              <ul class="tree-children" data-children="relics"></ul>
             </li>
             <li class="tree-item">
               <div class="tree-row">
@@ -828,7 +833,7 @@
         <div class="search-row">
           <div class="search-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-            <input id="search" type="search" placeholder="ค้นหา เช่น Crypt Key, มานา, แพร์รี…" aria-label="ค้นหา Relic" />
+            <input id="search" type="search" placeholder="ค้นหาในเกมเพลย์ เช่น แส้, Arcana, Tarot, แผนที่…" aria-label="ค้นหาเกมเพลย์" />
           </div>
           <div class="count" id="count" aria-live="polite"></div>
         </div>
@@ -836,8 +841,8 @@
       </div>
 
       <div class="cat-head">
-        <h2 id="cat-title">Relics ทั้ง 44 ชิ้น</h2>
-        <p id="cat-lede">ตาราง Relic ครบทุกชิ้น — ผลของ Relic และวิธีไปเก็บ แปลเป็นภาษาไทย ส่วนชื่อไอเทมและชื่อสถานที่คงภาษาอังกฤษไว้ ค้นหาด้วยชื่อไอเทมหรือกรองตามโซนได้เลย</p>
+        <h2 id="cat-title">เกมเพลย์ · Gameplay</h2>
+        <p id="cat-lede">ภาพรวมระบบการเล่นของ Castlevania: Belmont's Curse — การใช้แส้ Vampire Killer, ระบบ Tarot Cards และ Arcana, การปักเครื่องหมายบนแผนที่ และจุดเด่นหลักของเกมทั้ง 4 ด้าน</p>
       </div>
 
       <main id="list"></main>
@@ -1822,7 +1827,7 @@
     var zoneById = {};
     ZONES.forEach(function (z) { zoneById[z.id] = z; });
 
-    var activeCat = "relics";
+    var activeCat = "gameplay";
     var activeZone = "all";
     var activeType = "all";
     var query = "";
@@ -1835,6 +1840,7 @@
     var titleEl = document.getElementById("cat-title");
     var ledeEl = document.getElementById("cat-lede");
     var tabBtns = {
+      gameplay: document.getElementById("tab-gameplay"),
       relics: document.getElementById("tab-relics"),
       weapons: document.getElementById("tab-weapons"),
       tips: document.getElementById("tab-tips"),
@@ -1846,6 +1852,12 @@
     };
 
     var CAT_META = {
+      gameplay: {
+        title: "เกมเพลย์ · Gameplay",
+        lede: "ภาพรวมระบบการเล่นของ Castlevania: Belmont's Curse — การใช้แส้ Vampire Killer, ระบบ Tarot Cards และ Arcana, การปักเครื่องหมายบนแผนที่ และจุดเด่นหลักของเกมทั้ง 4 ด้าน",
+        placeholder: "ค้นหาในเกมเพลย์ เช่น แส้, Arcana, Tarot, แผนที่…",
+        unit: "ส่วน", total: 5
+      },
       relics: {
         title: "Relics ทั้ง 44 ชิ้น",
         lede: "ตาราง Relic ครบทุกชิ้น — ผลของ Relic, วิธีไปเก็บ และช่อง Require (เงื่อนไขที่ต้องมีก่อนเก็บ) แปลเป็นภาษาไทย ส่วนชื่อไอเทมและชื่อสถานที่คงภาษาอังกฤษไว้ ค้นหาด้วยชื่อไอเทมหรือกรองตามโซนได้เลย",
@@ -1933,7 +1945,7 @@
     }
 
     function renderChips() {
-      if (activeCat === "tips" || activeCat === "bosses" || activeCat === "guides" || activeCat === "walkthrough" || activeCat === "endings") { chipsEl.style.display = "none"; chipsEl.innerHTML = ""; return; }
+      if (activeCat === "gameplay" || activeCat === "tips" || activeCat === "bosses" || activeCat === "guides" || activeCat === "walkthrough" || activeCat === "endings") { chipsEl.style.display = "none"; chipsEl.innerHTML = ""; return; }
       chipsEl.style.display = "";
       var html = "";
       if (activeCat === "relics") {
@@ -2326,6 +2338,37 @@
       return { shown: rows.length, html: html };
     }
 
+    var GAMEPLAY_INTRO = [
+      "ผู้เล่นจะได้สวมบท Rose Belmont ลูกสาวของวีรบุรุษ Trevor Belmont กับ Sypha Belnades และทายาทคนปัจจุบันของแส้ในตำนาน Vampire Killer นอกจากใช้แส้นี้ฟาดฟันศัตรูแล้ว Rose ยังใช้แส้เป็นตะขอเกี่ยว (grappling hook) โหนตัวข้ามจุดอันตรายในฉากได้ด้วย ซึ่งเป็นลูกเล่นที่เปิดตัวครั้งแรกใน Super Castlevania IV เธอยังใช้ Tarot Cards ผนึกบอสที่ปราบลงให้กลายเป็น Arcana ทำให้เธอได้พลังของบอสมาใช้ ทั้งร่ายเวทมนตร์และทำท่าพิเศษต่าง ๆ ระบบนี้มีกลิ่นอายคล้าย Dual Set-Up System จาก Circle of the Moon และระบบ Glyphs จาก Order of Ecclesia ตลอดการเดินทางเพื่อต้านกองกำลังของ Dracula ที่รุกราน Paris เธอจะได้เผชิญหน้ากับเหล่าตำนานที่ถูกครอบงำ เช่น The Fallen และ Joan of Arc",
+      "และเช่นเดียวกับใน Castlevania: Portrait of Ruin และ Castlevania: Lords of Shadow - Mirror of Fate ผู้เล่นสามารถปักเครื่องหมายไว้ตามจุดต่าง ๆ บนแผนที่ได้ เช่น จุดที่อยากกลับมาสำรวจอีกครั้งเมื่อมีพลังที่จำเป็นต่อการเข้าถึงแล้ว"
+    ];
+    var GAMEPLAY_FEATURES = [
+      { h: "แอ็กชันแส้สุดสะใจ", t: "แอ็กชันแส้อันเป็นเอกลักษณ์ของ Castlevania สะใจยิ่งกว่าที่เคย ฟาดแส้เพื่อพุ่งตัวไปมาอย่างอิสระราวกับนักกายกรรมโหนสลิง ฝึกใช้กลไกของแส้ให้ชำนาญ และสร้างสรรค์วิธีตะครุบเหยื่อราวกับหมาป่าในการต่อสู้ที่รวดเร็วเร้าใจ" },
+      { h: "บอสหลากหลายและระบบ Arcana", t: "เผชิญหน้าบอสระดับตำนานอย่าง Death, Medusa และ Carmilla รวมถึงบอสหน้าใหม่ปริศนาอย่าง Joan of Arc เมื่อปราบได้ บอสจะถูกผนึกไว้ใน Tarot Cards ของ Rose และกลายเป็น Arcana ใช้ทักษะของพวกมันเพื่อร่ายเวทมนตร์และปลดล็อกท่าพิเศษเฉพาะตัว" },
+      { h: "ปรับแต่งสไตล์การต่อสู้ด้วยอาวุธและ Relics", t: "ปรับสไตล์การต่อสู้ของ Rose ด้วยอุปกรณ์หลากหลาย ทั้งอาวุธครบ 7 ประเภท และ Relics ที่มอบพลังอันทรงอานุภาพทั้งด้านรุกและรับ ผสมผสานอุปกรณ์ที่ค้นพบจากการสำรวจ เพื่อสร้างสไตล์การเล่นในแบบของตัวเอง" },
+      { h: "บรรยากาศ Castlevania อันเป็นเอกลักษณ์ ในฉากโฉมใหม่", t: "จากความงามแบบโกธิกอันเป็นเอกลักษณ์ สู่ภาพที่สดใสและประณีต เกมนำเสนอโลกของ Castlevania ในมุมมองใหม่ ออกสำรวจแผนที่ที่เต็มไปด้วยลูกเล่นใหม่ ๆ และองค์ประกอบคุ้นตาที่ได้แรงบันดาลใจจาก Castlevania ภาคคลาสสิก" }
+    ];
+
+    function renderGameplay() {
+      var shown = 0;
+      var html = "";
+      var introMatch = !query || GAMEPLAY_INTRO.join(" ").toLowerCase().indexOf(query) !== -1;
+      var feats = GAMEPLAY_FEATURES.filter(function (f) {
+        return !query || (f.h + " " + f.t).toLowerCase().indexOf(query) !== -1;
+      });
+      if (introMatch) {
+        shown++;
+        html += '<div class="gameplay" style="margin-top:0;">' + GAMEPLAY_INTRO.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + "</div>";
+      }
+      if (feats.length) {
+        shown += feats.length;
+        html += '<div class="gp-grid">' + feats.map(function (f) {
+          return '<article class="gp-card"><h3>' + esc(f.h) + "</h3><p>" + esc(f.t) + "</p></article>";
+        }).join("") + "</div>";
+      }
+      return { shown: shown, html: html };
+    }
+
     function render() {
       var res = activeCat === "relics" ? renderRelics()
         : (activeCat === "weapons" ? renderWeapons()
@@ -2333,7 +2376,8 @@
         : (activeCat === "bosses" ? renderBosses()
         : (activeCat === "walkthrough" ? renderWalkthrough()
         : (activeCat === "guides" ? renderGuides()
-        : (activeCat === "endings" ? renderEndings() : renderTips()))))));
+        : (activeCat === "endings" ? renderEndings()
+        : (activeCat === "gameplay" ? renderGameplay() : renderTips())))))));
       listEl.innerHTML = res.html;
       if (activeCat === "guides") applyMirrorFilter();
       var meta = CAT_META[activeCat];
@@ -2363,10 +2407,11 @@
       titleEl.textContent = CAT_META[cat].title;
       ledeEl.textContent = CAT_META[cat].lede;
       searchEl.placeholder = CAT_META[cat].placeholder;
-      searchEl.setAttribute("aria-label", cat === "tips" ? "ค้นหาเกร็ด" : (cat === "weapons" ? "ค้นหาอาวุธ" : (cat === "collectibles" ? "ค้นหาของสะสม" : (cat === "bosses" ? "ค้นหาบอส" : (cat === "walkthrough" ? "ค้นหา Walkthrough" : (cat === "guides" ? "ค้นหาไกด์และความลับ" : (cat === "endings" ? "ค้นหาฉากจบ" : "ค้นหา Relic")))))));
+      searchEl.setAttribute("aria-label", cat === "tips" ? "ค้นหาเกร็ด" : (cat === "weapons" ? "ค้นหาอาวุธ" : (cat === "collectibles" ? "ค้นหาของสะสม" : (cat === "bosses" ? "ค้นหาบอส" : (cat === "walkthrough" ? "ค้นหา Walkthrough" : (cat === "guides" ? "ค้นหาไกด์และความลับ" : (cat === "endings" ? "ค้นหาฉากจบ" : (cat === "gameplay" ? "ค้นหาเกมเพลย์" : "ค้นหา Relic"))))))));
       render();
     }
 
+    tabBtns.gameplay.addEventListener("click", function () { setCat("gameplay"); });
     tabBtns.relics.addEventListener("click", function () { setCat("relics"); });
     tabBtns.weapons.addEventListener("click", function () { setCat("weapons"); });
     tabBtns.tips.addEventListener("click", function () { setCat("tips"); });
