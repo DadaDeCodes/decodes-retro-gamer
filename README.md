@@ -2,6 +2,8 @@
 
 คลังข้อมูลเกมเรโทร โดย Decodes — แต่ละเกมแยกเป็นโฟลเดอร์ย่อย (sub) ของตัวเอง
 
+เว็บไซต์: https://decodes-gamer.vercel.app
+
 ## เกมในคลัง
 
 - **Castlevania: Belmont's Curse** — `castlevania-belmonts-curse/` ข้อมูลเกมภาษาไทย: Relics, อาวุธ, บอส, Walkthrough และไกด์ต่าง ๆ (หน้าเว็บ: `castlevania-belmonts-curse/index.html`)
