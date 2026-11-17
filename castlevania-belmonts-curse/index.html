@@ -4,46 +4,106 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ข้อมูล Castlevania Belmont's Curse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
+  :root {
+    --surface: linear-gradient(180deg, #060642 0%, #0b0b63 55%, #13138a 100%);
+    --ink: #f0f2ff;
+    --muted: #bcc5ea;
+    --accent: #f0d48a;
+    --line: #aeb8ec;
+    --line-bright: #dfe4ff;
+    --red-grad: linear-gradient(180deg, #7d1016 0%, #a51d26 100%);
+    --frame-shadow: inset 0 0 0 3px #030336, inset 0 0 0 5px #8b96d6, 0 4px 14px rgba(0, 0, 24, .55);
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; }
   body {
-    background: radial-gradient(ellipse at center, #101736 0%, #070a1c 55%, #03040c 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(180deg, #02022a 0%, #0a0a5c 55%, #1b1b8f 100%) fixed;
+    color: var(--ink);
+    font-family: "Sarabun", "Segoe UI", Tahoma, sans-serif;
     min-height: 100vh;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-    padding: 24px;
+    padding: 34px 18px 48px;
   }
-  a.logo-link {
-    display: block;
-    max-width: 640px;
-    width: 90%;
-    transition: transform .35s ease, filter .35s ease;
-    filter: drop-shadow(0 0 18px rgba(120, 140, 255, .25));
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header.masthead { text-align: center; padding: 10px 0 8px; }
+  .masthead-logo { display: block; margin: 0 auto 10px; width: min(430px, 82%); height: auto; filter: drop-shadow(0 0 18px rgba(120, 140, 255, .25)); }
+  .masthead h1 { font-family: "Cinzel", serif; font-size: clamp(30px, 6vw, 44px); margin: 0 0 8px; font-weight: 700; line-height: 1.15; }
+  .masthead p.lede { color: var(--muted); margin: 0 auto; max-width: 700px; font-size: 16px; text-align: left; line-height: 1.75; }
+  .masthead .thanks { margin: 16px auto 0; font-weight: 700; color: var(--accent); font-size: 15.5px; }
+  .masthead .rule { display: flex; align-items: center; gap: 12px; margin: 22px auto 0; max-width: 520px; color: var(--accent); }
+  .masthead .rule::before, .masthead .rule::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .masthead .rule span { font-size: 13px; letter-spacing: .2em; }
+  .gameplay {
+    background: var(--surface); border: 2px solid var(--line-bright); border-radius: 2px;
+    box-shadow: var(--frame-shadow); padding: 24px 26px; margin: 20px 0 8px; text-align: left;
   }
-  a.logo-link:hover, a.logo-link:focus {
-    transform: scale(1.03);
-    filter: drop-shadow(0 0 34px rgba(200, 40, 50, .55));
-    outline: none;
+  .gameplay h2 { font-family: "Cinzel", serif; font-size: clamp(22px, 4.5vw, 30px); margin: 0 0 12px; font-weight: 700; }
+  .gameplay > p { color: var(--muted); font-size: 16px; line-height: 1.75; margin: 0 0 12px; }
+  .gp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .gp-card { border: 1px solid var(--line); border-radius: 2px; padding: 16px 18px; background: rgba(255, 255, 255, .02); }
+  .gp-card h3 { color: var(--accent); font-size: 16.5px; margin: 0 0 8px; font-weight: 700; }
+  .gp-card p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0; }
+  .enter { text-align: center; margin-top: 34px; }
+  a.push-start {
+    display: inline-block; font-family: "Cinzel", serif; font-weight: 700;
+    font-size: clamp(34px, 9vw, 52px); letter-spacing: .3em; text-indent: .3em;
+    text-decoration: none; padding: 10px 6px;
+    animation: pushstart 1.9s ease-in-out infinite alternate;
   }
-  a.logo-link img { width: 100%; height: auto; display: block; }
-  .hint {
-    margin-top: 28px;
-    color: #8b96c9;
-    font-size: 15px;
-    letter-spacing: .06em;
-    animation: pulse 2.4s ease-in-out infinite;
+  a.push-start:hover, a.push-start:focus { outline: none; }
+  @keyframes pushstart {
+    from { opacity: .22; color: #4a4f78; text-shadow: none; }
+    to { opacity: 1; color: #ffffff; text-shadow: 0 0 22px rgba(255, 255, 255, .7), 0 0 46px rgba(160, 170, 255, .45); }
   }
-  @keyframes pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+  .back { text-align: center; margin-top: 20px; }
+  .back a { color: var(--muted); font-size: 14px; text-decoration: none; letter-spacing: .04em; }
+  .back a:hover { color: var(--accent); }
+  @media (max-width: 720px) { .gp-grid { grid-template-columns: 1fr; } .gameplay { padding: 20px 18px; } }
 </style>
 </head>
 <body>
-  <a class="logo-link" href="belmont.html" title="เข้าสู่ข้อมูล Castlevania Belmont's Curse">
-    <img src="logo.png" alt="Castlevania Belmont's Curse">
-  </a>
-  <div class="hint">คลิกโลโก้เพื่อเข้าสู่ข้อมูลเกม</div>
+  <div class="wrap">
+    <header class="masthead">
+      <img class="masthead-logo" src="logo.png" alt="Castlevania: Belmont's Curse" />
+      <h1>ยินดีต้อนรับสู่ น็อทร์-ดาม</h1>
+      <p class="lede">Castlevania: Belmont's Curse คือเกมภาคที่ 26 ในซีรีส์ Castlevania ระดับตำนาน พัฒนาโดย Evil Empire และทีมผู้สร้าง Dead Cells เกมภาคนี้พาซีรีส์กลับไปสู่รากเหง้าแบบ side-scrolling และการสำรวจอีกครั้ง</p>
+      <p class="lede" style="margin-top:10px;">เรื่องราวเกิดขึ้นในปี ค.ศ. 1499 ผู้เล่นจะรับบทเป็น Rose Belmont ลูกสาวของ Trevor Belmont นักล่าแวมไพร์ชื่อดัง กับ Sypha Belnades แม่มดผู้เก่งกาจ ความชั่วร้ายได้ผุดขึ้นใจกลางกรุงปารีส Rose ต้องไขปริศนาเบื้องหลังภัยคุกคามนี้ โดยอาศัยไพ่ทาโรต์ลึกลับที่แม่ผู้ล่วงลับทิ้งไว้ให้ และมันจะนำเธอไปสู่ปราสาทที่คุ้นเคยเกินไปแห่งหนึ่ง</p>
+      <p class="thanks">ขอบคุณ IGN.com และ MapGenie</p>
+      <div class="rule"><span>✦ ✦ ✦</span></div>
+    </header>
+
+    <section class="gameplay" aria-label="เกมเพลย์">
+      <h2>เกมเพลย์</h2>
+      <p>ผู้เล่นจะได้สวมบท Rose Belmont ลูกสาวของวีรบุรุษ Trevor Belmont กับ Sypha Belnades และทายาทคนปัจจุบันของแส้ในตำนาน Vampire Killer นอกจากใช้แส้นี้ฟาดฟันศัตรูแล้ว Rose ยังใช้แส้เป็นตะขอเกี่ยว (grappling hook) โหนตัวข้ามจุดอันตรายในฉากได้ด้วย ซึ่งเป็นลูกเล่นที่เปิดตัวครั้งแรกใน Super Castlevania IV เธอยังใช้ Tarot Cards ผนึกบอสที่ปราบลงให้กลายเป็น Arcana ทำให้เธอได้พลังของบอสมาใช้ ทั้งร่ายเวทมนตร์และทำท่าพิเศษต่าง ๆ ระบบนี้มีกลิ่นอายคล้าย Dual Set-Up System จาก Circle of the Moon และระบบ Glyphs จาก Order of Ecclesia ตลอดการเดินทางเพื่อต้านกองกำลังของ Dracula ที่รุกราน Paris เธอจะได้เผชิญหน้ากับเหล่าตำนานที่ถูกครอบงำ เช่น The Fallen และ Joan of Arc</p>
+      <p>และเช่นเดียวกับใน Castlevania: Portrait of Ruin และ Castlevania: Lords of Shadow - Mirror of Fate ผู้เล่นสามารถปักเครื่องหมายไว้ตามจุดต่าง ๆ บนแผนที่ได้ เช่น จุดที่อยากกลับมาสำรวจอีกครั้งเมื่อมีพลังที่จำเป็นต่อการเข้าถึงแล้ว</p>
+      <div class="gp-grid">
+        <article class="gp-card">
+          <h3>แอ็กชันแส้สุดสะใจ</h3>
+          <p>แอ็กชันแส้อันเป็นเอกลักษณ์ของ Castlevania สะใจยิ่งกว่าที่เคย ฟาดแส้เพื่อพุ่งตัวไปมาอย่างอิสระราวกับนักกายกรรมโหนสลิง ฝึกใช้กลไกของแส้ให้ชำนาญ และสร้างสรรค์วิธีตะครุบเหยื่อราวกับหมาป่าในการต่อสู้ที่รวดเร็วเร้าใจ</p>
+        </article>
+        <article class="gp-card">
+          <h3>บอสหลากหลายและระบบ Arcana</h3>
+          <p>เผชิญหน้าบอสระดับตำนานอย่าง Death, Medusa และ Carmilla รวมถึงบอสหน้าใหม่ปริศนาอย่าง Joan of Arc เมื่อปราบได้ บอสจะถูกผนึกไว้ใน Tarot Cards ของ Rose และกลายเป็น Arcana ใช้ทักษะของพวกมันเพื่อร่ายเวทมนตร์และปลดล็อกท่าพิเศษเฉพาะตัว</p>
+        </article>
+        <article class="gp-card">
+          <h3>ปรับแต่งสไตล์การต่อสู้ด้วยอาวุธและ Relics</h3>
+          <p>ปรับสไตล์การต่อสู้ของ Rose ด้วยอุปกรณ์หลากหลาย ทั้งอาวุธครบ 7 ประเภท และ Relics ที่มอบพลังอันทรงอานุภาพทั้งด้านรุกและรับ ผสมผสานอุปกรณ์ที่ค้นพบจากการสำรวจ เพื่อสร้างสไตล์การเล่นในแบบของตัวเอง</p>
+        </article>
+        <article class="gp-card">
+          <h3>บรรยากาศ Castlevania อันเป็นเอกลักษณ์ ในฉากโฉมใหม่</h3>
+          <p>จากความงามแบบโกธิกอันเป็นเอกลักษณ์ สู่ภาพที่สดใสและประณีต เกมนำเสนอโลกของ Castlevania ในมุมมองใหม่ ออกสำรวจแผนที่ที่เต็มไปด้วยลูกเล่นใหม่ ๆ และองค์ประกอบคุ้นตาที่ได้แรงบันดาลใจจาก Castlevania ภาคคลาสสิก</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="enter">
+      <a class="push-start" href="belmont.html">PUSH START</a>
+    </div>
+    <div class="back">
+      <a href="../">← กลับหน้า Home · Decodes Retro Gamer</a>
+    </div>
+  </div>
 </body>
 </html>
